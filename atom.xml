@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Webtech Walker]]></title>
+  <link href="http://webtech-walker.com/atom.xml" rel="self"/>
+  <link href="http://webtech-walker.com/"/>
+  <updated>2012-08-07T23:50:03+09:00</updated>
+  <id>http://webtech-walker.com/</id>
+  <author>
+    <name><![CDATA[Kazuhito Hokamura]]></name>
+  </author>
+
+  
+  <entry>
+    <title type="html"><![CDATA[github pages + jekyllにした]]></title>
+    <link href="http://webtech-walker.com/archive/2012/07/renewal.html"/>
+    <updated>2012-07-28T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2012/07/renewal</id>
+    <content type="html"><![CDATA[<p>5年くらい前のWordPressで動いてたブログをjekyllにしてgithub pagesで動くように移行しました。ついでにデザインもリニューアル。</p>
+
+<p>エントリーのURLは変わってないんだけど、フィードのURLだけ変わりました。というか、feedburner.jpのドメインでフィード配信してたんですけど、feedburner.jpがちょっと前に使えなくなったみたいで、変えないといけなくなりました。新しいのはこれ。</p>
+
+<p><a href="http://webtech-walker.com/atom.xml">Feed</a></p>
+
+<p>github pagesとjekyllにしてgitでデプロイできるのとMarkdownで記事書けるようにったのはすごくいいんだけど、問題は記事数が多くて（160記事くらい）jekyllの実行に20秒くらいかかること。なんか一周してMTの再構築問題に戻ってきた気分。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Firefox5でCSSの@keyframesにクオートがあると動かない件について]]></title>
+    <link href="http://webtech-walker.com/archive/2011/06/24154503.html"/>
+    <updated>2011-06-24T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2011/06/24154503</id>
+    <content type="html"><![CDATA[<p>Firefox5でCSSのAnimationsが実装されましたが、ちょっとWebkit系と違うところがあるみたいです。</p>
+
+<p>どう違うかというと、@keyframesのアニメーション名にクオートを付けるとWebkit系は動くけどFirefox5は動かないみたい。</p>
+
+<p><a href="/sample/2011-06-24-24154503/index.html">DEMO</a></p>
+
+<p>つまりこういうこと。（説明簡略化のためベンダプレフィックスは除いてます）</p>
+
+<div class="highlight"><pre><code class="css"><span class="c">/* Webkitは動くけどFirefoxは動かない */</span>
+<span class="k">@keyframas</span> <span class="s1">&#39;hoge&#39;</span> <span class="p">{</span>
+    <span class="c">/* ... */</span>
+<span class="p">}</span>
+
+<span class="c">/* WebkitでもFirefoxでも動く */</span>
+<span class="k">@keyframas</span> <span class="nt">hoge</span> <span class="p">{</span>
+    <span class="c">/* ... */</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>で、仕様はどうなってるか見てみると</p>
+
+<p><a href="http://www.w3.org/TR/css3-animations/">CSS Animations Module Level 3</a></p>
+
+<blockquote>
+  <p>keyframes-rule: ‘@keyframes’ IDENT ‘{’ keyframes-blocks ‘}’;</p>
+</blockquote>
+
+<p>って書いてあります。で、IDENTってところにキーフレーム名がくるわけですが、このIDENTってのが何かというは別の仕様に書いてあって</p>
+
+<p><a href="http://www.w3.org/TR/CSS21/syndata.html">Syntax and basic data types</a></p>
+
+<p>ここで定義されてるんですけど、IDENTはどうもクオートがつかない文字っぽいんですよね。なのでFirefoxでクオートがあると動かないのは仕様通りな気がします。ちなみにAnimationsの仕様書のExampleのコードはクオートありになってるんですが、これはExampleのコードが間違えなのかな。。？</p>
+
+<p>さらに、Safariのドキュメント見てみると</p>
+
+<p><a href="http://developer.apple.com/library/safari/#documentation/appleapplications/reference/SafariCSSRef/Articles/OtherStandardCSS3Features.html">Safari CSS Reference: Supported CSS Rules</a></p>
+
+<blockquote>
+  <p>keyframes-rule: ‘@-webkit-keyframes’ [ IDENT | STRING ] ‘{’ keyframes-blocks ‘}’;</p>
+</blockquote>
+
+<p>って書いてあって、W3Cのほうの仕様書と違ってSTRINGが追加されてます。STRINGはクオートで囲む文字列のようなので、これに従うとWebkitのほうが正しいわけです。</p>
+
+<p>まあまだ全然仕様が固まってない状態なのでこういうのもしょうがないんでしょうか。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[dotcloud + node.jsでHello World]]></title>
+    <link href="http://webtech-walker.com/archive/2011/06/13082522.html"/>
+    <updated>2011-06-13T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2011/06/13082522</id>
+    <content type="html"><![CDATA[<p>dotcloud + node.jsやってみました。</p>
+
+<p>まずdotcloudをインストールする。特に問題ない。</p>
+
+<pre><code>$ sudo easy_install dotcloud
+</code></pre>
+
+<p>アプリケーションをつくる。APIキーを設定してない場合は設定しろと出るので指示通りsettingsページに書いてあるAPIキーを入力する。</p>
+
+<pre><code>$ dotcloud create hokaccha
+Warning: /Users/hokamura/.dotcloud/dotcloud.conf does not exist.
+Enter your api key (You can find it at http://www.dotcloud.com/account/settings):
+</code></pre>
+
+<p>プロジェクトを作る。</p>
+
+<pre><code>$ dotcloud deploy -t nodejs hokaccha.helloworld
+Created "hokaccha.helloworld".
+</code></pre>
+
+<p>最低限必要なのはsupervisord.confという設定ファイル。ここで起動用のスクリプトを指定する。supervisord.confの中身はこんな感じ。</p>
+
+<pre><code>[program:node]
+command = node server.js
+directory = /home/dotcloud/current
+</code></pre>
+
+<p>同じディレクトリに指定したserver.jsを置いてHello Worldの出力するサーバーを書く。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">);</span>
+
+<span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">){</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="p">{</span> <span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;text/plain&#39;</span> <span class="p">});</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="s1">&#39;Hello World!!&#39;</span><span class="p">);</span>
+<span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8080</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>これでこの二つのファイルを置いたディレクトリを指定してアップする。</p>
+
+<pre><code>$ dotcloud push hokaccha.helloworld .
+</code></pre>
+
+<p>これだけだった。10分くらいでできて超簡単。</p>
+
+<p><a href="http://helloworld.hokaccha.dotcloud.com/">http://helloworld.hokaccha.dotcloud.com/</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[続・iOSのSafariで特定のfont-sizeのときの謎の隙間]]></title>
+    <link href="http://webtech-walker.com/archive/2011/06/03104808.html"/>
+    <updated>2011-06-03T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2011/06/03104808</id>
+    <content type="html"><![CDATA[<p><a href="/archive/2011/03/30190850.html">前書いたiOSのSafariで幅計算がおかしくなる件</a>、もうちょい調査してみた。</p>
+
+<p>どうもfont-sizeが11px、10px、9pxのときにマルチバイト一文字につき、offsetWidthの値がそれぞれ1pxづつ大きい値になるというバグっぽい。</p>
+
+<p>「あ」の文字のspan要素のoffsetWidthをJSで取得するデモ。</p>
+
+<p><a href="/sample/2011-06-03-03104808/1.html">DEMO</a></p>
+
+<p>これiPhoneで見るとこうなる。</p>
+
+<p><img src="/img/posts/2011-06-03-03104808/ios_fontsize_width.png" alt="11px, 10px, 9pxのoffsetWidthがずれている" /></p>
+
+<p>なんかIEでもfont-sizeが11px指定のときに12pxで表示されるというバグがあった気がするけど、このバグはさらに凶悪で、フォントサイズは指定したサイズになるけどoffsetWidthだけ指定のサイズより大きくなるというもの。それであのようなずれが生じるみたいです。</p>
+
+<p>JSでoffsetWidthの値の変化がとれるということはバグがあるかどうか判定できそうだということでやってみた。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">mbFontsizeWidthCalcBug</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">doc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">body</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">body</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">span</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;span&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">width</span> <span class="o">=</span> <span class="p">{};</span>
+    <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+    <span class="nx">span</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">position</span> <span class="o">=</span> <span class="s1">&#39;absolute&#39;</span><span class="p">;</span>
+    <span class="nx">span</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">visibility</span> <span class="o">=</span> <span class="s1">&#39;hidden&#39;</span><span class="p">;</span>
+    <span class="nx">span</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">&#39;あ&#39;</span><span class="p">;</span>
+    <span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">span</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(;</span><span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">13</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">span</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">fontSize</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">+</span> <span class="s1">&#39;px&#39;</span><span class="p">;</span>
+        <span class="nx">width</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">span</span><span class="p">.</span><span class="nx">offsetWidth</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nx">body</span><span class="p">.</span><span class="nx">removeChild</span><span class="p">(</span><span class="nx">span</span><span class="p">);</span>
+    <span class="nx">body</span> <span class="o">=</span> <span class="nx">span</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="nx">width</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span> <span class="o">===</span> <span class="nx">width</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="nx">width</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">===</span> <span class="nx">width</span><span class="p">[</span><span class="mi">10</span><span class="p">]);</span>
+<span class="p">})(</span><span class="nb">document</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p><a href="/sample/2011-06-03-03104808/2.html">DEMO</a></p>
+
+<p>とりあえず判定はできるっぽい。これでModernizrみたいにhtml要素とかにclassつければなんとかCSSで分岐できそうではある。が、うーん。。。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AndroidでJavaScriptのconsole.logを表示する方法]]></title>
+    <link href="http://webtech-walker.com/archive/2011/05/12152024.html"/>
+    <updated>2011-05-12T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2011/05/12152024</id>
+    <content type="html"><![CDATA[<p>Androidでconsole.logとかの出力を見るのには二通りあるみたいです。</p>
+
+<ol>
+  <li>
+    <h2 id="aboutdebug">about:debug</h2>
+  </li>
+</ol>
+
+<p>ブラウザのアドレスバーにabout:debugと打ち込むとJavaScriptのコンソールが現れます。これ簡単でいいんですけど、実機（Xperia ack）で試したらなんかよく（OSごと）落ちるし、いちいち入力するの面倒だしでちょっと微妙でした。あとどのバージョンからこれに対応してるかもよく知らない。</p>
+
+<p><img src="/img/posts/2011-05-12-12152024/1.png" alt="Androidのブラウザのアドレスバーにabout:debugと入力" /></p>
+
+<p><img src="/img/posts/2011-05-12-12152024/2.png" alt="console.logが出力される" /></p>
+
+<ol>
+  <li>
+    <h2 id="adb-logcat">adb logcat</h2>
+  </li>
+</ol>
+
+<p>たぶんこっちが正当法。AndroidSDKに入ってるadb（Android Debug Bridge）というツールを使います。adbはAndroidSDKの tools/adb にあります。</p>
+
+<p>まずエミュレータの場合。エミュレータを立ち上げたら以下のコマンドで接続を確認します。</p>
+
+<pre><code>$ cd /path/to/AndroidSDK/tools
+$ ./adb devices
+List of devices attached 
+emulator-5554   device
+</code></pre>
+
+<p>接続が確認できたら</p>
+
+<pre><code>$ ./adb logcat
+</code></pre>
+
+<p>これでブラウザを起動してconsole.logの出力を見たいページを表示すればコンソールに出力が流れてきます。ただし、console.log以外のもろもろのデバッグ情報もダーっと流れてくるので適当にgrepかけとくと吉。</p>
+
+<pre><code>$ ./adb logcat | grep browser
+</code></pre>
+
+<p>次、実機で確認する方法。まず実機のほうの設定でデバッグの設定をします。端末によるのかもしれないけど、Xperia ackの場合は「設定」→「アプリケーション」→「開発」→「USBデバッグ」にチェックします。で、USBで接続するとadbで認識されるようになるはず。</p>
+
+<pre><code>$ ./adb devices
+List of devices attached 
+xxxxxxxxxxxxxxx    device
+</code></pre>
+
+<p>認識されてたらさっきと同じようにlogcatすればconsole.logの出力とかがコンソールに流れてきます。こんな感じ出る。</p>
+
+<p><img src="/img/posts/2011-05-12-12152024/3.png" alt="logcatでログが表示される様子" /></p>
+
+<p>ちなみに接続が複数あったらadb logcatの起動がエラーになるので、以下のように指定します。</p>
+
+<pre><code># エミュレーターの場合
+$ ./adb -e logcat
+
+# 実機の場合
+$ ./adb -d logcat
+
+# serial numberを指定して起動する場合
+$ ./adb -s &lt;serial number&gt; logcat
+</code></pre>
+
+<p>-sのserial numberってのは adb deviceds したときに表示される文字列のことです。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[StorageEventで勘違いしていたこと]]></title>
+    <link href="http://webtech-walker.com/archive/2011/05/01212155.html"/>
+    <updated>2011-05-01T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2011/05/01212155</id>
+    <content type="html"><![CDATA[<p>StorageEventってlocalStorageとかsessionStorageとかでStorageの値を書き変えたときに発生するイベントってのは知ってたんだけど、前に試してみて動かなかったんで実装されてないのかなーと思って放置してた。</p>
+
+<p>でも<a href="http://amzn.to/m2MDro">入門HTML5</a>を読んだら、localStorage実装されてたらStorageEventも実装されてるよって書いてあったから試してみたけどやっぱ動かなかったんでちゃんと調べたら、そもそも勘違いしてたことに気づいた。</p>
+
+<p>普通に</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;storage&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">evt</span><span class="p">);</span>
+<span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>ってスクリプトを書いたHTMLを開いて、コンソールとかで localStorage.setItem(’hoge’, Math.random()) とか実行して発火しなかったんで、なんだよやっぱ動かねーじゃねーかと思ったんだけど、仕様書をよく読んだらこんな表記があった。</p>
+
+<blockquote>
+  <p>When the setItem(), removeItem(), and clear() methods are called on a Storage object x that is associated with a local storage area, if the methods did something, then in every Document object whose Window object’s localStorage attribute’s Storage object is associated with the same storage area, other than x, a storage event must be fired, as described below.</p>
+
+  <p><cite><a href="http://www.w3.org/TR/2011/CR-webstorage-20111208/#localStorageEvent">Web Storage</a></cite></p>
+</blockquote>
+
+<p>つまり、Storageを更新した場合、Storageを更新したドキュメント以外の、同じStorage領域を持ってるドキュメントでStorageEventが発火するってことみたい。</p>
+
+<p>ウインドウを二つ開いて、コンソールでLocalStorage更新したら実行してない方のウィンドウで発火してた。こういう使い方だったのね。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Chromeの等幅フォントがOsakaになってる件]]></title>
+    <link href="http://webtech-walker.com/archive/2011/04/29180449.html"/>
+    <updated>2011-04-29T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2011/04/29180449</id>
+    <content type="html"><![CDATA[<p>Chrome11で等幅フォントがOsakaになってて、全然等幅じゃなくなってた。前からだっけ？</p>
+
+<p><img src="/img/posts/2011-04-29-29180449/1.png" alt="Chromeの設定画面で固定幅フォントがOsakaになってる" /></p>
+
+<p>こんな感じになってた。</p>
+
+<p><img src="/img/posts/2011-04-29-29180449/2.png" alt="コードが等幅になってない" /></p>
+
+<p>とりあえずフォントの設定でMonacoにしといた。（なぜかOsaka-Monoがない？）</p>
+
+<p><img src="/img/posts/2011-04-29-29180449/3.png" alt="Chromeの設定でMonacoにする" /></p>
+
+<p>等幅になった。</p>
+
+<p><img src="/img/posts/2011-04-29-29180449/4.png" alt="コードが等幅になる" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Google Chrome11でサポートされた音声入力API]]></title>
+    <link href="http://webtech-walker.com/archive/2011/04/28140132.html"/>
+    <updated>2011-04-28T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2011/04/28140132</id>
+    <content type="html"><![CDATA[<p>Google Chrome11の正式版がリリースされたわけですが、音声入力APIに対応したようです。</p>
+
+<p>音声入力APIはフォームの入力を音声から取得してテキストに変換してくれるAPIです。</p>
+
+<p><a href="http://lists.w3.org/Archives/Public/public-xg-htmlspeech/2011Feb/att-0020/api-draft.html">HTML Speech Input API Specification</a></p>
+
+<p>使い方は超かんたん。speech属性をinput要素に指定するだけ。chrome11ではx-webkitっていうprefixつかないとダメっぽい。こんな感じ。</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">speech</span> <span class="na">x-webkit-speech</span><span class="nt">&gt;</span>
+</code></pre>
+</div>
+
+<p><input type="text" speech="" x-webkit-speech="" /></p>
+
+<p>対応してるブラウザだったらテキストボックスにマイクのアイコンがでてると思うのでクリックすると音声で入力できます。</p>
+
+<p>あと、言語をlang属性で指定できる模様。</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">speech</span> <span class="na">x-webkit-speech</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+</code></pre>
+</div>
+
+<p><input type="text" speech="" x-webkit-speech="" lang="en" /></p>
+
+<p>ちなみにGoogle検索とかGoogle翻訳はすでに音声入力APIに対応している様子。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CSS3のvim syntaxをちょっといじった]]></title>
+    <link href="http://webtech-walker.com/archive/2011/04/20001022.html"/>
+    <updated>2011-04-20T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2011/04/20001022</id>
+    <content type="html"><![CDATA[<p>vimでCSS書いてるとMediaQueryとかの表示がうまくいかなくてずっとほっといたんですけど、すでにやってる人がいたので使ってみたんですけど、ちょっと気になるところがあったりしたので直したり、ベンダプレフィックス追加したりしました。</p>
+
+<p><a href="https://github.com/hokaccha/vim-css3-syntax">hokaccha/vim-css3-syntax - GitHub</a></p>
+
+<p>不具合的なものは本家にマージされたんですが、ベンダプレフィックスの追加は本家のほうの方針では取り入れないということだったので、ベンダプレフィックスも対応したいという人はこちらをお使い下さい。</p>
+
+<p>本家の元ネタはこちら。</p>
+
+<p><a href="http://hail2u.net/blog/software/vim-css3-syntax.html">VimのCSS3シンタックス・ファイルみたいな何か - Weblog - hail2u.net</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOSのSafariで特定のfont-sizeのときの謎の隙間]]></title>
+    <link href="http://webtech-walker.com/archive/2011/03/30190850.html"/>
+    <updated>2011-03-30T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2011/03/30190850</id>
+    <content type="html"><![CDATA[<p>iOSのSafariでなぜか特定のfont-size（11px、10px、9px）のときだけマルチバイトの幅計算がおかしいのか、折り返し位置がずれるという件。</p>
+
+<p><a href="/sample/2011-03-30-30190850/index.html">DEMO</a></p>
+
+<p>これをiPhoneで見るとこんな感じになる。</p>
+
+<p><img src="/img/posts/2011-03-30-30190850/screenshot01.png" alt="iPhoneでDEMOを見たときのキャプチャ1" />
+<img src="/img/posts/2011-03-30-30190850/screenshot02.png" alt="iPhoneでDEMOを見たときのキャプチャ2" /></p>
+
+<p>こんな感じ。11px、10px、9pxのときに右側に隙間が空いてるがわかると思います。これは特にpaddingとかとってるわけではなくて、このfont-sizeのときだけなぜか隙間が空くんです。8pxは大丈夫なので11px以下というわけではないみたい。さらにマルチバイトでなければ隙間はできない。謎。</p>
+
+<p>ちなみにiOS4.3でも直ってなかった。Androidは大丈夫。</p>
+
+<p>解決方法知ってる人がいたら教えてほしい。</p>
+
+<p><ins>追記：letter-spacing: -0.001em; で直るっぽい</ins></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JSDeferredのparallelとwaitで最低遅延時間を設定する]]></title>
+    <link href="http://webtech-walker.com/archive/2011/03/30165920.html"/>
+    <updated>2011-03-30T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2011/03/30165920</id>
+    <content type="html"><![CDATA[<p>Ajaxでデータとってくる間にローディングいれるとき、場合によっては処理が一瞬で終わって逆にローディングがチカっとしてうざいので最低でも1秒はローディング出すって処理を最近だとJSDeferred使ってこんな感じで書いてる。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">loading</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span>
+<span class="nx">Deferred</span><span class="p">.</span><span class="nx">parallel</span><span class="p">([</span>
+    <span class="nx">Deferred</span><span class="p">.</span><span class="nx">wait</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+    <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="nx">Deferred</span><span class="p">();</span>
+        <span class="nx">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;hoge&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="c1">// 何か処理</span>
+            <span class="nx">d</span><span class="p">.</span><span class="nx">call</span><span class="p">();</span>
+        <span class="p">});</span>
+        <span class="k">return</span> <span class="nx">d</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">])</span>
+<span class="p">.</span><span class="nx">next</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">loading</span><span class="p">.</span><span class="nx">hide</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>便利なり。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[flipsnap.jsというのを書いた]]></title>
+    <link href="http://webtech-walker.com/archive/2011/03/28205254.html"/>
+    <updated>2011-03-28T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2011/03/28205254</id>
+    <content type="html"><![CDATA[<p>最近タッチデバイスでスワイプしてスライドするようなUIを書く機会が多いので汎用的に使えるようにしてみた。</p>
+
+<p><a href="http://pxgrid.github.com/js-flipsnap/demo.html">DEMO</a></p>
+
+<p><a href="https://github.com/pxgrid/js-flipsnap">pxgrid/js-flipsnap - GitHub</a></p>
+
+<p>iScrollでもsnapっていう機能使うと同じようなことができるんだけど、iScrollでこれをやろうとするとこのスクロールが効いてるところはネイティブの縦スクロールが効かなくなるという問題があって、それを解決しようと思って最初はiScrollの内部をいじってたんだけど、ちょっとiScrollベースだとどうしても無理なところがあったのでこの機能だけ切り出してみたというわけ。</p>
+
+<p>一応Androidでも動いてるっぽい。</p>
+
+<p>iScrollみたいに多機能じゃないけどまあこれだけ使いたいっていうこと結構あるので割といいんじゃないかと。TODOはとりあえずドキュメント。</p>
+
+<p><ins>追記（2012/02/04）：クロスブラウザに対応しました。</ins></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PhantomJS入れてみた]]></title>
+    <link href="http://webtech-walker.com/archive/2011/03/09102820.html"/>
+    <updated>2011-03-09T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2011/03/09102820</id>
+    <content type="html"><![CDATA[<p>昨日shibuya.jsいって、PhantomJSが熱そうだったので入れてみました。PhantomJSはQtWebkitを使ってコマンドラインからGUIが存在しないブラウザを動かすもので、これを使えばJavaScriptのテストを手軽にコマンドラインから動かすことができます。実際にWebkitで動くのでCanvasでもAjaxでもなんでもいけるという優れもの。</p>
+
+<h2 id="section">インストール</h2>
+
+<p>インストールは以下にのってるのでこの通りにやってさくっと終了。とくにはまりどころなし。</p>
+
+<p><a href="http://code.google.com/p/phantomjs/wiki/BuildInstructions#Mac_OS_X">http://code.google.com/p/phantomjs/wiki/BuildInstructions#Mac_OS_X</a></p>
+
+<h2 id="section-1">テストしてみる</h2>
+
+<p>こういうファイルを用意して</p>
+
+<h3 id="testhtml">test.html</h3>
+
+<div class="highlight"><pre><code class="html"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;ja&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;title&gt;</span>test<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;hoge&quot;</span><span class="nt">&gt;</span>hogehoge<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+</div>
+
+<h3 id="testjs">test.js</h3>
+
+<div class="highlight"><pre><code class="javascript"><span class="k">if</span> <span class="p">(</span><span class="nx">phantom</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">phantom</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="s1">&#39;checking&#39;</span><span class="p">;</span>
+    <span class="nx">phantom</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s1">&#39;./test.html&#39;</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">hoge</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;hoge&#39;</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">hoge</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">===</span> <span class="s1">&#39;hogehoge&#39;</span> <span class="p">);</span>
+    <span class="nx">phantom</span><span class="p">.</span><span class="nx">exit</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h3 id="phantomjs">phantomjsで実行</h3>
+
+<pre><code>$ phantomjs test.js
+true
+</code></pre>
+
+<p>と出力されました。すごー。env.jsとか色々あるけどこれは実際にWebkitが動いてるのでDOMをエミュレートするライブラリよりは信頼できそうだしよさげかもですね。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[history.pushStateでページ遷移するjQueryプラグイン書いた]]></title>
+    <link href="http://webtech-walker.com/archive/2011/02/23184428.html"/>
+    <updated>2011-02-23T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2011/02/23184428</id>
+    <content type="html"><![CDATA[<p>history.pushStateでのページ遷移をやりやすくするためにjQueryのプラグインとしてjquery.smarthistory.jsというのを書いてみました。</p>
+
+<p><a href="https://gist.github.com/840151">jquery.smarthistory.js</a></p>
+
+<p>history.pushStateをサポートしてるブラウザではhistory.pushStateを使って、サポートしてないブラウザでは何もしません（普通に遷移する）。今だとchrome、safari、iOS、Firefox4で動くと思います。</p>
+
+<p>こんな感じで使います。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">smarthistory</span><span class="p">({</span>
+    <span class="nx">defaultData</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;html&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(),</span>
+    <span class="nx">target</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
+    <span class="p">},</span>
+    <span class="nx">before</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// ajax前の処理</span>
+    <span class="p">},</span>
+    <span class="nx">change</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">html</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.content&#39;</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">(</span><span class="s1">&#39;fast&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span> <span class="nx">$</span><span class="p">(</span><span class="nx">html</span><span class="p">).</span><span class="nx">filter</span><span class="p">(</span><span class="s1">&#39;.content&#39;</span><span class="p">)</span> <span class="p">).</span><span class="nx">fadeIn</span><span class="p">();</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p><a href="/sample/2011-02-23-23184428/index1.html">DEMO</a></p>
+
+<p>defaultDataには初期表示されるページのデータを設定します。これを指定しないといけないのは、戻るボタンで最初のページに戻ったときデータないという状態になってしまうからです。次のページからはajaxでとってきたデータをpushStateするときに保存するんですけど、最初のページだけはそのデータがないのです。ここの実装がけっこういけてない感じなのでどうにかしたいです。</p>
+
+<p>targetにajaxでとってくるファイルを指定します。hrefで指定したHTMLじゃなくてjsonとかとってきたいこともあると思うのでこんな感じで指定できるようにしています。</p>
+
+<p>beforeはajaxの前に走る処理です。loadingとか使うときにはここでloadingの処理を開始します。</p>
+
+<p>changeはajaxでデータをとってきたときと、popstateイベント（ブラウザの戻るとか進むボタンを押したときに発火する）が発火したときに呼ばれます。ここにajaxでとってきたデータが渡ってくるので好きなようにページを書き変えます。</p>
+
+<p>リンクを押すと遷移なしでコンテンツが切り替わってURLが変わるのがわかると思います。URLが変わった状態でリロードしてもHTMLは存在してるので問題ありません。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[TitaniumでiPhoneアプリを申請に出すときのフロー]]></title>
+    <link href="http://webtech-walker.com/archive/2011/02/22130853.html"/>
+    <updated>2011-02-22T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2011/02/22130853</id>
+    <content type="html"><![CDATA[<p>アプリ申請始めてで色々細かいところで色々はまったのでメモ。</p>
+
+<h2 id="provisioning-profile">Provisioning Profileをつくる</h2>
+
+<p>まずProvisioning Profileをつくります。以下の記事が参考になると思います。</p>
+
+<p><a href="http://gihyo.jp/dev/serial/01/iphone/0010?page=3">目指せ！iPhoneアプリ開発エキスパート：第10回　App Storeでアプリを公開｜gihyo.jp … 技術評論社</a></p>
+
+<p>まずはまったのが、ここでDistributionのタブがでなかったこと。これはアカウントのRoleがAgentの人じゃないとでないみたいです。僕のRoleはAdminでしたorz</p>
+
+<p>AgentのアカウントでProvisioning ProfileつくったらそれをTitaniumに登録します。以下のSelect Provisioning ProfileというところにダウンロードしたProvisioning Profileを設定します。</p>
+
+<p><img src="/img/posts/2011-02-22-22130853/titanium_distribute_01.png" alt="Titaniumの登録画面" /></p>
+
+<p>ここで気になるのがSelect Distribution Locationという入力欄なんですけど、以下のような記事を見つけました。</p>
+
+<p><a href="http://developer.appcelerator.com/blog/2010/07/ios-package-for-distribution-with-1-4.html">iOS package for distribution with 1.4+ « Appcelerator Developer Center</a></p>
+
+<p>なんかこの欄は今使ってねーよってことらしい。けどなんか入力しろと。入力する値はなんでもいいみたいです。</p>
+
+<h2 id="section">パッケージングする</h2>
+
+<p>Provisioning ProfileをTitaniumに登録したらpackageというボタンを押せば申請用にビルドしてくれます。ビルドで失敗したときはpath/to/app/iphone/build/iphone/build/build.logにログがでてるのここを見るといいです。僕は何回かエラーでたんですけどTianium再起動で直ったりしました。</p>
+
+<p>無事終わったら以下のようにXCodeのオーガナイザが立ち上がります。</p>
+
+<p><img src="/img/posts/2011-02-22-22130853/titanium_distribute_02.png" alt="オーガナイザ" /></p>
+
+<p>ここではValidateとかsubmitしてもまだ何にもならないのでとりあえずこれはこのまま放置で次にいきます。 （申請した後キャプチャとったのでStatusがSubmitedになってますけど、この時点ではなってないです）</p>
+
+<h2 id="itunes-connect">iTunes Connectにアプリを登録</h2>
+
+<p><a href="https://itunesconnect.apple.com/">iTunes Connect</a>にアプリを登録します。ここでアプリの値段とかApp Storeにでてくる詳細情報とかスクリーンショットとか登録できます。</p>
+
+<p>アプリを登録したらStatusのところがPrepare for Uploadになっていると思うので、あとはアプリをアップするのみです。</p>
+
+<h2 id="section-1">アプリをアップする</h2>
+
+<p>なんかここでApplication Loader.appというのを使ってアップしないといけないというのを見たのでApplication Loader.app使ってアップしようとしたんですけど、どうやってもエラーになってアップできなくて、zip圧縮しないといけないとかいう情報に惑わされて色々はまったんですけど、そういえば放置してたオーガナイザはどうすればいいんだろうと思ってオーガナイザからValidateとSubmitしたら無事アップされました。</p>
+
+<p><img src="/img/posts/2011-02-22-22130853/titanium_distribute_03.png" alt="StatusがWaiting For Reviewになってる" /></p>
+
+<p>StatusがWaiting For Reviewになってる！</p>
+
+<p>というわけで今申請待ち中です。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[#!的な話題の関連記事まとめ]]></title>
+    <link href="http://webtech-walker.com/archive/2011/02/14155118.html"/>
+    <updated>2011-02-14T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2011/02/14155118</id>
+    <content type="html"><![CDATA[<p>#!関連のエントリーが調べにくいので目にとまったらここに追記していく。</p>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/kazuhooku/20101012/1286901973">TwitterやFacebookのURLには、なぜ#!が含まれるのか (SEOとAjaxのおいしい関係) - kazuhoのメモ置き場</a></li>
+  <li><a href="http://subtech.g.hatena.ne.jp/mala/20101018/1287419036">NewTwitterとかFacebookのAjaxなURL(#!)を変換する奴を書いた - 金利0無利息キャッシング – キャッシングできます - subtech</a></li>
+  <li><a href="http://d.hatena.ne.jp/karasuyamatengu/20110210/1297363019">Tim Bray: 「URLに#!入れるな」 - karasuyamatenguの日記</a></li>
+  <li><a href="http://neta.ywcafe.net/001161.html">urlに#!とか入れるなという話と、ひとつのURL≒ひとつのコンテンツという原則の話</a></li>
+  <li><a href="http://d.hatena.ne.jp/karasuyamatengu/20110212/1297465199">さらなる「#!」URL批判 - karasuyamatenguの日記</a></li>
+  <li><a href="http://hokypoky.info/blog/2011/02/13/escaped-fragment.html">HOKYPOKY.BLOG » 「#!」を含むURLについて</a></li>
+  <li><a href="http://blog.yappo.jp/yappo/archives/000743.html">YappoLogs: #!なんか糞だ</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[sectionとかをappendしたときIEでsytle効かなくなるのjQuery1.5でもダメだった]]></title>
+    <link href="http://webtech-walker.com/archive/2011/02/06234340.html"/>
+    <updated>2011-02-06T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2011/02/06234340</id>
+    <content type="html"><![CDATA[<p>この件の話。</p>
+
+<p><a href="/archive/2010/07/01155948.html">HTML5の新要素をjQueryでappendとかするとバグる件 - Webtech Walker</a></p>
+
+<p>jQeury1.5で対応するかと期待してたけどダメだった。jQeuryのバグではないのでjQueryでは対応しないのかな。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[補足：githubのアレ(history.replaceStateとかhistory.pushStateの話)]]></title>
+    <link href="http://webtech-walker.com/archive/2011/01/21123625.html"/>
+    <updated>2011-01-21T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2011/01/21123625</id>
+    <content type="html"><![CDATA[<p>以下の記事にgithubのhistory.replaceStateについて書かれてるのですが、一点補足しておきます。</p>
+
+<p><a href="http://d.hatena.ne.jp/zentoo/20101221/1292953257">githubのアレ(history.replaceStateとかhistory.pushStateの話) - 愛と勇気と缶ビール</a></p>
+
+<p>補足の前に。</p>
+
+<blockquote>
+  <p>さらに、この記事を読んだ時「ChromeやSafariやFirefox4でパンくずリストやプロジェクトに含まれるファイル名をクリックするとズビビッとスライドしてDOMが置き換わるアレがreplaceStateを使っているのだろう」と思っていたけどそれも違った。replaceStateが使われているのは別の場所。</p>
+</blockquote>
+
+<p>たしかにDOMの更新につかってるのはreplaceStateじゃなくてpushStateのほうなので僕の以前のエントリーが間違ってますね。すいません。</p>
+
+<p>本題の補足は以下。</p>
+
+<blockquote>
+  <ol>
+    <li>pushStateでhistoryにリンクのURLをpush</li>
+    <li>同URLに?slide=1&amp;_=(\d+)を付加したものをxhrでGET</li>
+    <li>得られたhtmlを使い、該当部分のDOMを書き換える(ここでアニメーション)</li>
+  </ol>
+</blockquote>
+
+<p>これに加えてもう一個大事なのが戻るボタン押したときの挙動です。ハッシュを変更する手法ではhashchangeイベントを使って戻るボタン押したときの動作を制御できますが、history.replaceStateではpopstateというイベントがあって、戻るを押したときはこのイベントが発火します。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;popstate&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 戻るとか進むを押したときの処理</span>
+<span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>これで戻るとか進むボタンを押したときの処理を記述できます。また event.state でpushStateしたときのデータを受け取ることができます。詳しくは以下などを参照あれ。</p>
+
+<p><a href="https://developer.mozilla.org/en/DOM/window.onpopstate">window.onpopstate - MDC Doc Center</a></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iPhoneとかでタップしたときに画像切り替えるjQuery Plugin]]></title>
+    <link href="http://webtech-walker.com/archive/2010/12/20184859.html"/>
+    <updated>2010-12-20T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2010/12/20184859</id>
+    <content type="html"><![CDATA[<p>を書いた。タップしたときに_oとかがついてる画像に切り替えるという、画像のロールオーバーとほとんど同じです。それだけです。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="c1">// iPhoneとかでtap時に画像を切り替える</span>
+<span class="c1">// demo: http://dl.dropbox.com/u/336104/demo/iphone_tap/index.html</span>
+<span class="c1">// Usage: </span>
+<span class="c1">// $(&#39;.btn&#39;).tapactive();</span>
+
+<span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">tapactive</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">opt</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">opt</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">suffix</span><span class="o">:</span> <span class="s2">&quot;_o&quot;</span>
+  <span class="p">},</span> <span class="nx">opt</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">$elem</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+
+    <span class="kd">var</span> <span class="nx">src</span> <span class="o">=</span> <span class="nx">$elem</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">src_o</span> <span class="o">=</span> <span class="nx">src</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/(.*)\.(.*)$/</span><span class="p">,</span> <span class="s2">&quot;$1&quot;</span> <span class="o">+</span> <span class="nx">opt</span><span class="p">.</span><span class="nx">suffix</span> <span class="o">+</span> <span class="s2">&quot;.$2&quot;</span><span class="p">);</span>
+    <span class="p">(</span><span class="k">new</span> <span class="nx">Image</span><span class="p">).</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">src_o</span><span class="p">;</span>
+    <span class="nx">$elem</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s2">&quot;mousedown touchstart&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">$elem</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="nx">src_o</span><span class="p">);</span>
+    <span class="p">});</span>
+    <span class="nx">$elem</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s2">&quot;mouseup touchend&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">$elem</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="nx">src</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[githubがhistory.replaceState使ってた]]></title>
+    <link href="http://webtech-walker.com/archive/2010/12/06160539.html"/>
+    <updated>2010-12-06T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2010/12/06160539</id>
+    <content type="html"><![CDATA[<p>JavaScriptでhistory.pushStateとhistory.replaceStateっていう履歴管理のための仕様があるんですけど、これを使うとlocation.hashを使って実装しているような、ページ遷移をしないでコンテンツを入れ替える（Twitterの新UIみたいな）ものを実現できます。</p>
+
+<ul>
+  <li><a href="http://www.w3.org/TR/html5/history.html#dom-history-pushstate">5.4 Session history and navigation — HTML5</a></li>
+  <li><a href="https://developer.mozilla.org/en/DOM/Manipulating_the_browser_history#Adding_and_modifying_history_entries">Manipulating the browser history - MDC Doc Center</a></li>
+</ul>
+
+<p>で、これを実際使ってるところは見たことなかったんですけど、githubがいつの間にか使ってました。適当なリポジトリに入ってhistory.replaceStateをサポートしてるブラウザ（現時点ではchromeかsafari）で見るとページ遷移なしで動いて、切り替わるときにURLが書き換わってるのがわかると思います。さらにブラウザの戻るボタンもちゃんと動きます。</p>
+
+<p><a href="https://github.com/hokaccha/nodebrew">https://github.com/hokaccha/nodebrew</a></p>
+
+<p>なんか次世代って感じですねー</p>
+
+<p><ins>追記：補足記事</ins></p>
+
+<p><a href="/archive/2011/01/21123625.html">補足：githubのアレ(history.replaceStateとかhistory.pushStateの話)</a></p>
+]]></content>
+  </entry>
+  
+</feed>
