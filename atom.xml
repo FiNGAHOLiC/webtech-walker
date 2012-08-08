@@ -4,7 +4,7 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2012-08-07T23:50:03+09:00</updated>
+  <updated>2012-08-08T09:31:06+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
@@ -13,9 +13,9 @@
   
   <entry>
     <title type="html"><![CDATA[github pages + jekyllにした]]></title>
-    <link href="http://webtech-walker.com/archive/2012/07/renewal.html"/>
-    <updated>2012-07-28T00:00:00+09:00</updated>
-    <id>http://webtech-walker.com/archive/2012/07/renewal</id>
+    <link href="http://webtech-walker.com/archive/2012/08/renewal.html"/>
+    <updated>2012-08-09T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2012/08/renewal</id>
     <content type="html"><![CDATA[<p>5年くらい前のWordPressで動いてたブログをjekyllにしてgithub pagesで動くように移行しました。ついでにデザインもリニューアル。</p>
 
 <p>エントリーのURLは変わってないんだけど、フィードのURLだけ変わりました。というか、feedburner.jpのドメインでフィード配信してたんですけど、feedburner.jpがちょっと前に使えなくなったみたいで、変えないといけなくなりました。新しいのはこれ。</p>
