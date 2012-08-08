@@ -67,44 +67,44 @@
 
 <p>実装はこんな感じ。</p>
 
-<div class="highlight"><pre><code class="php"><span class="x">class inputForm extends sfForm</span>
-<span class="x">{</span>
-<span class="x">    public function configure() {</span>
-<span class="x">        // ラジオボタンのwidget作成</span>
-<span class="x">        // formatterにcallbackを渡す</span>
-<span class="x">        $this-&gt;widgetSchema[&#39;name_type&#39;] = new sfWidgetFormSelectRadio(</span>
-<span class="x">            array(</span>
-<span class="x">                &#39;choices&#39; =&gt; array(&#39;1&#39; =&gt; &#39;個人&#39;, &#39;2&#39; =&gt; &#39;法人&#39;),</span>
-<span class="x">                &#39;formatter&#39; =&gt; array($this, &#39;nameTypeFormatter&#39;),</span>
-<span class="x">            )</span>
-<span class="x">        );</span>
+<div class="highlight"><pre><code class="php"><span class="k">class</span> <span class="nc">inputForm</span> <span class="k">extends</span> <span class="nx">sfForm</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">configure</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// ラジオボタンのwidget作成</span>
+        <span class="c1">// formatterにcallbackを渡す</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">widgetSchema</span><span class="p">[</span><span class="s1">&#39;name_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">sfWidgetFormSelectRadio</span><span class="p">(</span>
+            <span class="k">array</span><span class="p">(</span>
+                <span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;1&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;個人&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;法人&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;formatter&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="nv">$this</span><span class="p">,</span> <span class="s1">&#39;nameTypeFormatter&#39;</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="p">);</span>
 
-<span class="x">        // 名前の入力フィールドwidget作成</span>
-<span class="x">        $this-&gt;widgetSchema[&#39;personal_name&#39;] = new sfWidgetFormInput();</span>
-<span class="x">        $this-&gt;widgetSchema[&#39;company_name&#39;]  = new sfWidgetFormInput();</span>
+        <span class="c1">// 名前の入力フィールドwidget作成</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">widgetSchema</span><span class="p">[</span><span class="s1">&#39;personal_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">sfWidgetFormInput</span><span class="p">();</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">widgetSchema</span><span class="p">[</span><span class="s1">&#39;company_name&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="k">new</span> <span class="nx">sfWidgetFormInput</span><span class="p">();</span>
 
-<span class="x">        // 作成したwidgetの名前の配列をoptionにセット</span>
-<span class="x">        $this-&gt;widgetSchema[&#39;name_type&#39;]-&gt;addOption(&#39;inputNames&#39;, array(&#39;personal_name&#39;, &#39;company_name&#39;));</span>
-<span class="x">    }</span>
+        <span class="c1">// 作成したwidgetの名前の配列をoptionにセット</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">widgetSchema</span><span class="p">[</span><span class="s1">&#39;name_type&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">addOption</span><span class="p">(</span><span class="s1">&#39;inputNames&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;personal_name&#39;</span><span class="p">,</span> <span class="s1">&#39;company_name&#39;</span><span class="p">));</span>
+    <span class="p">}</span>
 
-<span class="x">    public function nameTypeFormatter($widget, $inputs) {</span>
-<span class="x">        $row = array();</span>
-<span class="x">        $inputNames = $widget-&gt;getOption(&#39;inputNames&#39;);</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">nameTypeFormatter</span><span class="p">(</span><span class="nv">$widget</span><span class="p">,</span> <span class="nv">$inputs</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$row</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+        <span class="nv">$inputNames</span> <span class="o">=</span> <span class="nv">$widget</span><span class="o">-&gt;</span><span class="na">getOption</span><span class="p">(</span><span class="s1">&#39;inputNames&#39;</span><span class="p">);</span>
 
-<span class="x">        // 列を作成</span>
-<span class="x">        foreach ($inputs as $key =&gt; $input) {</span>
-<span class="x">            $dt = $widget-&gt;renderContentTag(&#39;dt&#39;, $input[&#39;input&#39;].$input[&#39;label&#39;]);</span>
-<span class="x">            $dd = $widget-&gt;renderContentTag(&#39;dd&#39;, $this[$inputNames[$key]]-&gt;render());</span>
-<span class="x">            </span>
-<span class="x">            $row[] = $dt.$dd;</span>
-<span class="x">        }</span>
+        <span class="c1">// 列を作成</span>
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$inputs</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$input</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$dt</span> <span class="o">=</span> <span class="nv">$widget</span><span class="o">-&gt;</span><span class="na">renderContentTag</span><span class="p">(</span><span class="s1">&#39;dt&#39;</span><span class="p">,</span> <span class="nv">$input</span><span class="p">[</span><span class="s1">&#39;input&#39;</span><span class="p">]</span><span class="o">.</span><span class="nv">$input</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]);</span>
+            <span class="nv">$dd</span> <span class="o">=</span> <span class="nv">$widget</span><span class="o">-&gt;</span><span class="na">renderContentTag</span><span class="p">(</span><span class="s1">&#39;dd&#39;</span><span class="p">,</span> <span class="nv">$this</span><span class="p">[</span><span class="nv">$inputNames</span><span class="p">[</span><span class="nv">$key</span><span class="p">]]</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">());</span>
+            
+            <span class="nv">$row</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$dt</span><span class="o">.</span><span class="nv">$dd</span><span class="p">;</span>
+        <span class="p">}</span>
 
-<span class="x">        // 列を連結してdlでラップ</span>
-<span class="x">        $dl = $widget-&gt;renderContentTag(&#39;dl&#39;, join(&quot;\n&quot;, $row));</span>
+        <span class="c1">// 列を連結してdlでラップ</span>
+        <span class="nv">$dl</span> <span class="o">=</span> <span class="nv">$widget</span><span class="o">-&gt;</span><span class="na">renderContentTag</span><span class="p">(</span><span class="s1">&#39;dl&#39;</span><span class="p">,</span> <span class="nb">join</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nv">$row</span><span class="p">));</span>
 
-<span class="x">        return $dl;</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+        <span class="k">return</span> <span class="nv">$dl</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre>
 </div>
 

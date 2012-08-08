@@ -48,10 +48,10 @@
 
 <p>PHPの出力をダウンロード形式にするにはheader()でContent-Typeを指定してreadfile()で出力します。コードは下記のような感じ。</p>
 
-<div class="highlight"><pre><code class="php"><span class="x">$file = &quot;test.txt&quot;;</span>
-<span class="x">header(&quot;Content-type: text/plain&quot;);</span>
-<span class="x">header(&quot;Content-Disposition: attachment; filename=$file&quot;);</span>
-<span class="x">readfile($file);</span>
+<div class="highlight"><pre><code class="php"><span class="nv">$file</span> <span class="o">=</span> <span class="s2">&quot;test.txt&quot;</span><span class="p">;</span>
+<span class="nx">header</span><span class="p">(</span><span class="s2">&quot;Content-type: text/plain&quot;</span><span class="p">);</span>
+<span class="nx">header</span><span class="p">(</span><span class="s2">&quot;Content-Disposition: attachment; filename=</span><span class="si">$file</span><span class="s2">&quot;</span><span class="p">);</span>
+<span class="nb">readfile</span><span class="p">(</span><span class="nv">$file</span><span class="p">);</span>
 </code></pre>
 </div>
 

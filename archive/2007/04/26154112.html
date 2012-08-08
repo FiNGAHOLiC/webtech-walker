@@ -48,17 +48,17 @@
 
 <p>しかしそのtruncateもマルチバイトに対応していないようで、日本語に適用すると切ったところが微妙に文字化けしたりする場合があるんですよね。そういうわけでマルチバイト対応のtruncateを作ってみました。</p>
 
-<div class="highlight"><pre><code class="php"><span class="x">function smarty_modifier_mb_truncate($string, $length = 80, $etc = &#39;...&#39;)</span>
-<span class="x">{</span>
-<span class="x">  if ($length == 0)</span>
-<span class="x">    return &#39;&#39;;</span>
-<span class="x">  if (mb_strlen($string,&quot;UTF-8&quot;) &gt; $length) {</span>
-<span class="x">    $string = mb_substr($string, 0, $length,&quot;UTF-8&quot;);</span>
-<span class="x">    return $string.$etc;</span>
-<span class="x">  } else {</span>
-<span class="x">    return $string;</span>
-<span class="x">  }</span>
-<span class="x">}</span>
+<div class="highlight"><pre><code class="php"><span class="k">function</span> <span class="nf">smarty_modifier_mb_truncate</span><span class="p">(</span><span class="nv">$string</span><span class="p">,</span> <span class="nv">$length</span> <span class="o">=</span> <span class="mi">80</span><span class="p">,</span> <span class="nv">$etc</span> <span class="o">=</span> <span class="s1">&#39;...&#39;</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nv">$length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nb">mb_strlen</span><span class="p">(</span><span class="nv">$string</span><span class="p">,</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nv">$length</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$string</span> <span class="o">=</span> <span class="nb">mb_substr</span><span class="p">(</span><span class="nv">$string</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">$length</span><span class="p">,</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$string</span><span class="o">.</span><span class="nv">$etc</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$string</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre>
 </div>
 

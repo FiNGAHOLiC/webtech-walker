@@ -57,10 +57,10 @@
 
 <p>なので自分でsfFormを直接継承したクラスをつくって、それをモジュール毎に継承して使ってます。</p>
 
-<div class="highlight"><pre><code class="php"><span class="x">class myFormBase extends sfForm</span>
-<span class="x">{</span>
-<span class="x">    // 共通のメソッドとかsfFormのメソッド上書きしたりとか</span>
-<span class="x">}</span>
+<div class="highlight"><pre><code class="php"><span class="k">class</span> <span class="nc">myFormBase</span> <span class="k">extends</span> <span class="nx">sfForm</span>
+<span class="p">{</span>
+    <span class="c1">// 共通のメソッドとかsfFormのメソッド上書きしたりとか</span>
+<span class="p">}</span>
 </code></pre>
 </div>
 
@@ -70,40 +70,40 @@
 
 <p>あと、ラジオボタンで選択したラベルを表示とか、時間表示のメソッドもつくっておくと便利。</p>
 
-<div class="highlight"><pre><code class="php"><span class="x">/**</span>
-<span class="x"> * エスケープしたフィールドの値を返す</span>
-<span class="x"> *</span>
-<span class="x"> * @param  string $filed</span>
-<span class="x"> * @return string</span>
-<span class="x"> */</span>
-<span class="x">public function getEscValue($field) {</span>
-<span class="x">    return sfWidget::escapeOnce($this-&gt;getValue($field));</span>
-<span class="x">}</span>
+<div class="highlight"><pre><code class="php"><span class="sd">/**</span>
+<span class="sd"> * エスケープしたフィールドの値を返す</span>
+<span class="sd"> *</span>
+<span class="sd"> * @param  string $filed</span>
+<span class="sd"> * @return string</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">getEscValue</span><span class="p">(</span><span class="nv">$field</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">sfWidget</span><span class="o">::</span><span class="na">escapeOnce</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getValue</span><span class="p">(</span><span class="nv">$field</span><span class="p">));</span>
+<span class="p">}</span>
 
-<span class="x">/**</span>
-<span class="x"> * ラジオボタンとかセレクトボックスのラベルの値を返す</span>
-<span class="x"> *</span>
-<span class="x"> * @param  string $filed</span>
-<span class="x"> * @return string</span>
-<span class="x"> */</span>
-<span class="x">public function getLabelValue($field) {</span>
-<span class="x">    $choices = $this[$field]-&gt;getWidget()-&gt;getOption(&#39;choices&#39;);</span>
-<span class="x">    $value   = $this-&gt;getValue($field);</span>
-<span class="x">    if (array_key_exists($value, $choices)) {</span>
-<span class="x">        return $choices[$value];</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+<span class="sd">/**</span>
+<span class="sd"> * ラジオボタンとかセレクトボックスのラベルの値を返す</span>
+<span class="sd"> *</span>
+<span class="sd"> * @param  string $filed</span>
+<span class="sd"> * @return string</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">getLabelValue</span><span class="p">(</span><span class="nv">$field</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$choices</span> <span class="o">=</span> <span class="nv">$this</span><span class="p">[</span><span class="nv">$field</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">getWidget</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getOption</span><span class="p">(</span><span class="s1">&#39;choices&#39;</span><span class="p">);</span>
+    <span class="nv">$value</span>   <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getValue</span><span class="p">(</span><span class="nv">$field</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">array_key_exists</span><span class="p">(</span><span class="nv">$value</span><span class="p">,</span> <span class="nv">$choices</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$choices</span><span class="p">[</span><span class="nv">$value</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
-<span class="x">/**</span>
-<span class="x"> * 日付の配列を日付フォーマットに変換した値を返す</span>
-<span class="x"> *</span>
-<span class="x"> * @param  string $filed</span>
-<span class="x"> * @param  string $format</span>
-<span class="x"> * @return string</span>
-<span class="x"> */</span>
-<span class="x">public function getDateValue($field, $format = &#39;Y年m月d日&#39;) {</span>
-<span class="x">    return myUtil::dateTimeArrayToString($this-&gt;getValue($field), $format);</span>
-<span class="x">}</span>
+<span class="sd">/**</span>
+<span class="sd"> * 日付の配列を日付フォーマットに変換した値を返す</span>
+<span class="sd"> *</span>
+<span class="sd"> * @param  string $filed</span>
+<span class="sd"> * @param  string $format</span>
+<span class="sd"> * @return string</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">getDateValue</span><span class="p">(</span><span class="nv">$field</span><span class="p">,</span> <span class="nv">$format</span> <span class="o">=</span> <span class="s1">&#39;Y年m月d日&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">myUtil</span><span class="o">::</span><span class="na">dateTimeArrayToString</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getValue</span><span class="p">(</span><span class="nv">$field</span><span class="p">),</span> <span class="nv">$format</span><span class="p">);</span>
+<span class="p">}</span>
 </code></pre>
 </div>
 
