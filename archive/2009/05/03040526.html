@@ -56,28 +56,28 @@
 
 <p>なのでpostValidatorのcallbackで画像を保存することにしました。$valuesとは別のところに保存した画像の情報をもっておきたいので$form-&gt;savedNameに保存したファイル名を持たせてます。</p>
 
-<div class="highlight"><pre><code class="php"><span class="k">public</span> <span class="k">function</span> <span class="nf">configure</span><span class="p">()</span> <span class="p">{</span>
-    <span class="o">...</span>
-    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getValidatorSchema</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">setPostValidator</span><span class="p">(</span><span class="k">new</span> <span class="nx">sfValidatorCallback</span><span class="p">(</span>
-        <span class="k">array</span><span class="p">(</span><span class="s1">&#39;callback&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="nv">$this</span><span class="p">,</span> <span class="s1">&#39;postValidator&#39;</span><span class="p">))</span>
-    <span class="p">));</span>
-<span class="p">}</span>
+<div class="highlight"><pre><code class="php"><span class="x">public function configure() {</span>
+<span class="x">    ...</span>
+<span class="x">    $this-&gt;getValidatorSchema()-&gt;setPostValidator(new sfValidatorCallback(</span>
+<span class="x">        array(&#39;callback&#39; =&gt; array($this, &#39;postValidator&#39;))</span>
+<span class="x">    ));</span>
+<span class="x">}</span>
 
-<span class="k">public</span> <span class="k">function</span> <span class="nf">postValidator</span><span class="p">(</span><span class="nv">$validator</span><span class="p">,</span> <span class="nv">$values</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// 画像保存</span>
-    <span class="nv">$file</span>      <span class="o">=</span> <span class="nv">$values</span><span class="p">[</span><span class="s1">&#39;image_file&#39;</span><span class="p">];</span>
-    <span class="nv">$filename</span>  <span class="o">=</span> <span class="s1">&#39;uploaded_&#39;</span><span class="o">.</span><span class="nb">sha1</span><span class="p">(</span><span class="nv">$file</span><span class="o">-&gt;</span><span class="na">getOriginalName</span><span class="p">());</span>
-    <span class="nv">$extension</span> <span class="o">=</span> <span class="nv">$file</span><span class="o">-&gt;</span><span class="na">getExtension</span><span class="p">(</span><span class="nv">$file</span><span class="o">-&gt;</span><span class="na">getOriginalExtension</span><span class="p">());</span>
-    <span class="nv">$file</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="nx">sfConfig</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;sf_upload_dir&#39;</span><span class="p">)</span><span class="o">.</span><span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="nv">$filename</span><span class="o">.</span><span class="nv">$extension</span><span class="p">);</span>
+<span class="x">public function postValidator($validator, $values) {</span>
+<span class="x">    // 画像保存</span>
+<span class="x">    $file      = $values[&#39;image_file&#39;];</span>
+<span class="x">    $filename  = &#39;uploaded_&#39;.sha1($file-&gt;getOriginalName());</span>
+<span class="x">    $extension = $file-&gt;getExtension($file-&gt;getOriginalExtension());</span>
+<span class="x">    $file-&gt;save(sfConfig::get(&#39;sf_upload_dir&#39;).&#39;/&#39;.$filename.$extension);</span>
 
-    <span class="c1">// 保存した画像名を保存</span>
-    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">savedName</span> <span class="o">=</span> <span class="nv">$file</span><span class="o">-&gt;</span><span class="na">getSavedName</span><span class="p">();</span>
+<span class="x">    // 保存した画像名を保存</span>
+<span class="x">    $this-&gt;savedName = $file-&gt;getSavedName();</span>
 
-    <span class="c1">// もとの値はセッションにつっこむとエラーになるので削除しておく</span>
-    <span class="nb">unset</span><span class="p">(</span><span class="nv">$values</span><span class="p">[</span><span class="s1">&#39;image_file&#39;</span><span class="p">]);</span>
+<span class="x">    // もとの値はセッションにつっこむとエラーになるので削除しておく</span>
+<span class="x">    unset($values[&#39;image_file&#39;]);</span>
 
-    <span class="k">return</span> <span class="nv">$values</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="x">    return $values;</span>
+<span class="x">}</span>
 </code></pre>
 </div>
 

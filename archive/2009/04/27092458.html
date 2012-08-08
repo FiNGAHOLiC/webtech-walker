@@ -54,9 +54,9 @@
 
 <p>widgetをセットしたフィールドは何かしらバリデータを設定しないと値がとれなくなるので、バリデートしないフィールドにはsfValidatorPass()を設定する。</p>
 
-<div class="highlight"><pre><code class="php"><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">setValidators</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
-    <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="k">new</span> <span class="nx">sfValidatorPass</span><span class="p">(),</span> 
-<span class="p">));</span>
+<div class="highlight"><pre><code class="php"><span class="x">$this-&gt;setValidators(array(</span>
+<span class="x">    &#39;name&#39; =&gt; new sfValidatorPass(), </span>
+<span class="x">));</span>
 </code></pre>
 </div>
 
@@ -66,15 +66,15 @@
 
 <p>callbackも同じようにフィルタを兼ねるので、何かしら値を返さないと$valuesに値が入りません。</p>
 
-<div class="highlight"><pre><code class="php"><span class="k">function</span> <span class="nf">constant_validator_callback</span><span class="p">(</span><span class="nv">$validator</span><span class="p">,</span> <span class="nv">$value</span><span class="p">,</span> <span class="nv">$arguments</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nv">$value</span> <span class="o">!=</span> <span class="nv">$arguments</span><span class="p">[</span><span class="s1">&#39;constant&#39;</span><span class="p">])</span>
-    <span class="p">{</span>
-      <span class="k">throw</span> <span class="k">new</span> <span class="nx">sfValidatorError</span><span class="p">(</span><span class="nv">$validator</span><span class="p">,</span> <span class="s1">&#39;invalid&#39;</span><span class="p">);</span>
-    <span class="p">}</span>
- 
-    <span class="k">return</span> <span class="nv">$value</span><span class="p">;</span> <span class="c1">//←これを忘れない</span>
-<span class="p">}</span>
+<div class="highlight"><pre><code class="php"><span class="x">function constant_validator_callback($validator, $value, $arguments)</span>
+<span class="x">{</span>
+<span class="x">    if ($value != $arguments[&#39;constant&#39;])</span>
+<span class="x">    {</span>
+<span class="x">      throw new sfValidatorError($validator, &#39;invalid&#39;);</span>
+<span class="x">    }</span>
+<span class="x"> </span>
+<span class="x">    return $value; //←これを忘れない</span>
+<span class="x">}</span>
 </code></pre>
 </div>
 

@@ -52,14 +52,14 @@
 
 <p>初期状態ではPropelが有効になっているので、Doctrineを使うように設定します。</p>
 
-<div class="highlight"><pre><code class="php"><span class="c1">// config/ProjectConfiguration.class.php</span>
+<div class="highlight"><pre><code class="php"><span class="x">// config/ProjectConfiguration.class.php</span>
 
-<span class="k">public</span> <span class="k">function</span> <span class="nf">setup</span><span class="p">()</span>
-<span class="p">{</span>
-     <span class="c1">// for compatibility / remove and enable only the plugins you want</span>
-     <span class="c1">//$this-&gt;enableAllPluginsExcept(array(&#39;sfDoctrinePlugin&#39;, &#39;sfCompat10Plugin&#39;));</span>
-     <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">enableAllPluginsExcept</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;sfPropelPlugin&#39;</span><span class="p">,</span> <span class="s1">&#39;sfCompat10Plugin&#39;</span><span class="p">));</span>
-<span class="p">}</span>
+<span class="x">public function setup()</span>
+<span class="x">{</span>
+<span class="x">     // for compatibility / remove and enable only the plugins you want</span>
+<span class="x">     //$this-&gt;enableAllPluginsExcept(array(&#39;sfDoctrinePlugin&#39;, &#39;sfCompat10Plugin&#39;));</span>
+<span class="x">     $this-&gt;enableAllPluginsExcept(array(&#39;sfPropelPlugin&#39;, &#39;sfCompat10Plugin&#39;));</span>
+<span class="x">}</span>
 </code></pre>
 </div>
 
@@ -213,12 +213,12 @@ found 2 results
 
 <h3 id="section-1">全データ取得</h3>
 
-<div class="highlight"><pre><code class="php"><span class="nv">$q</span> <span class="o">=</span> <span class="nx">Doctrine_Query</span><span class="o">::</span><span class="na">create</span><span class="p">()</span>
-  <span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;u.*&#39;</span><span class="p">)</span>
-  <span class="o">-&gt;</span><span class="na">from</span><span class="p">(</span><span class="s1">&#39;User u&#39;</span><span class="p">);</span>
- 
-<span class="nv">$users</span> <span class="o">=</span> <span class="nv">$q</span><span class="o">-&gt;</span><span class="na">fetchArray</span><span class="p">();</span>
-<span class="nb">print_r</span><span class="p">(</span><span class="nv">$users</span><span class="p">);</span>
+<div class="highlight"><pre><code class="php"><span class="x">$q = Doctrine_Query::create()</span>
+<span class="x">  -&gt;select(&#39;u.*&#39;)</span>
+<span class="x">  -&gt;from(&#39;User u&#39;);</span>
+<span class="x"> </span>
+<span class="x">$users = $q-&gt;fetchArray();</span>
+<span class="x">print_r($users);</span>
 </code></pre>
 </div>
 
@@ -243,12 +243,12 @@ Array
 
 <h3 id="where">whereで検索</h3>
 
-<div class="highlight"><pre><code class="php"><span class="nv">$q</span> <span class="o">=</span> <span class="nx">Doctrine_Query</span><span class="o">::</span><span class="na">create</span><span class="p">()</span>
-  <span class="o">-&gt;</span><span class="na">from</span><span class="p">(</span><span class="s1">&#39;User u&#39;</span><span class="p">)</span>
-  <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;u.username = ?&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">);</span>
- 
-<span class="nv">$users</span> <span class="o">=</span> <span class="nv">$q</span><span class="o">-&gt;</span><span class="na">fetchArray</span><span class="p">();</span>
-<span class="nb">print_r</span><span class="p">(</span><span class="nv">$users</span><span class="p">);</span>
+<div class="highlight"><pre><code class="php"><span class="x">$q = Doctrine_Query::create()</span>
+<span class="x">  -&gt;from(&#39;User u&#39;)</span>
+<span class="x">  -&gt;where(&#39;u.username = ?&#39;, &#39;foo&#39;);</span>
+<span class="x"> </span>
+<span class="x">$users = $q-&gt;fetchArray();</span>
+<span class="x">print_r($users);</span>
 </code></pre>
 </div>
 
@@ -267,11 +267,11 @@ Array
 
 <h3 id="section-2">一件だけ取得</h3>
 
-<div class="highlight"><pre><code class="php"><span class="nv">$q</span> <span class="o">=</span> <span class="nx">Doctrine_Query</span><span class="o">::</span><span class="na">create</span><span class="p">()</span>
-  <span class="o">-&gt;</span><span class="na">from</span><span class="p">(</span><span class="s1">&#39;User u&#39;</span><span class="p">)</span>
-  <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;u.username = ?&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">);</span>
-<span class="nv">$user</span> <span class="o">=</span> <span class="nv">$q</span><span class="o">-&gt;</span><span class="na">fetchOne</span><span class="p">(</span><span class="k">array</span><span class="p">(),</span> <span class="nx">Doctrine</span><span class="o">::</span><span class="na">HYDRATE_ARRAY</span><span class="p">);</span>
-<span class="nb">print_r</span><span class="p">(</span><span class="nv">$user</span><span class="p">);</span>
+<div class="highlight"><pre><code class="php"><span class="x">$q = Doctrine_Query::create()</span>
+<span class="x">  -&gt;from(&#39;User u&#39;)</span>
+<span class="x">  -&gt;where(&#39;u.username = ?&#39;, &#39;foo&#39;);</span>
+<span class="x">$user = $q-&gt;fetchOne(array(), Doctrine::HYDRATE_ARRAY);</span>
+<span class="x">print_r($user);</span>
 </code></pre>
 </div>
 

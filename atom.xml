@@ -4,7 +4,7 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2012-08-08T09:54:05+09:00</updated>
+  <updated>2012-08-08T23:43:16+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
@@ -23,6 +23,12 @@
 <p><a href="http://webtech-walker.com/atom.xml">Feed</a></p>
 
 <p>github pagesとjekyllにしてgitでデプロイできるのとMarkdownで記事書けるようにったのはすごくいいんだけど、問題は記事数が多くて（160記事くらい）jekyllの実行に20秒くらいかかること。なんか一周してMTの再構築問題に戻ってきた気分。</p>
+
+<p><ins>
+追記：jekyllの実行に時間がかかるの解決した。こっちに書いた。
+</ins></p>
+
+<p><a href="http://d.hatena.ne.jp/hokaccha/20120808/1344436656">pygmentsが原因でjekyllが重くなってた - hokaccha.hamalog v2</a></p>
 ]]></content>
   </entry>
   

@@ -54,9 +54,9 @@
 
 <p>一番簡単な使い方はこんな感じ</p>
 
-<div class="highlight"><pre><code class="php"><span class="nv">$thumbnail</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">sfThumbnail</span><span class="p">(</span><span class="nv">$width</span><span class="p">,</span> <span class="nv">$height</span><span class="p">);</span>
-<span class="nv">$thumbnail</span><span class="o">-&gt;</span><span class="na">loadFile</span><span class="p">(</span><span class="nv">$loadFilePath</span><span class="p">);</span>
-<span class="nv">$thumbnail</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="nv">$saveFilePath</span><span class="p">);</span>
+<div class="highlight"><pre><code class="php"><span class="x">$thumbnail = new sfThumbnail($width, $height);</span>
+<span class="x">$thumbnail-&gt;loadFile($loadFilePath);</span>
+<span class="x">$thumbnail-&gt;save($saveFilePath);</span>
 </code></pre>
 </div>
 
@@ -64,7 +64,7 @@
 
 <p>sfThumbnailのコンストラクタがこんな感じで、$scaleが縦横比を保つかどうか、$inflateが拡大するかどうかの設定です。</p>
 
-<div class="highlight"><pre><code class="php"><span class="nx">__construct</span><span class="p">(</span><span class="nv">$maxWidth</span> <span class="o">=</span> <span class="k">null</span><span class="p">,</span> <span class="nv">$maxHeight</span> <span class="o">=</span> <span class="k">null</span><span class="p">,</span> <span class="nv">$scale</span> <span class="o">=</span> <span class="k">true</span><span class="p">,</span> <span class="nv">$inflate</span> <span class="o">=</span> <span class="k">true</span><span class="p">,</span> <span class="nv">$quality</span> <span class="o">=</span> <span class="mi">75</span><span class="p">,</span> <span class="nv">$adapterClass</span> <span class="o">=</span> <span class="k">null</span><span class="p">,</span> <span class="nv">$adapterOptions</span> <span class="o">=</span> <span class="k">array</span><span class="p">())</span>
+<div class="highlight"><pre><code class="php"><span class="x">__construct($maxWidth = null, $maxHeight = null, $scale = true, $inflate = true, $quality = 75, $adapterClass = null, $adapterOptions = array())</span>
 </code></pre>
 </div>
 
@@ -72,7 +72,7 @@
 
 <p>画像のフォーマットを変えたいときはsaveの第二引数にmime typeを渡します。</p>
 
-<div class="highlight"><pre><code class="php"><span class="nv">$thumbnail</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="nv">$saveFilePath</span><span class="p">,</span> <span class="s1">&#39;image/png&#39;</span><span class="p">);</span>
+<div class="highlight"><pre><code class="php"><span class="x">$thumbnail-&gt;save($saveFilePath, &#39;image/png&#39;);</span>
 </code></pre>
 </div>
 
