@@ -4,12 +4,21 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2012-08-09T00:51:28+09:00</updated>
+  <updated>2012-09-07T12:44:17+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[sprocketsとsinatraでRailsのAsset Pipeline的なことをする]]></title>
+    <link href="http://webtech-walker.com/archive/2012/09/sprockets-draft.html"/>
+    <updated>2012-09-02T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2012/09/sprockets-draft</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[github pages + jekyllにした]]></title>
@@ -702,30 +711,6 @@ true
 </code></pre>
 </div>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[githubがhistory.replaceState使ってた]]></title>
-    <link href="http://webtech-walker.com/archive/2010/12/06160539.html"/>
-    <updated>2010-12-06T00:00:00+09:00</updated>
-    <id>http://webtech-walker.com/archive/2010/12/06160539</id>
-    <content type="html"><![CDATA[<p>JavaScriptでhistory.pushStateとhistory.replaceStateっていう履歴管理のための仕様があるんですけど、これを使うとlocation.hashを使って実装しているような、ページ遷移をしないでコンテンツを入れ替える（Twitterの新UIみたいな）ものを実現できます。</p>
-
-<ul>
-  <li><a href="http://www.w3.org/TR/html5/history.html#dom-history-pushstate">5.4 Session history and navigation — HTML5</a></li>
-  <li><a href="https://developer.mozilla.org/en/DOM/Manipulating_the_browser_history#Adding_and_modifying_history_entries">Manipulating the browser history - MDC Doc Center</a></li>
-</ul>
-
-<p>で、これを実際使ってるところは見たことなかったんですけど、githubがいつの間にか使ってました。適当なリポジトリに入ってhistory.replaceStateをサポートしてるブラウザ（現時点ではchromeかsafari）で見るとページ遷移なしで動いて、切り替わるときにURLが書き換わってるのがわかると思います。さらにブラウザの戻るボタンもちゃんと動きます。</p>
-
-<p><a href="https://github.com/hokaccha/nodebrew">https://github.com/hokaccha/nodebrew</a></p>
-
-<p>なんか次世代って感じですねー</p>
-
-<p><ins>追記：補足記事</ins></p>
-
-<p><a href="/archive/2011/01/21123625.html">補足：githubのアレ(history.replaceStateとかhistory.pushStateの話)</a></p>
 ]]></content>
   </entry>
   
