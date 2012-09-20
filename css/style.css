@@ -402,6 +402,8 @@ body {
   */ }
   .mod-entry .body img {
     max-width: 100%; }
+  .mod-entry .body a {
+    word-wrap: break-word; }
   .mod-entry .body h2 {
     font-size: 20px;
     margin: 40px 0 15px;
@@ -498,7 +500,7 @@ body {
   margin: 40px 0 20px; }
 
 @media screen and (max-width: 720px) {
-  .mod-main time {
+  .mod-entry time {
     background-image: none;
     border-top: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
