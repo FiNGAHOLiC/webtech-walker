@@ -4,12 +4,66 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2012-09-07T15:19:02+09:00</updated>
+  <updated>2012-09-20T14:01:10+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[俺の最強ブログシステムも火を噴いてたぜ]]></title>
+    <link href="http://webtech-walker.com/archive/2012/09/fired-myblog.html"/>
+    <updated>2012-09-20T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2012/09/fired-myblog</id>
+    <content type="html"><![CDATA[<p><a href="http://tech.nitoyon.com/ja/blog/2012/09/20/moved-completed/">俺の最強ブログ システムが火を噴くぜ - てっく煮ブログ</a></p>
+
+<p>これとJekyll、DISQUS、Githubを使ってるところあたりはほとんど同じだった。</p>
+
+<p>元記事がレンタルサーバーにデプロイしてるのに対してこっちはgithub pagesにデプロイしてる。サーバーも用意しなくていいからお手軽かつ最強だぜ〜。</p>
+
+<p>ただgithub pagesに直接Jekyllのソース上げるとplugin使えなかったりして不便なんでJekyllで生成した静的ファイルをgh-pagesブランチにコミットしていて</p>
+
+<ul>
+  <li><a href="https://github.com/hokaccha/webtech-walker">masterブランチ</a> -&gt; ソース</li>
+  <li><a href="https://github.com/hokaccha/webtech-walker/tree/gh-pages">gh-pagesブランチ</a> -&gt; 生成したファイル</li>
+</ul>
+
+<p>ってしてるんだけど、いちいちブランチ切り替えてなんちゃらしたりhookスクリプトでほげほげするのは面倒なんで</p>
+
+<pre><code>$ rale deploy
+</code></pre>
+
+<p>ってやるとJekyllのビルドが走って生成したファイルコピーしてgh-pagesにコミットしてGithubにpushするところまで自動でできるようにしてる。ビルドタスクはこんな感じ。</p>
+
+<p><a href="https://github.com/hokaccha/webtech-walker/blob/f2b178baa3bb00776f089f50b7b3e2954c83694c/Rakefile#L10-20">webtech-walker/Rakefile at f2b178baa3bb00776f089f50b7b3e2954c83694c · hokaccha/webtech-walker</a></p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">desc</span> <span class="s1">&#39;deploy to production&#39;</span>
+<span class="n">task</span> <span class="ss">:deploy</span> <span class="k">do</span>
+  <span class="n">sh</span> <span class="s1">&#39;bundle exec jekyll&#39;</span>
+  <span class="n">sh</span> <span class="s1">&#39;rm -rf _deploy/*&#39;</span>
+  <span class="n">sh</span> <span class="s1">&#39;cp -R _site/* _deploy&#39;</span>
+  <span class="n">cd</span> <span class="s1">&#39;_deploy&#39;</span> <span class="k">do</span>
+    <span class="n">sh</span> <span class="s1">&#39;git add -A&#39;</span>
+    <span class="n">sh</span> <span class="s1">&#39;git commit -v&#39;</span>
+    <span class="n">sh</span> <span class="s1">&#39;git push origin gh-pages&#39;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<p>あとキャッシュ系のプラグインは使ってなくて、新しい記事書くときは</p>
+
+<pre><code>$ jekyll --auto --server --limit_posts 3
+</code></pre>
+
+<p>とかすれば対象の記事を絞れるので遅くならないし、デプロイのときは全記事出力するからちょっと遅いけど今160記事くらいで5秒程度だからまあ別に大丈夫かなと思ってる。でもコードハイライト多用してる場合はこういう問題もあるから注意。</p>
+
+<p><a href="http://d.hatena.ne.jp/hokaccha/20120808/1344436656">pygmentsが原因でjekyllが重くなってた - hokaccha.hamalog v2</a></p>
+
+<p>というわけでJkeyllおすすめ。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[JavaScriptのゲッタ]]></title>
@@ -721,43 +775,6 @@ true
 <p>これで戻るとか進むボタンを押したときの処理を記述できます。また event.state でpushStateしたときのデータを受け取ることができます。詳しくは以下などを参照あれ。</p>
 
 <p><a href="https://developer.mozilla.org/en/DOM/window.onpopstate">window.onpopstate - MDC Doc Center</a></p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iPhoneとかでタップしたときに画像切り替えるjQuery Plugin]]></title>
-    <link href="http://webtech-walker.com/archive/2010/12/20184859.html"/>
-    <updated>2010-12-20T00:00:00+09:00</updated>
-    <id>http://webtech-walker.com/archive/2010/12/20184859</id>
-    <content type="html"><![CDATA[<p>を書いた。タップしたときに_oとかがついてる画像に切り替えるという、画像のロールオーバーとほとんど同じです。それだけです。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="c1">// iPhoneとかでtap時に画像を切り替える</span>
-<span class="c1">// demo: http://dl.dropbox.com/u/336104/demo/iphone_tap/index.html</span>
-<span class="c1">// Usage: </span>
-<span class="c1">// $(&#39;.btn&#39;).tapactive();</span>
-
-<span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">tapactive</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">opt</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">opt</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
-    <span class="nx">suffix</span><span class="o">:</span> <span class="s2">&quot;_o&quot;</span>
-  <span class="p">},</span> <span class="nx">opt</span><span class="p">);</span>
-
-  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">$elem</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-
-    <span class="kd">var</span> <span class="nx">src</span> <span class="o">=</span> <span class="nx">$elem</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">src_o</span> <span class="o">=</span> <span class="nx">src</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/(.*)\.(.*)$/</span><span class="p">,</span> <span class="s2">&quot;$1&quot;</span> <span class="o">+</span> <span class="nx">opt</span><span class="p">.</span><span class="nx">suffix</span> <span class="o">+</span> <span class="s2">&quot;.$2&quot;</span><span class="p">);</span>
-    <span class="p">(</span><span class="k">new</span> <span class="nx">Image</span><span class="p">).</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">src_o</span><span class="p">;</span>
-    <span class="nx">$elem</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s2">&quot;mousedown touchstart&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-        <span class="nx">$elem</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="nx">src_o</span><span class="p">);</span>
-    <span class="p">});</span>
-    <span class="nx">$elem</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s2">&quot;mouseup touchend&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-      <span class="nx">$elem</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="nx">src</span><span class="p">);</span>
-    <span class="p">});</span>
-  <span class="p">});</span>
-<span class="p">};</span>
-</code></pre>
-</div>
 
 ]]></content>
   </entry>

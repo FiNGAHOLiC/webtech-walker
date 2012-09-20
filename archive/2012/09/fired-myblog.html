@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<title>JavaScriptのゲッタ - Webtech Walker</title>
+<title>俺の最強ブログシステムも火を噴いてたぜ - Webtech Walker</title>
 <meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
 <link rel="stylesheet" href="/css/style.css">
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
@@ -33,66 +33,63 @@
  
 <article>
 
-<time datetime="2012-09-07T00:00:00+09:00" pubdate>2012月09月07日</time>
+<time datetime="2012-09-20T00:00:00+09:00" pubdate>2012月09月20日</time>
 
 <ul class="tags">
   
-    <li><a href="/tags/JavaScript.html">JavaScript</a></li>
+    <li><a href="/tags/blog.html">blog</a></li>
   
 </ul>
 
-<h1>JavaScriptのゲッタ</h1>
+<h1>俺の最強ブログシステムも火を噴いてたぜ</h1>
 
 <div class="body">
-<p>JavaScriptでゲッタを定義するのに__defineGetter__っていうのが使えて</p>
+<p><a href="http://tech.nitoyon.com/ja/blog/2012/09/20/moved-completed/">俺の最強ブログ システムが火を噴くぜ - てっく煮ブログ</a></p>
 
-<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
+<p>これとJekyll、DISQUS、Githubを使ってるところあたりはほとんど同じだった。</p>
 
-<span class="nx">obj</span><span class="p">.</span><span class="nx">__defineGetter__</span><span class="p">(</span><span class="s1">&#39;hoge&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;hoge!!&#39;</span><span class="p">);</span>
-<span class="p">});</span>
+<p>元記事がレンタルサーバーにデプロイしてるのに対してこっちはgithub pagesにデプロイしてる。サーバーも用意しなくていいからお手軽かつ最強だぜ〜。</p>
 
-<span class="nx">obj</span><span class="p">.</span><span class="nx">hoge</span><span class="p">;</span> <span class="c1">//=&gt; hoge!!</span>
+<p>ただgithub pagesに直接Jekyllのソース上げるとplugin使えなかったりして不便なんでJekyllで生成した静的ファイルをgh-pagesブランチにコミットしていて</p>
+
+<ul>
+  <li><a href="https://github.com/hokaccha/webtech-walker">masterブランチ</a> -&gt; ソース</li>
+  <li><a href="https://github.com/hokaccha/webtech-walker/tree/gh-pages">gh-pagesブランチ</a> -&gt; 生成したファイル</li>
+</ul>
+
+<p>ってしてるんだけど、いちいちブランチ切り替えてなんちゃらしたりhookスクリプトでほげほげするのは面倒なんで</p>
+
+<pre><code>$ rale deploy
+</code></pre>
+
+<p>ってやるとJekyllのビルドが走って生成したファイルコピーしてgh-pagesにコミットしてGithubにpushするところまで自動でできるようにしてる。ビルドタスクはこんな感じ。</p>
+
+<p><a href="https://github.com/hokaccha/webtech-walker/blob/f2b178baa3bb00776f089f50b7b3e2954c83694c/Rakefile#L10-20">webtech-walker/Rakefile at f2b178baa3bb00776f089f50b7b3e2954c83694c · hokaccha/webtech-walker</a></p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">desc</span> <span class="s1">&#39;deploy to production&#39;</span>
+<span class="n">task</span> <span class="ss">:deploy</span> <span class="k">do</span>
+  <span class="n">sh</span> <span class="s1">&#39;bundle exec jekyll&#39;</span>
+  <span class="n">sh</span> <span class="s1">&#39;rm -rf _deploy/*&#39;</span>
+  <span class="n">sh</span> <span class="s1">&#39;cp -R _site/* _deploy&#39;</span>
+  <span class="n">cd</span> <span class="s1">&#39;_deploy&#39;</span> <span class="k">do</span>
+    <span class="n">sh</span> <span class="s1">&#39;git add -A&#39;</span>
+    <span class="n">sh</span> <span class="s1">&#39;git commit -v&#39;</span>
+    <span class="n">sh</span> <span class="s1">&#39;git push origin gh-pages&#39;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 </code></pre>
 </div>
 
-<p>こんな感じで()つけなくても関数が呼び出されるのでプロパティにアクセスのようにして関数を呼び出すことができる。</p>
+<p>あとキャッシュ系のプラグインは使ってなくて、新しい記事書くときは</p>
 
-<p>Node.jsのライブラリのコード読んでるとよく__defineGetter__がでてくる（Node.jsのコードというかTJのコードに多いだけな気もする）。</p>
-
-<p><a href="https://github.com/visionmedia/express/blob/75fc8820016739a38b395955902ce118467c8f42/lib/request.js#L180">express/lib/request.js at master · visionmedia/express · GitHub</a></p>
-
-<p>でも__defineGetter__はECMAScript非標準なんで非推奨ってMDNに書いてある。</p>
-
-<p><a href="https://developer.mozilla.org/ja/docs/JavaScript/Reference/Global_Objects/Object/defineGetter">defineGetter | MDN</a></p>
-
-<p>Object.definePropertyを使えって書いてある。Object.definePropertyを使うとこんな感じ。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
-
-<span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s1">&#39;hoge&#39;</span><span class="p">,</span> <span class="p">{</span>  
-  <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;hoge!!&#39;</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">});</span>
-
-<span class="nx">obj</span><span class="p">.</span><span class="nx">hoge</span><span class="p">;</span> <span class="c1">//=&gt; hoge!!</span>
+<pre><code>$ jekyll --auto --server --limit_posts 3
 </code></pre>
-</div>
 
-<p>もしくはこれでもいける。</p>
+<p>とかすれば対象の記事を絞れるので遅くならないし、デプロイのときは全記事出力するからちょっと遅いけど今160記事くらいで5秒程度だからまあ別に大丈夫かなと思ってる。でもコードハイライト多用してる場合はこういう問題もあるから注意。</p>
 
-<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="nx">get</span> <span class="nx">hoge</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;hoge!!&#39;</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">};</span>
+<p><a href="http://d.hatena.ne.jp/hokaccha/20120808/1344436656">pygmentsが原因でjekyllが重くなってた - hokaccha.hamalog v2</a></p>
 
-<span class="nx">obj</span><span class="p">.</span><span class="nx">hoge</span><span class="p">;</span> <span class="c1">//=&gt; hoge!!</span>
-</code></pre>
-</div>
-
-<p>どれが一番いいかはよくわからん。</p>
+<p>というわけでJkeyllおすすめ。</p>
 
 </div>
 </article>
@@ -135,10 +132,8 @@
 
 <ul class="paginate">
 
-  <li class="prev"><span>Prev Entry:</span><a href="/archive/2012/08/renewal.html">github pages + jekyllにした</a></li>
+  <li class="prev"><span>Prev Entry:</span><a href="/archive/2012/09/jsgetter.html">JavaScriptのゲッタ</a></li>
 
-
-  <li class="next"><span>Next Entry:</span><a href="/archive/2012/09/fired-myblog.html">俺の最強ブログシステムも火を噴いてたぜ</a></li>
 
 </ul>
 
