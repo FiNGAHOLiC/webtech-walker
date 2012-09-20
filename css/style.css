@@ -312,6 +312,9 @@ body {
   .mod-header h1 {
     padding: 65px 0;
     text-align: center; }
+    .mod-header h1 img {
+      width: 500px;
+      height: 60px; }
 
 .mod-footer {
   background: #3399cc;
@@ -506,9 +509,9 @@ body {
     border-bottom: 1px solid #CCC;
     padding-top: 5px;
     padding-bottom: 5px; } }
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 500px) {
   .mod-header h1 {
-    padding: 20px 0; }
-  .mod-header img {
-    width: 320px;
-    height: 45px; } }
+    padding: 30px 0; }
+    .mod-header h1 img {
+      width: 250px;
+      height: 30px; } }
