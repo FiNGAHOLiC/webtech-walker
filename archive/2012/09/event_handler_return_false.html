@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<title>jQueryのイベントハンドラでreturn falseするとイベントの伝播止まるからね！ - Webtech Walker</title>
+<title>jQueryのイベントハンドラでreturn falseするとイベントのバブリングが止まる - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
 <link rel="stylesheet" href="/css/style.css">
@@ -44,10 +44,10 @@
   
 </ul>
 
-<h1>jQueryのイベントハンドラでreturn falseするとイベントの伝播止まるからね！</h1>
+<h1>jQueryのイベントハンドラでreturn falseするとイベントのバブリングが止まる</h1>
 
 <div class="body">
-<p>例えばjQueryでスムーズスクロール的なのを実装したとして、a要素のデフォルトの機能を止めるために以下のように<code>return false</code>ってするとイベントの伝播までとまるよという話。</p>
+<p>例えばjQueryでスムーズスクロール的なのを実装したとして、a要素のデフォルトの機能を止めるために以下のように<code>return false</code>ってするとイベントのバブリングまでとまるよという話。</p>
 
 <div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a[href*=#]&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
@@ -74,9 +74,9 @@
 </code></pre>
 </div>
 
-<p>としたときと同じ挙動になる。<code>return false</code>してるコードは、デフォルトの挙動を止めるのは意図してるけど、イベントの伝播まで止めるのは意図してない場合が多いんじゃなかろうかと思う。意図してるなら特に問題ない。</p>
+<p>としたときと同じ挙動になる。<code>return false</code>してるコードは、デフォルトの挙動を止めるのは意図してるけど、イベントのバブリングまで止めるのは意図してない場合が多いんじゃなかろうかと思う。意図してるなら特に問題ない。</p>
 
-<p>それでイベントの伝播がとまると何が一番困るかというdelegateが使えなくなること。</p>
+<p>それでイベントのバブリングがとまると何が一番困るかというdelegateが使えなくなること。</p>
 
 <p>具体的にはこれが動かない。</p>
 
@@ -95,7 +95,7 @@
 </code></pre>
 </div>
 
-<p>delegateはイベントのバブリングを利用してイベントを捕まえるので最初のスムーズスクロールで<code>return false</code>しちゃうとそこでイベントの伝播が止まるのでdelegateのイベントが実行されない。なのでイベントのデフォルトの動作を止めたいだけなら、できるだけ</p>
+<p>delegateはイベントのバブリングを利用してイベントを捕まえるので最初のスムーズスクロールで<code>return false</code>しちゃうとそこでイベントのバブリングが止まるのでdelegateのイベントが実行されない。なのでイベントのデフォルトの動作を止めたいだけなら、できるだけ</p>
 
 <div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a[href*=#]&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="p">{</span>

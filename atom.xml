@@ -4,7 +4,7 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2012-09-20T17:15:55+09:00</updated>
+  <updated>2012-09-20T17:19:13+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
@@ -66,11 +66,11 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[jQueryのイベントハンドラでreturn falseするとイベントの伝播止まるからね！]]></title>
+    <title type="html"><![CDATA[jQueryのイベントハンドラでreturn falseするとイベントのバブリングが止まる]]></title>
     <link href="http://webtech-walker.com/archive/2012/09/event_handler_return_false.html"/>
     <updated>2012-09-20T00:00:00+09:00</updated>
     <id>http://webtech-walker.com/archive/2012/09/event_handler_return_false</id>
-    <content type="html"><![CDATA[<p>例えばjQueryでスムーズスクロール的なのを実装したとして、a要素のデフォルトの機能を止めるために以下のように<code>return false</code>ってするとイベントの伝播までとまるよという話。</p>
+    <content type="html"><![CDATA[<p>例えばjQueryでスムーズスクロール的なのを実装したとして、a要素のデフォルトの機能を止めるために以下のように<code>return false</code>ってするとイベントのバブリングまでとまるよという話。</p>
 
 <div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a[href*=#]&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
@@ -97,9 +97,9 @@
 </code></pre>
 </div>
 
-<p>としたときと同じ挙動になる。<code>return false</code>してるコードは、デフォルトの挙動を止めるのは意図してるけど、イベントの伝播まで止めるのは意図してない場合が多いんじゃなかろうかと思う。意図してるなら特に問題ない。</p>
+<p>としたときと同じ挙動になる。<code>return false</code>してるコードは、デフォルトの挙動を止めるのは意図してるけど、イベントのバブリングまで止めるのは意図してない場合が多いんじゃなかろうかと思う。意図してるなら特に問題ない。</p>
 
-<p>それでイベントの伝播がとまると何が一番困るかというdelegateが使えなくなること。</p>
+<p>それでイベントのバブリングがとまると何が一番困るかというdelegateが使えなくなること。</p>
 
 <p>具体的にはこれが動かない。</p>
 
@@ -118,7 +118,7 @@
 </code></pre>
 </div>
 
-<p>delegateはイベントのバブリングを利用してイベントを捕まえるので最初のスムーズスクロールで<code>return false</code>しちゃうとそこでイベントの伝播が止まるのでdelegateのイベントが実行されない。なのでイベントのデフォルトの動作を止めたいだけなら、できるだけ</p>
+<p>delegateはイベントのバブリングを利用してイベントを捕まえるので最初のスムーズスクロールで<code>return false</code>しちゃうとそこでイベントのバブリングが止まるのでdelegateのイベントが実行されない。なのでイベントのデフォルトの動作を止めたいだけなら、できるだけ</p>
 
 <div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a[href*=#]&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="p">{</span>
