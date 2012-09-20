@@ -307,7 +307,7 @@ body {
 
 .mod-header {
   position: relative;
-  width: 720px;
+  max-width: 720px;
   margin: 0 auto; }
   .mod-header h1 {
     padding: 65px 0;
@@ -320,7 +320,7 @@ body {
   padding: 10px 0;
   text-align: center; }
   .mod-footer > div {
-    width: 720px;
+    max-width: 720px;
     margin: 0 auto; }
   .mod-footer .name {
     margin: 10px 0;
@@ -337,7 +337,7 @@ body {
         opacity: 0.8; }
 
 .mod-main {
-  width: 720px;
+  max-width: 720px;
   padding: 0 10px;
   margin: 0 auto; }
 
@@ -496,3 +496,17 @@ body {
       font-family: serif; }
 .mod-entry #disqus_thread {
   margin: 40px 0 20px; }
+
+@media screen and (max-width: 720px) {
+  .mod-main time {
+    background-image: none;
+    border-top: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+    padding-top: 5px;
+    padding-bottom: 5px; } }
+@media screen and (max-width: 480px) {
+  .mod-header h1 {
+    padding: 20px 0; }
+  .mod-header img {
+    width: 320px;
+    height: 45px; } }
