@@ -67,12 +67,12 @@
 
 <p>で、それがResqueの1.22.0で解決されたみたい。</p>
 
-<p>1.22.0では<code>TERM_CHILD=1</code>というのを環境変数で設定すれば<code>SIGTERM</code>を受け取ったときに起動している子プロセスに対して<code>SIGTERM</code>を送り、子プロセスが<code>RESQUE_TERM_TIMEOUT</code>で設定秒数の間に終了しなかったら子プロセスに<code>SIGKILL</code>を送って強制終了させるという機能が実装された。これによって</p>
+<p>1.22.0では<code>TERM_CHILD=1</code>というのを環境変数で設定すればマスタプロセスが<code>SIGTERM</code>を受け取ったときに、起動している子プロセスに対して<code>SIGTERM</code>を送り、子プロセスが<code>RESQUE_TERM_TIMEOUT</code>で設定された秒数の間に終了しなかったら子プロセスに<code>SIGKILL</code>を送って強制終了させるという機能が実装された。これによって</p>
 
 <pre><code>$ TERM_CHILD=1 RESQUE_TERM_TIMEOUT=10 QUEUES=* rake resque:work
 </code></pre>
 
-<p>のようにすれば各workerで<code>SIGTERM</code>をハンドリングすることで安全に再起動できるようになる。</p>
+<p>のように起動し、worker側で<code>SIGTERM</code>をハンドリングすることで安全に再起動できるようになる。</p>
 
 <h2 id="section">試してみる</h2>
 
