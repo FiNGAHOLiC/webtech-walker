@@ -4,12 +4,49 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2012-09-21T15:39:34+09:00</updated>
+  <updated>2012-09-23T11:11:06+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[jQueryでアニメーション終了時のcallback]]></title>
+    <link href="http://webtech-walker.com/archive/2012/09/jquery_animate_callback.html"/>
+    <updated>2012-09-23T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2012/09/jquery_animate_callback</id>
+    <content type="html"><![CDATA[<p>jQueryでfadeOutとかのアニメーションして終わったらなんかするといったときにcallback関数を引数に指定するのとDeferred使う方法があるんだけどこの二つは挙動が違う。</p>
+
+<p>こういうHTMLがあったとして</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;div&gt;</span>foo<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;div&gt;</span>bar<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;div&gt;</span>baz<span class="nt">&lt;/div&gt;</span>
+</code></pre>
+</div>
+
+<p>まず以下のようなcallback関数の場合はそれぞれのfadeOutが終わるごとに呼ばれる。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;fin&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>つまり<code>'fin'</code>が3回出力される。</p>
+
+<p>一方Deferredを使った場合はこんな感じ。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">.</span><span class="nx">promise</span><span class="p">().</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;fin&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p><code>.promise()</code>がDeferredオブジェクトを返すので<code>.done</code>に設定した関数がアニメーション終了時に呼ばれる。こっちは全てのアニメーションが終わった時点で呼ばれるので<code>'fin'</code>は一回しか呼ばれない。という違いがあるみたい。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[HerokuでResqueを使うときに優雅に再起動する]]></title>
@@ -885,25 +922,6 @@ true
 <p>StatusがWaiting For Reviewになってる！</p>
 
 <p>というわけで今申請待ち中です。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[#!的な話題の関連記事まとめ]]></title>
-    <link href="http://webtech-walker.com/archive/2011/02/14155118.html"/>
-    <updated>2011-02-14T00:00:00+09:00</updated>
-    <id>http://webtech-walker.com/archive/2011/02/14155118</id>
-    <content type="html"><![CDATA[<p>#!関連のエントリーが調べにくいので目にとまったらここに追記していく。</p>
-
-<ul>
-  <li><a href="http://d.hatena.ne.jp/kazuhooku/20101012/1286901973">TwitterやFacebookのURLには、なぜ#!が含まれるのか (SEOとAjaxのおいしい関係) - kazuhoのメモ置き場</a></li>
-  <li><a href="http://subtech.g.hatena.ne.jp/mala/20101018/1287419036">NewTwitterとかFacebookのAjaxなURL(#!)を変換する奴を書いた - 金利0無利息キャッシング – キャッシングできます - subtech</a></li>
-  <li><a href="http://d.hatena.ne.jp/karasuyamatengu/20110210/1297363019">Tim Bray: 「URLに#!入れるな」 - karasuyamatenguの日記</a></li>
-  <li><a href="http://neta.ywcafe.net/001161.html">urlに#!とか入れるなという話と、ひとつのURL≒ひとつのコンテンツという原則の話</a></li>
-  <li><a href="http://d.hatena.ne.jp/karasuyamatengu/20110212/1297465199">さらなる「#!」URL批判 - karasuyamatenguの日記</a></li>
-  <li><a href="http://hokypoky.info/blog/2011/02/13/escaped-fragment.html">HOKYPOKY.BLOG » 「#!」を含むURLについて</a></li>
-  <li><a href="http://blog.yappo.jp/yappo/archives/000743.html">YappoLogs: #!なんか糞だ</a></li>
-</ul>
 ]]></content>
   </entry>
   
