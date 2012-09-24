@@ -4,12 +4,38 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2012-09-23T11:11:06+09:00</updated>
+  <updated>2012-09-24T22:51:15+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[gitで差分ファイルを抽出する]]></title>
+    <link href="http://webtech-walker.com/archive/2012/09/git_export_diff.html"/>
+    <updated>2012-09-24T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2012/09/git_export_diff</id>
+    <content type="html"><![CDATA[<p>変更したファイルだけまとめて取り出したいというケースがけっこうあるみたいなんで書いてみた。</p>
+
+<p><a href="https://gist.github.com/3764870">gitの差分のファイルをつくる — Gist</a></p>
+
+<p>こいつをパスが通ってるところに置いて実行権限つけたら</p>
+
+<pre><code>$ git export-diff &lt;commit&gt; &lt;output_dir&gt;
+</code></pre>
+
+<p>こんな感じで実行すると<code>&lt;commit&gt;</code>からHEADまでの差分ファイルを<code>&lt;output_dir&gt;</code>にコピーする。<code>&lt;commit&gt;</code>の部分は<code>git diff</code>と同じ物が使えるので</p>
+
+<pre><code>$ git export-diff HEAD^^^ path/to/dir
+$ git export-diff HEAD^^^..HEAD^ path/to/dir
+$ git export-diff &lt;sha1&gt; &lt;sha1&gt; path/to/dir
+$ git export-diff &lt;sha1&gt;..&lt;sha1&gt; path/to/dir
+</code></pre>
+
+<p>みたいな感じでもOK。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[jQueryでアニメーション終了時のcallback]]></title>
@@ -869,59 +895,6 @@ true
 <p>changeはajaxでデータをとってきたときと、popstateイベント（ブラウザの戻るとか進むボタンを押したときに発火する）が発火したときに呼ばれます。ここにajaxでとってきたデータが渡ってくるので好きなようにページを書き変えます。</p>
 
 <p>リンクを押すと遷移なしでコンテンツが切り替わってURLが変わるのがわかると思います。URLが変わった状態でリロードしてもHTMLは存在してるので問題ありません。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[TitaniumでiPhoneアプリを申請に出すときのフロー]]></title>
-    <link href="http://webtech-walker.com/archive/2011/02/22130853.html"/>
-    <updated>2011-02-22T00:00:00+09:00</updated>
-    <id>http://webtech-walker.com/archive/2011/02/22130853</id>
-    <content type="html"><![CDATA[<p>アプリ申請始めてで色々細かいところで色々はまったのでメモ。</p>
-
-<h2 id="provisioning-profile">Provisioning Profileをつくる</h2>
-
-<p>まずProvisioning Profileをつくります。以下の記事が参考になると思います。</p>
-
-<p><a href="http://gihyo.jp/dev/serial/01/iphone/0010?page=3">目指せ！iPhoneアプリ開発エキスパート：第10回　App Storeでアプリを公開｜gihyo.jp … 技術評論社</a></p>
-
-<p>まずはまったのが、ここでDistributionのタブがでなかったこと。これはアカウントのRoleがAgentの人じゃないとでないみたいです。僕のRoleはAdminでしたorz</p>
-
-<p>AgentのアカウントでProvisioning ProfileつくったらそれをTitaniumに登録します。以下のSelect Provisioning ProfileというところにダウンロードしたProvisioning Profileを設定します。</p>
-
-<p><img src="/img/posts/2011-02-22-22130853/titanium_distribute_01.png" alt="Titaniumの登録画面" /></p>
-
-<p>ここで気になるのがSelect Distribution Locationという入力欄なんですけど、以下のような記事を見つけました。</p>
-
-<p><a href="http://developer.appcelerator.com/blog/2010/07/ios-package-for-distribution-with-1-4.html">iOS package for distribution with 1.4+ « Appcelerator Developer Center</a></p>
-
-<p>なんかこの欄は今使ってねーよってことらしい。けどなんか入力しろと。入力する値はなんでもいいみたいです。</p>
-
-<h2 id="section">パッケージングする</h2>
-
-<p>Provisioning ProfileをTitaniumに登録したらpackageというボタンを押せば申請用にビルドしてくれます。ビルドで失敗したときはpath/to/app/iphone/build/iphone/build/build.logにログがでてるのここを見るといいです。僕は何回かエラーでたんですけどTianium再起動で直ったりしました。</p>
-
-<p>無事終わったら以下のようにXCodeのオーガナイザが立ち上がります。</p>
-
-<p><img src="/img/posts/2011-02-22-22130853/titanium_distribute_02.png" alt="オーガナイザ" /></p>
-
-<p>ここではValidateとかsubmitしてもまだ何にもならないのでとりあえずこれはこのまま放置で次にいきます。 （申請した後キャプチャとったのでStatusがSubmitedになってますけど、この時点ではなってないです）</p>
-
-<h2 id="itunes-connect">iTunes Connectにアプリを登録</h2>
-
-<p><a href="https://itunesconnect.apple.com/">iTunes Connect</a>にアプリを登録します。ここでアプリの値段とかApp Storeにでてくる詳細情報とかスクリーンショットとか登録できます。</p>
-
-<p>アプリを登録したらStatusのところがPrepare for Uploadになっていると思うので、あとはアプリをアップするのみです。</p>
-
-<h2 id="section-1">アプリをアップする</h2>
-
-<p>なんかここでApplication Loader.appというのを使ってアップしないといけないというのを見たのでApplication Loader.app使ってアップしようとしたんですけど、どうやってもエラーになってアップできなくて、zip圧縮しないといけないとかいう情報に惑わされて色々はまったんですけど、そういえば放置してたオーガナイザはどうすればいいんだろうと思ってオーガナイザからValidateとSubmitしたら無事アップされました。</p>
-
-<p><img src="/img/posts/2011-02-22-22130853/titanium_distribute_03.png" alt="StatusがWaiting For Reviewになってる" /></p>
-
-<p>StatusがWaiting For Reviewになってる！</p>
-
-<p>というわけで今申請待ち中です。</p>
 ]]></content>
   </entry>
   

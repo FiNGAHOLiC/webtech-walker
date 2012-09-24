@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<title>jQueryでアニメーション終了時のcallback - Webtech Walker</title>
+<title>gitで差分ファイルを抽出する - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
 <link rel="stylesheet" href="/css/style.css">
@@ -34,48 +34,35 @@
  
 <article>
 
-<time datetime="2012-09-23T00:00:00+09:00" pubdate>2012月09月23日</time>
+<time datetime="2012-09-24T00:00:00+09:00" pubdate>2012月09月24日</time>
 
 <ul class="tags">
   
-    <li><a href="/tags/jQuery.html">jQuery</a></li>
-  
-    <li><a href="/tags/JavaScript.html">JavaScript</a></li>
+    <li><a href="/tags/git.html">git</a></li>
   
 </ul>
 
-<h1>jQueryでアニメーション終了時のcallback</h1>
+<h1>gitで差分ファイルを抽出する</h1>
 
 <div class="body">
-<p>jQueryでfadeOutとかのアニメーションして終わったらなんかするといったときにcallback関数を引数に指定するのとDeferred使う方法があるんだけどこの二つは挙動が違う。</p>
+<p>変更したファイルだけまとめて取り出したいというケースがけっこうあるみたいなんで書いてみた。</p>
 
-<p>こういうHTMLがあったとして</p>
+<p><a href="https://gist.github.com/3764870">gitの差分のファイルをつくる — Gist</a></p>
 
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;div&gt;</span>foo<span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;div&gt;</span>bar<span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;div&gt;</span>baz<span class="nt">&lt;/div&gt;</span>
+<p>こいつをパスが通ってるところに置いて実行権限つけたら</p>
+
+<pre><code>$ git export-diff &lt;commit&gt; &lt;output_dir&gt;
 </code></pre>
-</div>
 
-<p>まず以下のようなcallback関数の場合はそれぞれのfadeOutが終わるごとに呼ばれる。</p>
+<p>こんな感じで実行すると<code>&lt;commit&gt;</code>からHEADまでの差分ファイルを<code>&lt;output_dir&gt;</code>にコピーする。<code>&lt;commit&gt;</code>の部分は<code>git diff</code>と同じ物が使えるので</p>
 
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;fin&#39;</span><span class="p">);</span>
-<span class="p">});</span>
+<pre><code>$ git export-diff HEAD^^^ path/to/dir
+$ git export-diff HEAD^^^..HEAD^ path/to/dir
+$ git export-diff &lt;sha1&gt; &lt;sha1&gt; path/to/dir
+$ git export-diff &lt;sha1&gt;..&lt;sha1&gt; path/to/dir
 </code></pre>
-</div>
 
-<p>つまり<code>'fin'</code>が3回出力される。</p>
-
-<p>一方Deferredを使った場合はこんな感じ。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">.</span><span class="nx">promise</span><span class="p">().</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;fin&#39;</span><span class="p">);</span>
-<span class="p">});</span>
-</code></pre>
-</div>
-
-<p><code>.promise()</code>がDeferredオブジェクトを返すので<code>.done</code>に設定した関数がアニメーション終了時に呼ばれる。こっちは全てのアニメーションが終わった時点で呼ばれるので<code>'fin'</code>は一回しか呼ばれない。という違いがあるみたい。</p>
+<p>みたいな感じでもOK。</p>
 
 </div>
 </article>
@@ -118,10 +105,8 @@
 
 <ul class="paginate">
 
-  <li class="prev"><span>Prev Entry:</span><a href="/archive/2012/09/resque_heroku.html">HerokuでResqueを使うときに優雅に再起動する</a></li>
+  <li class="prev"><span>Prev Entry:</span><a href="/archive/2012/09/jquery_animate_callback.html">jQueryでアニメーション終了時のcallback</a></li>
 
-
-  <li class="next"><span>Next Entry:</span><a href="/archive/2012/09/git_export_diff.html">gitで差分ファイルを抽出する</a></li>
 
 </ul>
 
