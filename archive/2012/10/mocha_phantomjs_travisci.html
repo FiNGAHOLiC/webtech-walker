@@ -122,6 +122,20 @@
 
 <p><a href="https://github.com/hokaccha/mocha-phantom-travis-test/tree/master/test/lib">mocha-phantom-travis-test/test/lib</a></p>
 
+<p>そして<code>mocha.run()</code>を実行するところを次のように書きます。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">mochaPhantomJS</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">mochaPhantomJS</span><span class="p">.</span><span class="nx">run</span><span class="p">();</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">mocha</span><span class="p">.</span><span class="nx">run</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<p>phantomJSから呼ぶ場合は<code>mochaPhantomJS.run()</code>で実行、そうでない場合は通常の<code>mocha.run()</code>でテストを実行するようにしています。</p>
+
 <p>これで以下のようにするとmochaのテストをコマンドラインから実行できます。</p>
 
 <pre><code>$ phantomjs test/lib/mocha-phantomjs.coffee test/index.html
