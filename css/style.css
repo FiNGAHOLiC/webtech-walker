@@ -404,7 +404,8 @@ body {
       }
   */ }
   .mod-entry .body img {
-    max-width: 100%; }
+    max-width: 100%;
+    height: auto; }
   .mod-entry .body a {
     word-wrap: break-word; }
   .mod-entry .body h2 {
@@ -482,6 +483,8 @@ body {
   .mod-entry .body figure {
     display: block;
     text-align: center; }
+  .mod-entry .body figcaption {
+    display: block; }
   .mod-entry .body .caption {
     font-size: 13px;
     color: #666;
