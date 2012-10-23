@@ -4,12 +4,127 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2012-10-23T13:31:58+09:00</updated>
+  <updated>2012-10-23T15:03:43+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[mochaとphantomJSとtravis-ciでフロントエンドJavaScriptのテスト]]></title>
+    <link href="http://webtech-walker.com/archive/2012/10/mocha_phantomjs_travisci.html"/>
+    <updated>2012-10-23T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2012/10/mocha_phantomjs_travisci</id>
+    <content type="html"><![CDATA[<p><a href="http://atnd.org/events/33022">東京Node学園祭2012 アドベントカレンダー</a>の9日目です。Node.jsとほとんど関係ないうえに内容がけっこう薄い感じなった気がするんですけど気にせずいこうと思います。</p>
+
+<p>フロントエンドのJavaScriptをテストするとき最近はいつもmochaを使ってるんですが、やはりJenkinsとかtravis-ciを使って自動テストもしたいと思って試してみました。</p>
+
+<p><a href="https://github.com/hokaccha/mocha-phantom-travis-test">hokaccha/mocha-phantom-travis-test</a></p>
+
+<p>ここではよくあるjQueryで画像のロールオーバーをするというプラグインを作ってそのライブラリに対してテストを書いています。ソースコードはこんな感じです。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">rollover</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">$img</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">src</span> <span class="o">=</span> <span class="nx">$img</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">src_on</span> <span class="o">=</span> <span class="nx">src</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/_off\.(\w+)$/</span><span class="p">,</span> <span class="s1">&#39;_on.$1&#39;</span><span class="p">);</span>
+
+    <span class="nx">$img</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;mouseenter&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">$img</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">,</span> <span class="nx">src_on</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="nx">$img</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;mouseleave&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">$img</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">,</span> <span class="nx">src</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<p>画像名に<code>_off</code>という文字列がある場合にマウスオーバーで<code>_on</code>に切り替えるといういたって普通のロールオーバーのプラグインです。こんな感じで動きます。</p>
+
+<p><a href="http://hokaccha.github.com/mocha-phantom-travis-test/example/">rollover sample</a></p>
+
+<p>このプラグインに対してmochaでテストを書くとこのようになります。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;jquery.rollover&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">$img</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">off</span> <span class="o">=</span> <span class="s1">&#39;../example/menu01_off.png&#39;</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">on</span> <span class="o">=</span> <span class="s1">&#39;../example/menu01_on.png&#39;</span><span class="p">;</span>
+
+  <span class="nx">beforeEach</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">$img</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;&lt;img&gt;&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">,</span> <span class="nx">off</span><span class="p">).</span><span class="nx">rollover</span><span class="p">();</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">$img</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">)).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">(</span><span class="nx">off</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;mouseenterで_offが_onになること&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">$img</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="s1">&#39;mouseenter&#39;</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">$img</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">)).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">(</span><span class="nx">on</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;mouseleaveで_onが_offになること&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">$img</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="s1">&#39;mouseenter&#39;</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">$img</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">)).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">(</span><span class="nx">on</span><span class="p">);</span>
+
+    <span class="nx">$img</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="s1">&#39;mouseleave&#39;</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">$img</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">)).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">(</span><span class="nx">off</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>ブラウザでテストを実行するとこんな感じになります。</p>
+
+<p><a href="http://hokaccha.github.com/mocha-phantom-travis-test/test/">Test | jquery.rollover</a></p>
+
+<p>このテストをphantomJSで実行できるようにします。mochaのテストをphantomJSで実行できるようにするのに<a href="https://github.com/metaskills/mocha-phantomjs">mocha-phantomjs</a>というのものがあります。mochaはreporterにspecやtapを指定してブラウザで実行した場合<code>console.log</code>で出力するのでphantomJSの<code>onConsoleMessage</code>とか使えば簡単に書けそうだったので自分で書いてみようと思ったんですけど予想以上に面倒なことが多かったのでおとなしくこのライブラリをつかうことにしました。</p>
+
+<p>mocha-phantomjsをnpmでインストールするようにしてもいいんですが、フロントエンドのコードしかないプロジェクトにnodeとかnpmの依存が入るのはどうかと思ったので必要なファイルだけもってきて設置しました。必要なのは以下の2ファイルです。</p>
+
+<ul>
+  <li><a href="https://github.com/metaskills/mocha-phantomjs/blob/master/lib/mocha-phantomjs.coffee">lib/mocha-phantomjs.coffee</a></li>
+  <li><a href="https://github.com/metaskills/mocha-phantomjs/blob/master/lib/mocha-phantomjs/core_extensions.js">lib/mocha-phantomjs/core_extensions.js</a></li>
+</ul>
+
+<p>どこに置いてもいいんですが、今回の例ではtest/libディレクトリに設置しています。</p>
+
+<p><a href="https://github.com/hokaccha/mocha-phantom-travis-test/tree/master/test/lib">mocha-phantom-travis-test/test/lib</a></p>
+
+<p>これで以下のようにするとmochaのテストをコマンドラインから実行できます。</p>
+
+<pre><code>$ phantomjs test/lib/mocha-phantomjs.coffee test/index.html
+
+  jquery.rollover
+    ✓ mouseenterで_offが_onになること 
+    ✓ mouseleaveで_onが_offになること 
+
+
+  ✔ 2 tests complete (21 ms)
+</code></pre>
+
+<p>ファイル名の後にreporterを指定することもできるので結果を<code>tap</code>で出力することもできます。デフォルトは<code>spec</code>です。</p>
+
+<p>最後にtravis-ciの設定ですが、travis-ciはphantomJSをサポートしているので、.travis.ymlにその設定を以下のように書くだけです。</p>
+
+<pre><code>script: phantomjs test/lib/mocha-phantomjs.coffee test/index.html
+</code></pre>
+
+<p>これでtravis-ciのほうでこのリポジトリを追加してpushしたら自動でテストが走るようになります。簡単すぎワロタ。</p>
+
+<p>以下が結果です。</p>
+
+<p><a href="https://travis-ci.org/#!/hokaccha/mocha-phantom-travis-test/builds/2862206">hokaccha/mocha-phantom-travis-test #1 | Travis CI</a></p>
+
+<p>以下はわざとコケるようにしてみたテストの結果です。</p>
+
+<p><a href="https://travis-ci.org/#!/hokaccha/mocha-phantom-travis-test/builds/2862214">hokaccha/mocha-phantom-travis-test #2 | Travis CI</a></p>
+
+<p>このようにtravis-ciを使うと簡単に自動テストできますが、phantomJSでテストできるところまでいけばあとはJenkinsでも同じようにできるはずです。</p>
+
+<p>便利な世の中になったものだと思いました。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[「ノンプログラマのための JavaScriptはじめの一歩」という本を書きました]]></title>
@@ -839,62 +954,6 @@ $ ./adb -s &lt;serial number&gt; logcat
 <p>iScrollみたいに多機能じゃないけどまあこれだけ使いたいっていうこと結構あるので割といいんじゃないかと。TODOはとりあえずドキュメント。</p>
 
 <p><ins>追記（2012/02/04）：クロスブラウザに対応しました。</ins></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[PhantomJS入れてみた]]></title>
-    <link href="http://webtech-walker.com/archive/2011/03/09102820.html"/>
-    <updated>2011-03-09T00:00:00+09:00</updated>
-    <id>http://webtech-walker.com/archive/2011/03/09102820</id>
-    <content type="html"><![CDATA[<p>昨日shibuya.jsいって、PhantomJSが熱そうだったので入れてみました。PhantomJSはQtWebkitを使ってコマンドラインからGUIが存在しないブラウザを動かすもので、これを使えばJavaScriptのテストを手軽にコマンドラインから動かすことができます。実際にWebkitで動くのでCanvasでもAjaxでもなんでもいけるという優れもの。</p>
-
-<h2 id="section">インストール</h2>
-
-<p>インストールは以下にのってるのでこの通りにやってさくっと終了。とくにはまりどころなし。</p>
-
-<p><a href="http://code.google.com/p/phantomjs/wiki/BuildInstructions#Mac_OS_X">http://code.google.com/p/phantomjs/wiki/BuildInstructions#Mac_OS_X</a></p>
-
-<h2 id="section-1">テストしてみる</h2>
-
-<p>こういうファイルを用意して</p>
-
-<h3 id="testhtml">test.html</h3>
-
-<div class="highlight"><pre><code class="html"><span class="cp">&lt;!DOCTYPE html&gt;</span>
-<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;ja&quot;</span><span class="nt">&gt;</span>
-<span class="nt">&lt;head&gt;</span>
-<span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
-<span class="nt">&lt;title&gt;</span>test<span class="nt">&lt;/title&gt;</span>
-<span class="nt">&lt;/head&gt;</span>
-<span class="nt">&lt;body&gt;</span>
-<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;hoge&quot;</span><span class="nt">&gt;</span>hogehoge<span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;/body&gt;</span>
-<span class="nt">&lt;/html&gt;</span>
-</code></pre>
-</div>
-
-<h3 id="testjs">test.js</h3>
-
-<div class="highlight"><pre><code class="javascript"><span class="k">if</span> <span class="p">(</span><span class="nx">phantom</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">phantom</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="s1">&#39;checking&#39;</span><span class="p">;</span>
-    <span class="nx">phantom</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s1">&#39;./test.html&#39;</span><span class="p">);</span>
-<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">hoge</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;hoge&#39;</span><span class="p">);</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">hoge</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">===</span> <span class="s1">&#39;hogehoge&#39;</span> <span class="p">);</span>
-    <span class="nx">phantom</span><span class="p">.</span><span class="nx">exit</span><span class="p">();</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<h3 id="phantomjs">phantomjsで実行</h3>
-
-<pre><code>$ phantomjs test.js
-true
-</code></pre>
-
-<p>と出力されました。すごー。env.jsとか色々あるけどこれは実際にWebkitが動いてるのでDOMをエミュレートするライブラリよりは信頼できそうだしよさげかもですね。</p>
-
 ]]></content>
   </entry>
   
