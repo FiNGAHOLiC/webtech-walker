@@ -4,12 +4,56 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2012-09-24T22:51:15+09:00</updated>
+  <updated>2012-10-23T12:26:26+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[「ノンプログラマのための JavaScriptはじめの一歩」という本を書きました]]></title>
+    <link href="http://webtech-walker.com/archive/2012/10/jsippo.html"/>
+    <updated>2012-10-23T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2012/10/jsippo</id>
+    <content type="html"><![CDATA[<figure>
+  <a href="http://amazon.jp/dp/4774153761">
+  <img src="/img/posts/2012-10-23-jsippo/cover.png" alt="ノンプログラマのための JavaScriptはじめの一歩" width="400" height="568" />
+  <figcaption>Amazon.co.jp： ノンプログラマのための JavaScriptはじめの一歩</figcaption>
+  </a>
+</figure>
+
+<p>2012/11/7に発売予定です。ハッシュタグは<a href="https://twitter.com/search/realtime?q=%23jsippo">#jsippo</a>なのでみなさんどうぞふるってツイートしてください。</p>
+
+<h2 id="section">想定している対象</h2>
+
+<p>タイトルからもわかるように、デザイナやマークアップエンジニアなどをやっていてプログラムはほとんどわからないというくらいの読者を想定しています。</p>
+
+<p>なので普段JavaScriptを書いている人や、他の言語をやっていて、JavaScriptを学んでみようと思っているような方にはもの足りない内容だと思います。そういう人は<a href="http://www.amazon.co.jp/gp/product/4873115736?ie=UTF8&amp;camp=1207&amp;creative=8411&amp;creativeASIN=4873115736&amp;linkCode=shr&amp;tag=webtech00-22">サイ本</a>とか<a href="http://www.amazon.co.jp/gp/product/477414813X?ie=UTF8&amp;camp=1207&amp;creative=8411&amp;creativeASIN=477414813X&amp;linkCode=shr&amp;tag=webtech00-22&amp;=books&amp;qid=1350202385&amp;sr=1-1">パーフェクトJavaScript</a>を読みましょう。</p>
+
+<p>何を書いて何を書かないかというところの線引に苦労しました。たとえば変数のスコープやprototypeなどはJavaScriptを学ぶ上では避けて通れませんが、そこは敢えて説明を省いています。初めてプログラムを学ぶときにスコープがどうとか言われてもわからないので、そこを学ぶのは二歩目、三歩目からで十分だと思ったからです。でもこれを説明しないとアレが説明できないし・・みたいな葛藤もけっこうありました。</p>
+
+<h2 id="section-1">特徴</h2>
+
+<p>この書籍でおそらく一番特徴的なのは一つのサンプルプログラムを、一冊を通して解説するということです。そのプログラムは簡単なものでボタンを押すと予め用意しといた数枚の画像が切り替わる、簡易的なスライショーのプログラムです。</p>
+
+<p>なぜこのような構成にしたかというと、ある機能を解説したとき、実際のプログラムでどのようにそれが使われるかがわかると、より深く理解ができると思ったからです。</p>
+
+<p>例えば「配列」というものを学んだ時に、配列がどういうものかなんとなくわかっても、それを使うと何がいいのか、実際のプログラムではどのように利用すればいいのかというところまで理解してほしいと思いました。なので、「配列」というものの解説をした後、実際にスライドショーのどこでどのように使われているかを解説しています。</p>
+
+<p>初学者向けなので、配列をつくるときに「どう書くか」はもちろん解説しますが、「どう使うか」というのをできるだけ感じてもらう配慮をしたつもりです。</p>
+
+<p>これまでこのような構成の本は見たことがないので（知らないだけかもしれないけど）、もしかしたら逆にわかりにくくなっているのではないかという不安もありますが、他にあまりない構成にできたし、うまくまとめられたと思うのでよかったと思っています。</p>
+
+<p>スライドショーのプログラムはjQueryを使わず書いていますが、実務で使うときにjQueryは避けて通れないので最後にjQueryについて解説し、スライドショーのプログラムをjQueryで書きなおしてブラッシュアップするという構成になっています。</p>
+
+<h2 id="section-2">イベント告知</h2>
+
+<p>出版記念イベントとしてジュンク堂さんで<a href="http://twitter.com/takazudo">@takazudo</a>さんと「ノンプログラマがJavaScriptを 学んでいくにはどうすればいいのか」というテーマでトークセッションします。興味があるかたはぜひご参加ください。</p>
+
+<p><a href="http://www.junkudo.co.jp/tenpo/evtalk.html#20121122_talk">http://www.junkudo.co.jp/tenpo/evtalk.html#20121122_talk</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[gitで差分ファイルを抽出する]]></title>
@@ -851,50 +895,6 @@ true
 
 <p>と出力されました。すごー。env.jsとか色々あるけどこれは実際にWebkitが動いてるのでDOMをエミュレートするライブラリよりは信頼できそうだしよさげかもですね。</p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[history.pushStateでページ遷移するjQueryプラグイン書いた]]></title>
-    <link href="http://webtech-walker.com/archive/2011/02/23184428.html"/>
-    <updated>2011-02-23T00:00:00+09:00</updated>
-    <id>http://webtech-walker.com/archive/2011/02/23184428</id>
-    <content type="html"><![CDATA[<p>history.pushStateでのページ遷移をやりやすくするためにjQueryのプラグインとしてjquery.smarthistory.jsというのを書いてみました。</p>
-
-<p><a href="https://gist.github.com/840151">jquery.smarthistory.js</a></p>
-
-<p>history.pushStateをサポートしてるブラウザではhistory.pushStateを使って、サポートしてないブラウザでは何もしません（普通に遷移する）。今だとchrome、safari、iOS、Firefox4で動くと思います。</p>
-
-<p>こんな感じで使います。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">smarthistory</span><span class="p">({</span>
-    <span class="nx">defaultData</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;html&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(),</span>
-    <span class="nx">target</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
-    <span class="p">},</span>
-    <span class="nx">before</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-        <span class="c1">// ajax前の処理</span>
-    <span class="p">},</span>
-    <span class="nx">change</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">html</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.content&#39;</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">(</span><span class="s1">&#39;fast&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-            <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span> <span class="nx">$</span><span class="p">(</span><span class="nx">html</span><span class="p">).</span><span class="nx">filter</span><span class="p">(</span><span class="s1">&#39;.content&#39;</span><span class="p">)</span> <span class="p">).</span><span class="nx">fadeIn</span><span class="p">();</span>
-        <span class="p">});</span>
-    <span class="p">}</span>
-<span class="p">});</span>
-</code></pre>
-</div>
-
-<p><a href="/sample/2011-02-23-23184428/index1.html">DEMO</a></p>
-
-<p>defaultDataには初期表示されるページのデータを設定します。これを指定しないといけないのは、戻るボタンで最初のページに戻ったときデータないという状態になってしまうからです。次のページからはajaxでとってきたデータをpushStateするときに保存するんですけど、最初のページだけはそのデータがないのです。ここの実装がけっこういけてない感じなのでどうにかしたいです。</p>
-
-<p>targetにajaxでとってくるファイルを指定します。hrefで指定したHTMLじゃなくてjsonとかとってきたいこともあると思うのでこんな感じで指定できるようにしています。</p>
-
-<p>beforeはajaxの前に走る処理です。loadingとか使うときにはここでloadingの処理を開始します。</p>
-
-<p>changeはajaxでデータをとってきたときと、popstateイベント（ブラウザの戻るとか進むボタンを押したときに発火する）が発火したときに呼ばれます。ここにajaxでとってきたデータが渡ってくるので好きなようにページを書き変えます。</p>
-
-<p>リンクを押すと遷移なしでコンテンツが切り替わってURLが変わるのがわかると思います。URLが変わった状態でリロードしてもHTMLは存在してるので問題ありません。</p>
 ]]></content>
   </entry>
   

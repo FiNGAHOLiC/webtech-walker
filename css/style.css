@@ -479,6 +479,9 @@ body {
   .mod-entry .body dd {
     padding-left: 15px;
     margin-bottom: 10px; }
+  .mod-entry .body figure {
+    display: block;
+    text-align: center; }
   .mod-entry .body .caption {
     font-size: 13px;
     color: #666;
