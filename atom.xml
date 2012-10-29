@@ -4,12 +4,71 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2012-10-24T09:39:47+09:00</updated>
+  <updated>2012-10-29T12:38:35+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[lessのextendがexperimentalなブランチにマージされたようです]]></title>
+    <link href="http://webtech-walker.com/archive/2012/10/less_extend_experimental.html"/>
+    <updated>2012-10-29T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2012/10/less_extend_experimental</id>
+    <content type="html"><![CDATA[<p>一年くらい前に僕がpull requestしたSassのextendみたいな機能をlessにも実装するってやつが実験的なブランチにマージされたっぽい。</p>
+
+<p><a href="https://github.com/cloudhead/less.js/pull/509">Add Sass like extend by hokaccha · Pull Request #509 · cloudhead/less.js</a><br />
+<a href="https://github.com/cloudhead/less.js/tree/1_4_0">cloudhead/less.js at 1_4_0</a></p>
+
+<p>シンタックスが<code>+</code>は隣接セレクタと間違えそうだからってことで<code>++</code>になってる。</p>
+
+<p>こんな感じのlessファイルをコンパイルすると</p>
+
+<div class="highlight"><pre><code class="css"><span class="nc">.foo</span> <span class="p">{</span>
+  <span class="k">color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.bar</span> <span class="p">{</span>
+  <span class="o">++.</span><span class="n">foo</span><span class="p">;</span>
+  <span class="k">font-size</span><span class="o">:</span> <span class="m">13px</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>結果はこうなる。</p>
+
+<div class="highlight"><pre><code class="css"><span class="nc">.foo</span><span class="o">,</span>
+<span class="nc">.bar</span> <span class="p">{</span>
+  <span class="k">color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.bar</span> <span class="p">{</span>
+  <span class="k">font-size</span><span class="o">:</span> <span class="m">13px</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>npmはgithubからモジュールをインストールできて<code>#</code>以降にブランチ名を指定すれば特定のブランチのものを取ってくるので次のようにすれば試すことができる。</p>
+
+<pre><code>$ cd path/to/working_dir
+$ npm install git://github.com/cloudhead/less.js.git#1_4_0
+$ ./node_modules/.bin/lessc test.less
+.foo,
+.bar {
+  color: red;
+}
+.bar {
+  font-size: 13px;
+}
+</code></pre>
+
+<p>lessの作者のcloudheadさんがやる気なくしたのかなんなのか、まったくコミットしなくなってlessはもう終わりだみたいな感じに一時期なっていて、extendのやつも全く取り込まれる気配がなかったんだけど、最近では別の人が開発を引き継いで開発が進んでるようで、extendもそういう流れで取り込まれたみたい。</p>
+
+<p>masterにいつマージされるか（そもそもマージされるかどうか）はまだ未定だけど早く使えるようになるといいな。</p>
+
+<p>ちなみにそんな僕は最近Sass派。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[mochaとphantomJSとtravis-ciでフロントエンドJavaScriptのテスト]]></title>
@@ -947,27 +1006,6 @@ $ ./adb -s &lt;serial number&gt; logcat
 </div>
 
 <p>便利なり。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[flipsnap.jsというのを書いた]]></title>
-    <link href="http://webtech-walker.com/archive/2011/03/28205254.html"/>
-    <updated>2011-03-28T00:00:00+09:00</updated>
-    <id>http://webtech-walker.com/archive/2011/03/28205254</id>
-    <content type="html"><![CDATA[<p>最近タッチデバイスでスワイプしてスライドするようなUIを書く機会が多いので汎用的に使えるようにしてみた。</p>
-
-<p><a href="http://pxgrid.github.com/js-flipsnap/demo.html">DEMO</a></p>
-
-<p><a href="https://github.com/pxgrid/js-flipsnap">pxgrid/js-flipsnap - GitHub</a></p>
-
-<p>iScrollでもsnapっていう機能使うと同じようなことができるんだけど、iScrollでこれをやろうとするとこのスクロールが効いてるところはネイティブの縦スクロールが効かなくなるという問題があって、それを解決しようと思って最初はiScrollの内部をいじってたんだけど、ちょっとiScrollベースだとどうしても無理なところがあったのでこの機能だけ切り出してみたというわけ。</p>
-
-<p>一応Androidでも動いてるっぽい。</p>
-
-<p>iScrollみたいに多機能じゃないけどまあこれだけ使いたいっていうこと結構あるので割といいんじゃないかと。TODOはとりあえずドキュメント。</p>
-
-<p><ins>追記（2012/02/04）：クロスブラウザに対応しました。</ins></p>
 ]]></content>
   </entry>
   
