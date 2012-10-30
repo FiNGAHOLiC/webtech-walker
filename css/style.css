@@ -489,6 +489,8 @@ body {
     font-size: 13px;
     color: #666;
     display: block; }
+  .mod-entry .body .banner {
+    margin: 30px 0 10px; }
 .mod-entry .socials div {
   display: inline-block;
   vertical-align: top; }

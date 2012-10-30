@@ -111,6 +111,7 @@ http://ja.wikipedia.org/wiki/こえ部
 <pre><code>$ perl -MMIME::Lite -we '$m=MIME::Lite-&gt;new(To=&gt;$ARGV[0],Subject=&gt;"test",Type=&gt;"multipart/mixed");$m-&gt;attach(Type=&gt;"application/octet-stream",Encoding=&gt;"base64",Path=&gt;$ARGV[1]);$m-&gt;send;' to_mail_address path_to_file
 </code></pre>
 
+<div class="banner"><a href="http://www.codegrid.net/"><img src="/img/common/codegrid.png" width="425" height="60"></a></div>
 </div>
 </article>
 
