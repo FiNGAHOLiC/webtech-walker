@@ -4,12 +4,154 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2012-10-30T21:27:15+09:00</updated>
+  <updated>2012-10-31T14:10:37+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[「ノンプログラマのためのJavaScriptはじめの一歩」の1章が公開されました]]></title>
+    <link href="http://webtech-walker.com/archive/2012/10/jsippo_release_intro.html"/>
+    <updated>2012-10-31T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2012/10/jsippo_release_intro</id>
+    <content type="html"><![CDATA[<p>11/7発売予定の書籍「<a href="http://www.amazon.co.jp/dp/4774153761">ノンプログラマのためのJavaScriptはじめの一歩</a>」のはじめにと1章が先行して技評のWebサイトで公開されました。</p>
+
+<ul>
+  <li><a href="http://gihyo.jp/magazine/wdpress/plus/978-4-7741-5376-6/0001">はじめに</a></li>
+  <li><a href="http://gihyo.jp/magazine/wdpress/plus/978-4-7741-5376-6/0002">1章</a></li>
+</ul>
+
+<p>1章はイントロ的なところで、JavaScriptを学ぶ前にJavaScriptの動かし方やデバッグツールの使い方について解説しています。</p>
+
+<p>また、本書籍の2章以降で解説するスライドショーのサンプルプログラムも1章で登場するため公開されています。次のようにボタンを押すと次の画像に行くというだけの、簡単なサンプルプログラムです。</p>
+
+<figure>
+<iframe src="/sample/2012-10-31-jsippo_release_intro/index.html" width="650" height="550" frameborder="none" style="border: 1px solid #000; background: #FFF; margin: 0 auto;"></iframe>
+</figure>
+
+<p><a href="http://image.gihyo.co.jp/assets/files/book/2012/978-4-7741-5376-6/chapter1/1-5-1_slideshow-1/index.html">技評のWebサイト</a>からも実際に試すことができます。</p>
+
+<p>JavaScriptのソースはこんなかんじです。全体で90行程度、コメントや空行を除くと40行程度です。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="cm">/**</span>
+<span class="cm"> * 簡易スライドショー</span>
+<span class="cm"> *</span>
+<span class="cm"> * nextボタンを押したときに画像を切り替える簡単な</span>
+<span class="cm"> * スライドショーのサンプルプログラムです。</span>
+<span class="cm"> */</span>
+
+<span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="cm">/*============================</span>
+<span class="cm">     * 変数の定義</span>
+<span class="cm">     *===========================*/</span>
+
+    <span class="c1">// 写真のリストの定義</span>
+    <span class="kd">var</span> <span class="nx">photoList</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span> <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;img/spring.jpg&#39;</span><span class="p">,</span> <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;春の桜&#39;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;img/summer.jpg&#39;</span><span class="p">,</span> <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;夏のひまわり&#39;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;img/autumn.jpg&#39;</span><span class="p">,</span> <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;秋の紅葉&#39;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;img/winter.jpg&#39;</span><span class="p">,</span> <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;冬の山&#39;</span> <span class="p">}</span>
+    <span class="p">];</span>
+    <span class="kd">var</span> <span class="nx">photoLength</span> <span class="o">=</span> <span class="nx">photoList</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+
+    <span class="c1">// 要素の取得</span>
+    <span class="kd">var</span> <span class="nx">photo</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;photo&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">nextBtn</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;nextBtn&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">title</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">);</span>
+
+    <span class="c1">// 現在のインデックスを保存するための変数</span>
+    <span class="kd">var</span> <span class="nx">currentIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="cm">/*============================</span>
+<span class="cm">     * 関数の定義</span>
+<span class="cm">     *===========================*/</span>
+
+    <span class="c1">// 指定の写真に表示を切り替える関数</span>
+    <span class="kd">function</span> <span class="nx">showPhoto</span><span class="p">(</span><span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 全ての画像を非表示</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">photoLength</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">photoList</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 表示する対象の要素を取得</span>
+        <span class="kd">var</span> <span class="nx">targetPhoto</span> <span class="o">=</span> <span class="nx">photoList</span><span class="p">[</span><span class="nx">index</span><span class="p">];</span>
+
+        <span class="c1">// タイトルを表示</span>
+        <span class="kd">var</span> <span class="nx">viewNumber</span> <span class="o">=</span> <span class="nx">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="nx">title</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">&#39;[&#39;</span> <span class="o">+</span> <span class="nx">viewNumber</span> <span class="o">+</span> <span class="s1">&#39;] &#39;</span> <span class="o">+</span> <span class="nx">targetPhoto</span><span class="p">.</span><span class="nx">title</span><span class="p">;</span>
+
+        <span class="c1">// 画像を表示</span>
+        <span class="nx">targetPhoto</span><span class="p">.</span><span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">&#39;inline&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cm">/*============================</span>
+<span class="cm">     * イベントの設定</span>
+<span class="cm">     *===========================*/</span>
+
+    <span class="c1">// nextボタンのイベントを設定</span>
+    <span class="nx">nextBtn</span><span class="p">.</span><span class="nx">onclick</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// 表示するインデックスを計算</span>
+        <span class="nx">currentIndex</span><span class="o">++</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">currentIndex</span> <span class="o">===</span> <span class="nx">photoLength</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">currentIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 画像を切り替える</span>
+        <span class="nx">showPhoto</span><span class="p">(</span><span class="nx">currentIndex</span><span class="p">);</span>
+    <span class="p">};</span>
+
+    <span class="cm">/*============================</span>
+<span class="cm">     * 初期化処理</span>
+<span class="cm">     *===========================*/</span>
+
+    <span class="c1">// img要素をHTMLに追加</span>
+    <span class="kd">var</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">img</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">photoLength</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">item</span> <span class="o">=</span> <span class="nx">photoList</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+
+        <span class="c1">// img要素を作成</span>
+        <span class="nx">img</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;img&#39;</span><span class="p">);</span>
+
+        <span class="c1">// 作成したimg要素に属性を設定</span>
+        <span class="nx">img</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">item</span><span class="p">.</span><span class="nx">src</span><span class="p">;</span>
+        <span class="nx">img</span><span class="p">.</span><span class="nx">alt</span> <span class="o">=</span> <span class="nx">item</span><span class="p">.</span><span class="nx">title</span><span class="p">;</span>
+
+        <span class="c1">// 作成したimg要素をHTMLに追加</span>
+        <span class="nx">photo</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">img</span><span class="p">);</span>
+
+        <span class="c1">// 作成したimg要素を保存</span>
+        <span class="nx">item</span><span class="p">.</span><span class="nx">elem</span> <span class="o">=</span> <span class="nx">img</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 初期表示のためにshowPhotoを一度だけ実行する</span>
+    <span class="nx">showPhoto</span><span class="p">(</span><span class="nx">currentIndex</span><span class="p">);</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<p>見る人が見れば突っ込みどころもあるとは思いますが、ひとつのサンプルにループや分岐や関数、イベントやDOM操作など、できるだけ詰め込んで何度もリライトした結果こうなっています。</p>
+
+<p>本書籍ではこのサンプルプログラムを完全に理解することを一つの目標にしています。</p>
+
+<p>2章と3章ではJavaScriptの文法やDOMの基本を解説するのですが、文法や機能を解説するごとに、このプログラムのどこでそれが使われているかを確認し、実際にどのように使われるかを解説したり、どこまでサンプルプログラムを理解できたかと細かく振り返ります。</p>
+
+<p>そして4章ではこのプログラムの流れを解説しながら「読む」ということと、どのようにして一からこのプログラムを「書く」かという二つの視点からプログラムの全体像について解説します。</p>
+
+<p>最後に5章でjQueryについて解説してこのスライドショーをjQueryでも書いてみて、アニメーションなどの機能を付け加えた、より実践的なプログラムにするというのが全体の構成です。</p>
+
+<p>もし1章とサンプルプログラムを見て興味を持った方は購入をご検討ください！</p>
+
+<figure>
+  <a href="http://amazon.jp/dp/4774153761">
+  <img src="/img/posts/2012-10-23-jsippo/cover.png" alt="ノンプログラマのための JavaScriptはじめの一歩" width="400" height="568" />
+  <figcaption>Amazon.co.jp： ノンプログラマのための JavaScriptはじめの一歩</figcaption>
+  </a>
+</figure>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[lessのextendがexperimentalなブランチにマージされたようです]]></title>
@@ -977,35 +1119,6 @@ $ ./adb -s &lt;serial number&gt; logcat
 <p>解決方法知ってる人がいたら教えてほしい。</p>
 
 <p><ins>追記：letter-spacing: -0.001em; で直るっぽい</ins></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[JSDeferredのparallelとwaitで最低遅延時間を設定する]]></title>
-    <link href="http://webtech-walker.com/archive/2011/03/30165920.html"/>
-    <updated>2011-03-30T00:00:00+09:00</updated>
-    <id>http://webtech-walker.com/archive/2011/03/30165920</id>
-    <content type="html"><![CDATA[<p>Ajaxでデータとってくる間にローディングいれるとき、場合によっては処理が一瞬で終わって逆にローディングがチカっとしてうざいので最低でも1秒はローディング出すって処理を最近だとJSDeferred使ってこんな感じで書いてる。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">loading</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span>
-<span class="nx">Deferred</span><span class="p">.</span><span class="nx">parallel</span><span class="p">([</span>
-    <span class="nx">Deferred</span><span class="p">.</span><span class="nx">wait</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
-    <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="nx">Deferred</span><span class="p">();</span>
-        <span class="nx">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;hoge&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-            <span class="c1">// 何か処理</span>
-            <span class="nx">d</span><span class="p">.</span><span class="nx">call</span><span class="p">();</span>
-        <span class="p">});</span>
-        <span class="k">return</span> <span class="nx">d</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">])</span>
-<span class="p">.</span><span class="nx">next</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">loading</span><span class="p">.</span><span class="nx">hide</span><span class="p">();</span>
-<span class="p">});</span>
-</code></pre>
-</div>
-
-<p>便利なり。</p>
 ]]></content>
   </entry>
   
