@@ -4,12 +4,39 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2012-10-31T14:23:12+09:00</updated>
+  <updated>2012-11-01T14:53:36+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Advent Calendarの登録サイトつくりました]]></title>
+    <link href="http://webtech-walker.com/archive/2012/11/adventar.html"/>
+    <updated>2012-11-01T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2012/11/adventar</id>
+    <content type="html"><![CDATA[<p>もうすぐAdvent Calendarの季節なわけですが、いかがお過ごしてしょうか。僕も毎年なんらかのAdvent Calendarに参加したり、去年はSass Less Advent Calendarなどを立てたりしました。</p>
+
+<p>最近はけっこうATNDでAdvent Calendarを募集することが多いみたいなんですが、ATNDは何日に書くことになるのかわかりにくく、順番も決めづらいなどAdvent Calendarの募集には向いてないと個人的には思ってたので、Advent Calendarの登録サイトを作ってみました。</p>
+
+<p><a href="http://www.adventar.org/">Adventar</a></p>
+
+<p>任意の日付にボタン一つで登録できるのでATNDよりは簡単でいいかなと思います。</p>
+
+<p>思いついて特急で作ったんでバグってるところとかつかいにくいとことがあると思いますけどちょいちょい直していく予定です。</p>
+
+<ul>
+  <li>エントリー公開後にタイトルとURLを入力できるようにする</li>
+  <li>GoogleカレンダーとかiCalでカレンダーの予定を読めるようにする</li>
+  <li>デザインとか使い勝手調整</li>
+</ul>
+
+<p>などはやろうと思ってます。</p>
+
+<p>ちなみにフレームワークにはRailsを使っていてサーバーには<a href="http://sqale.jp/">Sqale</a>を使ってます。Sqaleはちょうど試してみようと思ってたところにこの前のYAPCで3ヶ月無料クーポンもらったんでラッキーでした。サーバーの設定初めてから1時間くらいでデプロイできたんで超簡単でした。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[「ノンプログラマのためのJavaScriptはじめの一歩」の1章が公開されました]]></title>
@@ -1095,30 +1122,6 @@ $ ./adb -s &lt;serial number&gt; logcat
 <p>本家の元ネタはこちら。</p>
 
 <p><a href="http://hail2u.net/blog/software/vim-css3-syntax.html">VimのCSS3シンタックス・ファイルみたいな何か - Weblog - hail2u.net</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOSのSafariで特定のfont-sizeのときの謎の隙間]]></title>
-    <link href="http://webtech-walker.com/archive/2011/03/30190850.html"/>
-    <updated>2011-03-30T00:00:00+09:00</updated>
-    <id>http://webtech-walker.com/archive/2011/03/30190850</id>
-    <content type="html"><![CDATA[<p>iOSのSafariでなぜか特定のfont-size（11px、10px、9px）のときだけマルチバイトの幅計算がおかしいのか、折り返し位置がずれるという件。</p>
-
-<p><a href="/sample/2011-03-30-30190850/index.html">DEMO</a></p>
-
-<p>これをiPhoneで見るとこんな感じになる。</p>
-
-<p><img src="/img/posts/2011-03-30-30190850/screenshot01.png" alt="iPhoneでDEMOを見たときのキャプチャ1" />
-<img src="/img/posts/2011-03-30-30190850/screenshot02.png" alt="iPhoneでDEMOを見たときのキャプチャ2" /></p>
-
-<p>こんな感じ。11px、10px、9pxのときに右側に隙間が空いてるがわかると思います。これは特にpaddingとかとってるわけではなくて、このfont-sizeのときだけなぜか隙間が空くんです。8pxは大丈夫なので11px以下というわけではないみたい。さらにマルチバイトでなければ隙間はできない。謎。</p>
-
-<p>ちなみにiOS4.3でも直ってなかった。Androidは大丈夫。</p>
-
-<p>解決方法知ってる人がいたら教えてほしい。</p>
-
-<p><ins>追記：letter-spacing: -0.001em; で直るっぽい</ins></p>
 ]]></content>
   </entry>
   
