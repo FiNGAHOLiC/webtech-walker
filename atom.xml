@@ -4,7 +4,7 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2012-11-16T16:38:24+09:00</updated>
+  <updated>2012-11-16T16:39:42+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
@@ -13,9 +13,9 @@
   
   <entry>
     <title type="html"><![CDATA[flipsnap.jsでIE10のPointer Eventsに対応した]]></title>
-    <link href="http://webtech-walker.com/archive/2012/11/flipsnap_pointerevent.html"/>
+    <link href="http://webtech-walker.com/archive/2012/11/flipsnap_ie10_pointerevents.html"/>
     <updated>2012-11-16T00:00:00+09:00</updated>
-    <id>http://webtech-walker.com/archive/2012/11/flipsnap_pointerevent</id>
+    <id>http://webtech-walker.com/archive/2012/11/flipsnap_ie10_pointerevents</id>
     <content type="html"><![CDATA[<p>flipsnap.jsをWindows8のIE10のタッチで動くようにしました。</p>
 
 <p><a href="http://pxgrid.github.com/js-flipsnap/">flipsnap.js</a></p>
