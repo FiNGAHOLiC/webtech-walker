@@ -4,12 +4,86 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2012-11-01T14:53:36+09:00</updated>
+  <updated>2012-11-16T16:38:24+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[flipsnap.jsでIE10のPointer Eventsに対応した]]></title>
+    <link href="http://webtech-walker.com/archive/2012/11/flipsnap_pointerevent.html"/>
+    <updated>2012-11-16T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2012/11/flipsnap_pointerevent</id>
+    <content type="html"><![CDATA[<p>flipsnap.jsをWindows8のIE10のタッチで動くようにしました。</p>
+
+<p><a href="http://pxgrid.github.com/js-flipsnap/">flipsnap.js</a></p>
+
+<p>思ったより簡単に対応できました。diffはこんな感じ。</p>
+
+<p><a href="https://github.com/pxgrid/js-flipsnap/commit/0524fefdbd8e2b02625a00fada9e2d3f9c73b2ef">IE10 for touch device support. Fix #13 · 0524fef · pxgrid/js-flipsnap</a></p>
+
+<p>IE10はiOSやAndroidのように<code>touchstart</code>や<code>touchmove</code>のようなタッチイベントが用意されておらず、代わりにタッチした際に、pointerイベントというイベントが発火します。</p>
+
+<ul>
+  <li><a href="http://www.w3.org/Submission/pointer-events/">Pointer Events Specification</a></li>
+  <li><a href="http://blogs.msdn.com/b/ie/archive/2011/09/20/touch-input-for-ie10-and-metro-style-apps.aspx">Touch Input for IE10 and Metro style Apps - IEBlog - Site Home - MSDN Blogs</a></li>
+</ul>
+
+<p>まだ<code>MSPointerDown</code>のように<code>MS</code>というprefixがついています。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;MSPointerDown&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// タッチが始まった時の処理</span>
+<span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;MSPointerMove&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// タッチが動いている時の処理</span>
+<span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;MSPointerUp&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// タッチが終わった時の処理</span>
+<span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>基本的にはmouseイベントやtouchイベントと同じように使えるので、イベント名だけ変更すれば対応はできます。また、<code>window.navigator.msPointerEnabled</code>の値を見てpointerイベントが使用可能かどうかを判断することができます。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">support</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">mspointer</span><span class="o">:</span> <span class="nb">window</span><span class="p">.</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">msPointerEnabled</span><span class="p">,</span>
+  <span class="nx">touch</span><span class="o">:</span> <span class="s1">&#39;ontouchstart&#39;</span> <span class="k">in</span> <span class="nb">window</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">touchStartEvent</span> <span class="o">=</span>
+    <span class="nx">support</span><span class="p">.</span><span class="nx">mspointer</span> <span class="o">?</span> <span class="s1">&#39;MSPointerDown&#39;</span> <span class="o">:</span>
+    <span class="nx">support</span><span class="p">.</span><span class="nx">touch</span> <span class="o">?</span> <span class="s1">&#39;touchstart&#39;</span> <span class="o">:</span>
+    <span class="s1">&#39;mousedown&#39;</span><span class="p">;</span>
+
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="nx">touchStartEvent</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// タッチが始まった時の処理</span>
+<span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>また、1点注意が必要で、CSSで<code>-ms-touch-action: none;</code>というのを指定しないとタッチしたときにネイティブのスクロールなどが優先されてpointerイベントがちゃんと発火しません。JavaScriptからこのプロパティを設定するには次のようにします。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="k">if</span> <span class="p">(</span><span class="nx">support</span><span class="p">.</span><span class="nx">mspointer</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">element</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">msTouchAction</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>CSSでやるならこうです。</p>
+
+<div class="highlight"><pre><code class="css"><span class="nf">#element</span> <span class="p">{</span>
+  <span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">touch</span><span class="o">-</span><span class="n">action</span><span class="o">:</span> <span class="k">none</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>今回のflipsnap.jsでの対応は将来的にまだpointerイベントがどうなるかわからないので<code>MS</code>のプレフィックス限定で対応しています。将来的にプレフィックスが外れたり他のブラウザでも対応が始まった場合はその都度対応していく予定です。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Advent Calendarの登録サイトつくりました]]></title>
@@ -1105,23 +1179,6 @@ $ ./adb -s &lt;serial number&gt; logcat
 
 <p>ちなみにGoogle検索とかGoogle翻訳はすでに音声入力APIに対応している様子。</p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[CSS3のvim syntaxをちょっといじった]]></title>
-    <link href="http://webtech-walker.com/archive/2011/04/20001022.html"/>
-    <updated>2011-04-20T00:00:00+09:00</updated>
-    <id>http://webtech-walker.com/archive/2011/04/20001022</id>
-    <content type="html"><![CDATA[<p>vimでCSS書いてるとMediaQueryとかの表示がうまくいかなくてずっとほっといたんですけど、すでにやってる人がいたので使ってみたんですけど、ちょっと気になるところがあったりしたので直したり、ベンダプレフィックス追加したりしました。</p>
-
-<p><a href="https://github.com/hokaccha/vim-css3-syntax">hokaccha/vim-css3-syntax - GitHub</a></p>
-
-<p>不具合的なものは本家にマージされたんですが、ベンダプレフィックスの追加は本家のほうの方針では取り入れないということだったので、ベンダプレフィックスも対応したいという人はこちらをお使い下さい。</p>
-
-<p>本家の元ネタはこちら。</p>
-
-<p><a href="http://hail2u.net/blog/software/vim-css3-syntax.html">VimのCSS3シンタックス・ファイルみたいな何か - Weblog - hail2u.net</a></p>
 ]]></content>
   </entry>
   
