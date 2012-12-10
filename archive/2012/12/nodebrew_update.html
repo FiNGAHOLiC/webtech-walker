@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<title>jQueryの非推奨な機能 - Webtech Walker</title>
+<title>nodebrewでバイナリからインストールできるようにした - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
 <link rel="stylesheet" href="/css/style.css">
@@ -34,62 +34,41 @@
  
 <article>
 
-<time datetime="2012-12-03T00:00:00+09:00" pubdate>2012月12月03日</time>
+<time datetime="2012-12-10T00:00:00+09:00" pubdate>2012月12月10日</time>
 
 <ul class="tags">
   
-    <li><a href="/tags/JavaScript.html">JavaScript</a></li>
-  
-    <li><a href="/tags/jQuery.html">jQuery</a></li>
+    <li><a href="/tags/Node.js.html">Node.js</a></li>
   
 </ul>
 
-<h1>jQueryの非推奨な機能</h1>
+<h1>nodebrewでバイナリからインストールできるようにした</h1>
 
 <div class="body">
-<p><a href="http://www.adventar.org/calendars/29">軽めのjQuery Advent Calendar 2012</a> 3日目の記事です。jQueryのDeprecated（非推奨）な機能をいくつか紹介します。</p>
+<p><a href="https://github.com/hokaccha/nodebrew">nodebrew</a>の0.6.0をリリースしました。<code>install-binary</code>というコマンドを追加しまして、コンパイル済みのバイナリからインストールできるようにしました。</p>
 
-<h2 id="browser">$.browser</h2>
+<p>バイナリのファイルはNode.jsのv0.8.6以降で配布されるようになったので、それ以前のバージョンはインストールできません。Mac OSX、Linux、Solaris用のがそれぞれ32bitと64bitのものが用意されていて、nodebrewがアーキテクチャから自動で判別してとってくるようにしています。OSXとUbuntuくらいでしか試してないので動かなかった場合は報告ください。</p>
 
-<p>これは有名ですね。ブラウザで分岐するんじゃなくて機能があるかないかで分岐するのがいいから$.supportを使えよって話です。</p>
+<p>こんな感じです。</p>
 
-<p>まあIE6だけで起きるバグとかのためにブラウザ判定するのはありだと思いまけどjQuery的には$.browserは非推奨らしいです。</p>
-
-<h2 id="live">.live()</h2>
-
-<p><code>.live()</code>は非推奨で<code>.on()</code>とか<code>.delegate()</code>で同じ事でできるのでこっちを使うのを推奨してるみたいです。</p>
-
-<h2 id="size">.size()</h2>
-
-<p><code>.size()</code>はjQueryオブジェクトの要素数を返すメソッドですが、これが非推奨な理由は<code>.size()</code>と<code>.length</code>は同じで<code>.size()</code>のほうが関数呼び出しのオーバーヘッドがかかるから<code>.length</code>のほうがいいよってことらしいです。</p>
-
-<h2 id="checkboxradiosubmit">:checkbox、:radio、:submitなどのセレクタ</h2>
-
-<p>checkboxの要素を探したりするのに</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;:checkbox&#39;</span><span class="p">);</span>
+<pre><code>$ nodebrew install-binary v0.8.6
+fetch: http://nodejs.org/dist/v0.8.6/node-v0.8.6-darwin-x64.tar.gz
+######################################################################## 100.0%
+install success
 </code></pre>
-</div>
 
-<p>とかいうjQueryの独自セレクタが使えるわけですが、これも実は非推奨です。</p>
+<p>これまでコンパイルが必要だったのでインストールに時間がかかっていましたが、バイナリだとダウンロードして展開するだけなんでちょっぱやで終わります。</p>
 
-<p>なぜかというと、次のように書いても同じで、</p>
+<p>最初は<code>install</code>コマンドと統合しようと思ったんだけどいきなり統合するのもアレなのでひとまず様子見で別コマンドにしてます。将来的には<code>install</code>コマンドに統合してオプションとかで切り替えられるようにするかもしれません。</p>
 
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;[type=checkbox]&#39;</span><span class="p">)</span>
+<p>あと、人知れずちょっと前のバージョンアップで<a href="https://twitter.com/hide_o_55">@hide_o_55</a>さんが実装してくれた<code>migrate-package</code>というコマンドが入っています。これは<code>npm install -g</code>でグローバルにインストールしたモジュールを移行してくれるコマンドです。</p>
+
+<pre><code>$ nodebrew migrate-package v0.6.4
 </code></pre>
-</div>
 
-<p><code>:checkbox</code>は独自セレクタなのに対して<code>[type=checkbox]</code>は<code>querySelector</code>などでパースできるためこっちのほうが早いからです。</p>
+<p>とかやるとv0.6.4でグローバルにインストールされているモジュールをカレントのバージョンにも<code>npm install -g</code>でインストールしてくれます。便利。</p>
 
-<p><code>:button</code>、<code>:file</code>、<code>:image</code>なども同じ理由で非推奨です。</p>
-
-<h2 id="section">その他の非推奨な機能</h2>
-
-<p>Deprecatedな機能は他にもいっぱいあって、一覧は以下に全部のってます。</p>
-
-<p><a href="http://api.jquery.com/category/deprecated/">Deprecated – jQuery API</a></p>
-
-<p>軽めなんでドキュメント見ればすぐわかる内容のエントリでした。</p>
+<p><code>nodebrew selfupdate</code>コマンドでアップデートできるのでぜひ使ってみてください。</p>
 
 <div class="banner"><a href="http://www.codegrid.net/"><img src="/img/common/codegrid.png" width="425" height="60"></a></div>
 </div>
@@ -133,10 +112,8 @@
 
 <ul class="paginate">
 
-  <li class="prev"><span>Prev Entry:</span><a href="/archive/2012/12/less_extend.html">最近のLessのextendの進捗</a></li>
+  <li class="prev"><span>Prev Entry:</span><a href="/archive/2012/12/jquery_deprecated.html">jQueryの非推奨な機能</a></li>
 
-
-  <li class="next"><span>Next Entry:</span><a href="/archive/2012/12/nodebrew_update.html">nodebrewでバイナリからインストールできるようにした</a></li>
 
 </ul>
 
