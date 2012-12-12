@@ -4,12 +4,170 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2012-12-10T14:00:42+09:00</updated>
+  <updated>2012-12-12T09:06:03+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Backbone.jsでNode.jsとクライアントサイドのロジックをイケてる感じで共通化する]]></title>
+    <link href="http://webtech-walker.com/archive/2012/12/backbone_node_common.html"/>
+    <updated>2012-12-11T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2012/12/backbone_node_common</id>
+    <content type="html"><![CDATA[<p><a href="http://www.adventar.org/calendars/15">Backbone.js Advent Calendar</a>の12日目です。</p>
+
+<p>Backbone.jsを使ってNode.jsとクライアントサイドのJavaScriptでロジックを共有する方法について書いてみます。</p>
+
+<p>Node.jsといえばチャット。チャットといえばSocket.IOということでSocket.IOを使ったチャットを例にしてみます。</p>
+
+<p>例えばチャットの一回の文字列の上限を140文字にしたいとします。その場合クライアント側でもサーバー側でも同じバリデーションのロジックを実装するのは面倒ですし、上限値が変更になったときに2箇所変更するのはイケてないですね。</p>
+
+<p>そこでBackbone.jsを使ってその部分のロジックを共通化してみます。</p>
+
+<p>Backbone.jsはNode.jsでも使えるので次のようなmodelBase.jsというモデルを作ります。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="c1">// modelBase.js</span>
+
+<span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">root</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">Backbone</span> <span class="o">=</span> <span class="nx">root</span><span class="p">.</span><span class="nx">Backbone</span> <span class="o">||</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;backbone&#39;</span><span class="p">);</span>
+
+  <span class="kd">var</span> <span class="nx">TEXT_LIMIT</span> <span class="o">=</span> <span class="mi">140</span><span class="p">;</span>
+
+  <span class="kd">var</span> <span class="nx">MessageBase</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Model</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">validate</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">attrs</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">attrs</span><span class="p">.</span><span class="nx">text</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;=</span> <span class="nx">TEXT_LIMIT</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;text is too long&#39;</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+
+    <span class="c1">// その他共通のロジック</span>
+  <span class="p">});</span>
+
+  <span class="kd">var</span> <span class="nx">MessagesBase</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Collection</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="c1">// 共通のロジック</span>
+  <span class="p">});</span>
+
+  <span class="cm">/**</span>
+<span class="cm">   * Expose</span>
+<span class="cm">   */</span>
+  <span class="nx">root</span><span class="p">.</span><span class="nx">MessagesBase</span> <span class="o">=</span> <span class="nx">MessagesBase</span><span class="p">;</span>
+  <span class="nx">root</span><span class="p">.</span><span class="nx">MessageBase</span> <span class="o">=</span> <span class="nx">MessageBase</span><span class="p">;</span>
+<span class="p">})(</span><span class="k">this</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>イケてるポイントはここや</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">Backbone</span> <span class="o">=</span> <span class="nx">root</span><span class="p">.</span><span class="nx">Backbone</span> <span class="o">||</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;backbone&#39;</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>ここでサーバーサイド、クライアントサイドのどちらでも使えるようにしてるところです。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">root</span><span class="p">.</span><span class="nx">MessagesBase</span> <span class="o">=</span> <span class="nx">MessagesBase</span><span class="p">;</span>
+<span class="nx">root</span><span class="p">.</span><span class="nx">MessageBase</span> <span class="o">=</span> <span class="nx">MessageBase</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>次にNode.js側でこのmodelBase.jsを継承したmodel.jsをつくります。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="c1">// server: model.js</span>
+<span class="kd">var</span> <span class="nx">modelBase</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./modelBase&#39;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">Message</span> <span class="o">=</span> <span class="nx">modelBase</span><span class="p">.</span><span class="nx">MessageBase</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="c1">// サーバー側のロジック</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">Messages</span> <span class="o">=</span> <span class="nx">modelBase</span><span class="p">.</span><span class="nx">MessagesBase</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">model</span><span class="o">:</span> <span class="nx">Message</span>
+
+  <span class="c1">// サーバー側のロジック</span>
+<span class="p">});</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">Messages</span> <span class="o">=</span> <span class="nx">Messages</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>そしてイケてるチャットアプリのapp.jsでmodel.jsで定義した<code>Messages</code>を使ってチャットのメッセージを管理します。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="c1">// server: app.js</span>
+
+<span class="kd">var</span> <span class="nx">io</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;socket.io&#39;</span><span class="p">).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">3030</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">Messages</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./model&#39;</span><span class="p">).</span><span class="nx">Messages</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">messages</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Messages</span><span class="p">();</span>
+
+<span class="c1">// modelBaseを静的ファイルとして配信</span>
+<span class="nx">io</span><span class="p">.</span><span class="kr">static</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;/modelBase.js&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">file</span><span class="o">:</span> <span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/modelBase.js&#39;</span> <span class="p">});</span>
+
+<span class="nx">io</span><span class="p">.</span><span class="nx">sockets</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;connection&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">socket</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// なんかチャットのロジック</span>
+
+  <span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;create&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">text</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// バリデーションが通ったらbroadcast（pushはバリデーションが通らなかったらfalseを返す）</span>
+    <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">messages</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span> <span class="nx">text</span><span class="o">:</span> <span class="nx">text</span> <span class="p">};</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">socket</span><span class="p">.</span><span class="nx">broadcast</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;update&#39;</span><span class="p">,</span> <span class="nx">model</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">());</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>ここでのイケてるポイントはこんな感じでmodelBase.jsを配信してることですね。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="c1">// modelBaseを静的ファイルとして配信</span>
+<span class="nx">io</span><span class="p">.</span><span class="kr">static</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;/modelBase.js&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">file</span><span class="o">:</span> <span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/modelBase.js&#39;</span> <span class="p">});</span>
+</code></pre>
+</div>
+
+<p>expressと併用してる場合などはそっちで配信してもいいと思います。</p>
+
+<p>そうするとクライアント側では、次のようにmodelBase.jsを読み込むことができます。（Backbone.jsとかUnderscore.jsとかはこの前に読み込んでる前提）</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://localhost:3030/socket.io/socket.io.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://localhost:3030/socket.io/modelBase.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+<p>そうしたらクライアント側も同じようにmodelBaseを継承してモデルを実装することができます。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="c1">// client: model.js</span>
+<span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">root</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">Message</span> <span class="o">=</span> <span class="nx">root</span><span class="p">.</span><span class="nx">MessageBase</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="c1">// クライアント側のロジック</span>
+  <span class="p">});</span>
+
+  <span class="kd">var</span> <span class="nx">Messages</span> <span class="o">=</span> <span class="nx">root</span><span class="p">.</span><span class="nx">MessagesBase</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">model</span><span class="o">:</span> <span class="nx">Message</span><span class="p">,</span>
+
+    <span class="c1">// クライアント側のロジック</span>
+  <span class="p">});</span>
+
+  <span class="nx">root</span><span class="p">.</span><span class="nx">Messages</span> <span class="o">=</span> <span class="nx">Messages</span><span class="p">;</span>
+<span class="p">})(</span><span class="k">this</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">messages</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Messages</span><span class="p">();</span>
+
+<span class="nx">$</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">).</span><span class="nx">submit</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+
+  <span class="c1">// createしたらイケてる感じでsocket.emitするようにしとく</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">messages</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span> <span class="nx">text</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;text&quot;]&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">()</span> <span class="p">}))</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;バリデーションエラー！&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>このように簡単にロジックを共通化することができます。イケてますね。</p>
+
+<p>また、Backbone.Syncをサーバー側ではRedisやmongodb、クライアント側ではsocketを使った処理に差し替えればさらにイケてるチャットアプリにすることができそうです。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[nodebrewでバイナリからインストールできるようにした]]></title>
@@ -1152,78 +1310,6 @@ directory = /home/dotcloud/current
 <p><a href="/sample/2011-06-03-03104808/2.html">DEMO</a></p>
 
 <p>とりあえず判定はできるっぽい。これでModernizrみたいにhtml要素とかにclassつければなんとかCSSで分岐できそうではある。が、うーん。。。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AndroidでJavaScriptのconsole.logを表示する方法]]></title>
-    <link href="http://webtech-walker.com/archive/2011/05/12152024.html"/>
-    <updated>2011-05-12T00:00:00+09:00</updated>
-    <id>http://webtech-walker.com/archive/2011/05/12152024</id>
-    <content type="html"><![CDATA[<p>Androidでconsole.logとかの出力を見るのには二通りあるみたいです。</p>
-
-<ol>
-  <li>
-    <h2 id="aboutdebug">about:debug</h2>
-  </li>
-</ol>
-
-<p>ブラウザのアドレスバーにabout:debugと打ち込むとJavaScriptのコンソールが現れます。これ簡単でいいんですけど、実機（Xperia ack）で試したらなんかよく（OSごと）落ちるし、いちいち入力するの面倒だしでちょっと微妙でした。あとどのバージョンからこれに対応してるかもよく知らない。</p>
-
-<p><img src="/img/posts/2011-05-12-12152024/1.png" alt="Androidのブラウザのアドレスバーにabout:debugと入力" /></p>
-
-<p><img src="/img/posts/2011-05-12-12152024/2.png" alt="console.logが出力される" /></p>
-
-<ol>
-  <li>
-    <h2 id="adb-logcat">adb logcat</h2>
-  </li>
-</ol>
-
-<p>たぶんこっちが正当法。AndroidSDKに入ってるadb（Android Debug Bridge）というツールを使います。adbはAndroidSDKの tools/adb にあります。</p>
-
-<p>まずエミュレータの場合。エミュレータを立ち上げたら以下のコマンドで接続を確認します。</p>
-
-<pre><code>$ cd /path/to/AndroidSDK/tools
-$ ./adb devices
-List of devices attached 
-emulator-5554   device
-</code></pre>
-
-<p>接続が確認できたら</p>
-
-<pre><code>$ ./adb logcat
-</code></pre>
-
-<p>これでブラウザを起動してconsole.logの出力を見たいページを表示すればコンソールに出力が流れてきます。ただし、console.log以外のもろもろのデバッグ情報もダーっと流れてくるので適当にgrepかけとくと吉。</p>
-
-<pre><code>$ ./adb logcat | grep browser
-</code></pre>
-
-<p>次、実機で確認する方法。まず実機のほうの設定でデバッグの設定をします。端末によるのかもしれないけど、Xperia ackの場合は「設定」→「アプリケーション」→「開発」→「USBデバッグ」にチェックします。で、USBで接続するとadbで認識されるようになるはず。</p>
-
-<pre><code>$ ./adb devices
-List of devices attached 
-xxxxxxxxxxxxxxx    device
-</code></pre>
-
-<p>認識されてたらさっきと同じようにlogcatすればconsole.logの出力とかがコンソールに流れてきます。こんな感じ出る。</p>
-
-<p><img src="/img/posts/2011-05-12-12152024/3.png" alt="logcatでログが表示される様子" /></p>
-
-<p>ちなみに接続が複数あったらadb logcatの起動がエラーになるので、以下のように指定します。</p>
-
-<pre><code># エミュレーターの場合
-$ ./adb -e logcat
-
-# 実機の場合
-$ ./adb -d logcat
-
-# serial numberを指定して起動する場合
-$ ./adb -s &lt;serial number&gt; logcat
-</code></pre>
-
-<p>-sのserial numberってのは adb deviceds したときに表示される文字列のことです。</p>
 ]]></content>
   </entry>
   
