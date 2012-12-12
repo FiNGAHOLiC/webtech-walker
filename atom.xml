@@ -4,7 +4,7 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2012-12-12T09:06:03+09:00</updated>
+  <updated>2012-12-12T09:12:40+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
@@ -22,11 +22,14 @@
 
 <p>Node.jsといえばチャット。チャットといえばSocket.IOということでSocket.IOを使ったチャットを例にしてみます。</p>
 
-<p>例えばチャットの一回の文字列の上限を140文字にしたいとします。その場合クライアント側でもサーバー側でも同じバリデーションのロジックを実装するのは面倒ですし、上限値が変更になったときに2箇所変更するのはイケてないですね。</p>
+<p>例えばチャットの一回の文字列の上限を140文字にしたいとします。その場合クライアント側でもサーバー側でも同じバリデーションのロジックを実装するのは面倒ですし、上限値が変更になったときに2箇所変更するのはイケてないですね。そこでBackbone.jsを使ってその部分のロジックを共通化する方法を考えてみます。</p>
 
-<p>そこでBackbone.jsを使ってその部分のロジックを共通化してみます。</p>
+<p>Backbone.jsはnpmでインストールできるのでまずはBackbone.jsとSocket.IOをインストールします。</p>
 
-<p>Backbone.jsはNode.jsでも使えるので次のようなmodelBase.jsというモデルを作ります。</p>
+<pre><code>$ npm install backbone socket.io
+</code></pre>
+
+<p>次に、サーバーサイドとクライアントサイドの共通のロジックを記述するmodelBase.jsというモデルを作ります。</p>
 
 <div class="highlight"><pre><code class="javascript"><span class="c1">// modelBase.js</span>
 
