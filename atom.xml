@@ -4,12 +4,132 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2012-12-12T09:12:40+09:00</updated>
+  <updated>2012-12-15T10:16:42+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Backbone.Modelのattributesにオブジェクト入れるときの注意]]></title>
+    <link href="http://webtech-walker.com/archive/2012/12/backbone_model_object.html"/>
+    <updated>2012-12-15T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2012/12/backbone_model_object</id>
+    <content type="html"><![CDATA[<p><a href="http://www.adventar.org/calendars/15">Backbone.js Advent Calendar</a>の15日目です。軽めにいきます。</p>
+
+<p>Backbone.Modelの<code>attributes</code>にオブジェクトを設定するときの注意点など。<code>attributes</code>は<code>set</code>とかでインスタンスごとに設定される属性のことですね。内部では<code>attributes</code>っていうオブジェクトで持ってます。</p>
+
+<p>まず次のように<code>set</code>で<code>attributes</code>を設定します。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">MyModel</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Model</span><span class="p">.</span><span class="nx">extend</span><span class="p">();</span>
+
+<span class="kd">var</span> <span class="nx">m</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyModel</span><span class="p">();</span>
+<span class="nx">m</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;hoge&#39;</span><span class="p">,</span> <span class="s1">&#39;fuga&#39;</span><span class="p">);</span>
+<span class="nx">m</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">bar</span><span class="o">:</span> <span class="s1">&#39;baz&#39;</span> <span class="p">});</span>
+</code></pre>
+</div>
+
+<p>このように<code>hoge</code>には文字列、<code>foo</code>にはオブジェクトを設定しました。そして<code>toJSON</code>で<code>attributes</code>を取得して値を更新してみます。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">attrs</span> <span class="o">=</span> <span class="nx">m</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">();</span>
+<span class="nx">attrs</span><span class="p">.</span><span class="nx">hoge</span> <span class="o">=</span> <span class="s1">&#39;new fuga&#39;</span><span class="p">;</span>
+<span class="nx">attrs</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">bar</span> <span class="o">=</span> <span class="s1">&#39;new baz&#39;</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>そして<code>attributes</code>の中身を見てみると・・</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">m</span><span class="p">.</span><span class="nx">attributes</span><span class="p">);</span>
+<span class="c1">// =&gt; { hoge: &#39;fuga&#39;, foo: { bar: &#39;new baz&#39; } }</span>
+</code></pre>
+</div>
+
+<p><code>hoge</code>の値は変わってないのに<code>foo.bar</code>の値が変わってますね。どうしてこうなった。</p>
+
+<p>と、まあこういう問題があるわけです。</p>
+
+<p>では原因を見て行きましょう。まず、<code>toJSON</code>の実装は次のようになっています。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">toJSON</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">clone</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">attributes</span><span class="p">);</span>
+<span class="p">},</span>
+</code></pre>
+</div>
+
+<p>このように<code>attributes</code>を<code>_.clone</code>してるだけです。<code>_.clone</code>してるということは参照ではなくてオブジェクトのコピーが返りそうな雰囲気です。コピーが返るということは返ってきた値を変更しても元のオブジェクトには影響しないはず・・。</p>
+
+<p>なんですが、実は<code>_.close</code>はネストしたオブジェクトに対応しておらず、ネストしている場合はそのまま参照がコピーされるのです。なんてこったい＼(^o^)／</p>
+
+<p>なので<code>hoge</code>の値は変更しても元の値は影響を受けておらず、<code>foo.bar</code>の値を変更したら元のオブジェクトにも影響がでてしまったというわけ。</p>
+
+<p>ちなみに<code>_.close</code>の実装は次のようになってて</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">_</span><span class="p">.</span><span class="nx">clone</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">_</span><span class="p">.</span><span class="nx">isObject</span><span class="p">(</span><span class="nx">obj</span><span class="p">))</span> <span class="k">return</span> <span class="nx">obj</span><span class="p">;</span>
+  <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="o">?</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">slice</span><span class="p">()</span> <span class="o">:</span> <span class="nx">_</span><span class="p">.</span><span class="nx">extend</span><span class="p">({},</span> <span class="nx">obj</span><span class="p">);</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<p><code>_.extend({}, obj)</code>を返してるだけなので元凶は<code>_.extend</code>だったりします。<code>_.extend</code>は次のようにネストしたオブジェクトに対応してないのがわかります。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">foo</span><span class="o">:</span> <span class="p">{</span> <span class="nx">bar</span><span class="o">:</span> <span class="s1">&#39;baz&#39;</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">foo</span><span class="o">:</span> <span class="p">{</span> <span class="nx">hoge</span><span class="o">:</span> <span class="s1">&#39;fuga&#39;</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="nx">_</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">);</span> <span class="c1">// { foo: { hoge: &#39;fuga&#39; } }</span>
+</code></pre>
+</div>
+
+<p>この問題を解決できるのは我らがjQuery大先生です。jQueryの<code>$.extend</code>は第一引数を<code>true</code>にすることでネストしたオブジェクトにも対応できます。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">foo</span><span class="o">:</span> <span class="p">{</span> <span class="nx">bar</span><span class="o">:</span> <span class="s1">&#39;baz&#39;</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">foo</span><span class="o">:</span> <span class="p">{</span> <span class="nx">hoge</span><span class="o">:</span> <span class="s1">&#39;fuga&#39;</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">);</span> <span class="c1">// { foo: { bar: &#39;baz&#39;, hoge: &#39;fuga&#39; } }</span>
+</code></pre>
+</div>
+
+<p>すばらしいですね。これを利用して次のように<code>toJSON</code>を上書きします。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">MyModel</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Model</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">toJSON</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="p">{},</span> <span class="k">this</span><span class="p">.</span><span class="nx">attributes</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>これで大丈夫なはず。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">m</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyModel</span><span class="p">();</span>
+<span class="nx">m</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;hoge&#39;</span><span class="p">,</span> <span class="s1">&#39;fuga&#39;</span><span class="p">);</span>
+<span class="nx">m</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">bar</span><span class="o">:</span> <span class="s1">&#39;baz&#39;</span> <span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">attrs</span> <span class="o">=</span> <span class="nx">m</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">();</span>
+<span class="nx">attrs</span><span class="p">.</span><span class="nx">hoge</span> <span class="o">=</span> <span class="s1">&#39;new fuga&#39;</span><span class="p">;</span>
+<span class="nx">attrs</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">bar</span> <span class="o">=</span> <span class="s1">&#39;new baz&#39;</span><span class="p">;</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">m</span><span class="p">.</span><span class="nx">attributes</span><span class="p">);</span>
+<span class="c1">// =&gt; { hoge: &#39;fuga&#39;, foo: { bar: &#39;baz&#39; } }</span>
+</code></pre>
+</div>
+
+<p>おっけーですねー。すばらしいですねー。jQueryまじイノベーティブです。</p>
+
+<p>以上、<del>jQuery</del><ins>Backbone.js</ins> Advent Calendarでした。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Backbone.jsでNode.jsとクライアントサイドのロジックをイケてる感じで共通化する]]></title>
@@ -1262,57 +1382,6 @@ directory = /home/dotcloud/current
 <p>これだけだった。10分くらいでできて超簡単。</p>
 
 <p><a href="http://helloworld.hokaccha.dotcloud.com/">http://helloworld.hokaccha.dotcloud.com/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[続・iOSのSafariで特定のfont-sizeのときの謎の隙間]]></title>
-    <link href="http://webtech-walker.com/archive/2011/06/03104808.html"/>
-    <updated>2011-06-03T00:00:00+09:00</updated>
-    <id>http://webtech-walker.com/archive/2011/06/03104808</id>
-    <content type="html"><![CDATA[<p><a href="/archive/2011/03/30190850.html">前書いたiOSのSafariで幅計算がおかしくなる件</a>、もうちょい調査してみた。</p>
-
-<p>どうもfont-sizeが11px、10px、9pxのときにマルチバイト一文字につき、offsetWidthの値がそれぞれ1pxづつ大きい値になるというバグっぽい。</p>
-
-<p>「あ」の文字のspan要素のoffsetWidthをJSで取得するデモ。</p>
-
-<p><a href="/sample/2011-06-03-03104808/1.html">DEMO</a></p>
-
-<p>これiPhoneで見るとこうなる。</p>
-
-<p><img src="/img/posts/2011-06-03-03104808/ios_fontsize_width.png" alt="11px, 10px, 9pxのoffsetWidthがずれている" /></p>
-
-<p>なんかIEでもfont-sizeが11px指定のときに12pxで表示されるというバグがあった気がするけど、このバグはさらに凶悪で、フォントサイズは指定したサイズになるけどoffsetWidthだけ指定のサイズより大きくなるというもの。それであのようなずれが生じるみたいです。</p>
-
-<p>JSでoffsetWidthの値の変化がとれるということはバグがあるかどうか判定できそうだということでやってみた。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">mbFontsizeWidthCalcBug</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">doc</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">body</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">body</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">span</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;span&#39;</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">width</span> <span class="o">=</span> <span class="p">{};</span>
-    <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-
-    <span class="nx">span</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">position</span> <span class="o">=</span> <span class="s1">&#39;absolute&#39;</span><span class="p">;</span>
-    <span class="nx">span</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">visibility</span> <span class="o">=</span> <span class="s1">&#39;hidden&#39;</span><span class="p">;</span>
-    <span class="nx">span</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">&#39;あ&#39;</span><span class="p">;</span>
-    <span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">span</span><span class="p">);</span>
-
-    <span class="k">for</span> <span class="p">(;</span><span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">13</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">span</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">fontSize</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">+</span> <span class="s1">&#39;px&#39;</span><span class="p">;</span>
-        <span class="nx">width</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">span</span><span class="p">.</span><span class="nx">offsetWidth</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="nx">body</span><span class="p">.</span><span class="nx">removeChild</span><span class="p">(</span><span class="nx">span</span><span class="p">);</span>
-    <span class="nx">body</span> <span class="o">=</span> <span class="nx">span</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-
-    <span class="k">return</span> <span class="p">(</span><span class="nx">width</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span> <span class="o">===</span> <span class="nx">width</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="nx">width</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">===</span> <span class="nx">width</span><span class="p">[</span><span class="mi">10</span><span class="p">]);</span>
-<span class="p">})(</span><span class="nb">document</span><span class="p">);</span>
-</code></pre>
-</div>
-
-<p><a href="/sample/2011-06-03-03104808/2.html">DEMO</a></p>
-
-<p>とりあえず判定はできるっぽい。これでModernizrみたいにhtml要素とかにclassつければなんとかCSSで分岐できそうではある。が、うーん。。。</p>
 ]]></content>
   </entry>
   
