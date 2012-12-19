@@ -4,12 +4,89 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2012-12-15T10:40:16+09:00</updated>
+  <updated>2012-12-19T13:02:46+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Backbone.js 0.9.9 の変更点]]></title>
+    <link href="http://webtech-walker.com/archive/2012/12/backbone_0.9.9.html"/>
+    <updated>2012-12-19T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2012/12/backbone_0.9.9</id>
+    <content type="html"><![CDATA[<p>先週Backbone.jsの0.9.9がリリースされてけっこう変更点多いのでChange Logに書いてあるやつを簡単にまとめときます。</p>
+
+<p><a href="http://backbonejs.org/#changelog">Backbone.js - Change Log</a></p>
+
+<p>また、先日清水さん（<a href="https://twitter.com/tori3_jp">@tori3_jp</a>）が以下のようなエントリを書いていて、いくつか重複する点がありますので、こちらも参照してください。</p>
+
+<p><a href="http://tech.naver.jp/blog/?p=2342">Backbone.js 1.0に向けての変更点 « NAVER Engineers’ Blog</a></p>
+
+<h2 id="events">Events関連</h2>
+
+<ul>
+  <li>Eventsに<code>listenTo</code>と<code>stopListening</code>が追加されました。清水さんのエントリの追記の部分に詳しく書いてあります。</li>
+  <li><code>Backbone</code>オブジェクトが<code>Events</code>を継承するようになりました。<code>Backbone.on('foo')</code>みたいなグローバルなイベントが貼れるみたいです。</li>
+  <li>jQueryの<code>one</code>メソッドのように、一回だけイベントハンドラを実行する<code>once</code>がEventsに追加されました。</li>
+  <li>jQueryのように<code>obj.on({click: action})</code>みたいなイベントの指定ができるようになりました。</li>
+</ul>
+
+<h2 id="modelcollection">Model、Collection関連</h2>
+
+<ul>
+  <li>collectionの<code>add</code>メソッドのオプションで<code>{merge: true}</code>が指定されていた場合、既存のモデルを更新するようになりました。これも清水さんのエントリに詳しく書いてあります。</li>
+  <li>collectionに<code>update</code>メソッドが追加されました。詳しくは<a href="http://backbonejs.org/#Collection-update">ドキュメント</a>を。</li>
+  <li>collectionの<code>reset</code>イベントハンドラの引数の<code>options</code>に<code>previousModels</code>という<code>reset</code>される前のモデルのリストが渡されるようになりました。</li>
+  <li>バリデーションが<code>silent</code>オプションが<code>true</code>のときも実行されるようになりました。また、それに伴って<code>isValid</code>メソッドがなくなりました。</li>
+  <li>Collectionで使えるUnderscore.jsのメソッドにエイリアスのメソッド名も使えるようになりました。（<code>collect</code>, <code>inject</code>, <code>foldl</code>, <code>foldr</code>, <code>head</code>, <code>tail</code>, <code>take</code>など）</li>
+  <li><code>getByCid</code>が削除され、<code>get</code>メソッドで<code>id</code>と<code>cid</code>の両方を探すようになりました。</li>
+  <li>Collectionの<code>sort</code>メソッドが、<code>reset</code>イベントの代わりに<code>sort</code>イベントを発火するようになりました。</li>
+  <li>modelの<code>isNew</code>が<code>true</code>のときに<code>destroy</code>を呼んだら<code>false</code>を返すようになりました（って書いてあるけど実際は0.9.2からこの挙動です）。</li>
+  <li>modelやcollectionでフェッチした後、定義した全ての<code>parse</code>メソッドが実行されるようになりました。（これについてはコードも呼んだけど、どう変わったのかよくわからなかったので原文載せときます）</li>
+</ul>
+
+<blockquote>
+  <p>After fetching a model or a collection, all defined <code>parse</code> functions will now be run. So fetching a collection and getting back new models could cause both the collection to parse the list, and then each model to be parsed in turn, if you have both functions defined.</p>
+</blockquote>
+
+<p>collectionでfetchしたときに新しいmodelがあったらそのmodelに対しても<code>parse</code>が呼ばれるみたいな感じな気がするんだけど0.9.2のころからそうだったしなあという感じでよくわかりません。</p>
+
+<h2 id="view">View関連</h2>
+
+<ul>
+  <li>Viewの<code>options</code>、<code>el</code>、<code>tagName</code>に関数を指定すると実行時に評価されるようになりました。</li>
+</ul>
+
+<h2 id="sync">Sync関連</h2>
+
+<ul>
+  <li>HTTPの<code>PATCH</code>メソッドをサポートするようになりました。<code>save</code>メソッドのオプションで<code>{patch: true}</code>にすると<code>PUT</code>のところが<code>PATCH</code>になります。<br />
+<code>PATCH</code>メソッドについては以下のエントリがわかりやすいです。<br />
+<a href="http://d.hatena.ne.jp/ZIGOROu/20120211/1328982756">PATCH メソッド、新しい HTTP Status Code - Yet Another Hackadelic</a></li>
+  <li><code>Backbone.sync</code>に<code>request</code>イベントが追加されました（実際にはModelやCollectionに対して発火します）。サーバーへのリクエストを開始したときに発火します。</li>
+  <li><code>emulateHTTP</code>と<code>emulateJSON</code>がメソッド呼び出し時のオプションとして指定できるようになりました。</li>
+  <li>Backbone.ajaxというフックが追加されました。この関数を上書きすることで<code>Backbone.sync</code>のAjax部分の動作を変更できます。デフォルトでは<code>Backbone.$.ajax</code>が使われます。</li>
+</ul>
+
+<h2 id="router">Router関連</h2>
+
+<ul>
+  <li><code>Router</code>のURLにオプションを指定できるようになりました。<code>docs/:section(/:subsection)</code>のような感じで<code>()</code>の部分はあってもなくてもいいようなURLが指定できます。</li>
+  <li>ルーターの定義のところで、先頭と末尾のスラッシュの正規化のバグを修正しました。</li>
+</ul>
+
+<h2 id="section">その他</h2>
+
+<ul>
+  <li>DOM操作やAjaxの呼び出しを行うためのjQuery互換ライブラリの差し替えを行うのに<code>setDomLibrary</code>というメソッドが用意されていましたが、これが削除され、<code>Backbone.$</code>を差し替えるようになりました。</li>
+  <li><code>Backbone.wrapError</code>が削除されました。（現時点でgh-pagesブランチには乗ってないけど<a href="https://github.com/documentcloud/backbone/commit/5a4d405f640ac4b843e8c3ffd6eb0ae52d7f9b4a">masterブランチのコミット</a>にあったので掲載）</li>
+</ul>
+
+<p>以上ですが、けっこう多いですね。1.0でまたどれくらい変わるかがきになるところです。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Backbone.Modelのattributesにオブジェクト入れるときの注意]]></title>
@@ -1328,60 +1405,6 @@ graceful shutdown!
 <p>って書いてあって、W3Cのほうの仕様書と違ってSTRINGが追加されてます。STRINGはクオートで囲む文字列のようなので、これに従うとWebkitのほうが正しいわけです。</p>
 
 <p>まあまだ全然仕様が固まってない状態なのでこういうのもしょうがないんでしょうか。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[dotcloud + node.jsでHello World]]></title>
-    <link href="http://webtech-walker.com/archive/2011/06/13082522.html"/>
-    <updated>2011-06-13T00:00:00+09:00</updated>
-    <id>http://webtech-walker.com/archive/2011/06/13082522</id>
-    <content type="html"><![CDATA[<p>dotcloud + node.jsやってみました。</p>
-
-<p>まずdotcloudをインストールする。特に問題ない。</p>
-
-<pre><code>$ sudo easy_install dotcloud
-</code></pre>
-
-<p>アプリケーションをつくる。APIキーを設定してない場合は設定しろと出るので指示通りsettingsページに書いてあるAPIキーを入力する。</p>
-
-<pre><code>$ dotcloud create hokaccha
-Warning: /Users/hokamura/.dotcloud/dotcloud.conf does not exist.
-Enter your api key (You can find it at http://www.dotcloud.com/account/settings):
-</code></pre>
-
-<p>プロジェクトを作る。</p>
-
-<pre><code>$ dotcloud deploy -t nodejs hokaccha.helloworld
-Created "hokaccha.helloworld".
-</code></pre>
-
-<p>最低限必要なのはsupervisord.confという設定ファイル。ここで起動用のスクリプトを指定する。supervisord.confの中身はこんな感じ。</p>
-
-<pre><code>[program:node]
-command = node server.js
-directory = /home/dotcloud/current
-</code></pre>
-
-<p>同じディレクトリに指定したserver.jsを置いてHello Worldの出力するサーバーを書く。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">);</span>
-
-<span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">){</span>
-    <span class="nx">res</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="p">{</span> <span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;text/plain&#39;</span> <span class="p">});</span>
-    <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="s1">&#39;Hello World!!&#39;</span><span class="p">);</span>
-<span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8080</span><span class="p">);</span>
-</code></pre>
-</div>
-
-<p>これでこの二つのファイルを置いたディレクトリを指定してアップする。</p>
-
-<pre><code>$ dotcloud push hokaccha.helloworld .
-</code></pre>
-
-<p>これだけだった。10分くらいでできて超簡単。</p>
-
-<p><a href="http://helloworld.hokaccha.dotcloud.com/">http://helloworld.hokaccha.dotcloud.com/</a></p>
 ]]></content>
   </entry>
   
