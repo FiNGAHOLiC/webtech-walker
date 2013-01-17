@@ -287,6 +287,10 @@ h1, h2, h3, h4, h5, h6, p, ul, ol, li, dl, dt, dd, form, blockquote {
   margin: 0;
   padding: 0; }
 
+code {
+  font-family: monaco, osaka-mono, monospace;
+  font-size: 13px; }
+
 a {
   color: #3399cc; }
 
