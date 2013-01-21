@@ -4,12 +4,42 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2013-01-17T15:39:08+09:00</updated>
+  <updated>2013-01-21T19:02:21+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Backbone.js 0.9.10 の変更点]]></title>
+    <link href="http://webtech-walker.com/archive/2013/01/backbone_0.9.10.html"/>
+    <updated>2013-01-20T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2013/01/backbone_0.9.10</id>
+    <content type="html"><![CDATA[<p>Backbone.jsの0.9.10がリリースされました。変更点は次のような感じです。</p>
+
+<ul>
+  <li><code>route</code>イベントはこれまではBackbone.historyで発火してたんですが、routerでも発火されるようになりました。</li>
+  <li>バリデーションが走るのが<code>save</code>メソッドのみになりました。<code>set</code>メソッドやnewしたときには走りません。<code>save</code>以外でもバリデーションを実行するにはオプションに<code>{validate:true}</code>を指定します。</li>
+  <li>バリデーションが失敗したときのイベントが<code>error</code>から<code>invalid</code>になりました。（本家のChange Logには未掲載）</li>
+  <li><code>View#make</code>が削除されました。代わりに<code>$</code>を直接使ってDOM要素を初期化しましょう。</li>
+  <li><code>Model#change</code>メソッドが削除されました。
+Passing {silent:true} on change will no longer delay individual “change:attr” events, instead they are silenced entirely.</li>
+  <li>これまでは<code>{silent:true}</code>を指定してsetした属性は<code>change</code>メソッドを呼ぶことで<code>change:xxx</code>イベントが発火していましたが、その機能はなくなりました。<code>{silent:true}</code>は単純にイベントが呼ばれないだけです。</li>
+  <li>その他バグFixいくつか。</li>
+</ul>
+
+<p>ソース見てるともうちょっと細かいところで変更ありそうな感じなんだけどとりあえずChange Log + 大きい変更点はこんな感じです。特にバリデーションの挙動はここ最近でよく変わってるので注意が必要そうです。</p>
+
+<p>ちなみにドキュメントの冒頭に以下のようにあります。</p>
+
+<blockquote>
+  <p>Backbone 0.9.10 should be considered as a release candidate for an upcoming 1.0.</p>
+</blockquote>
+
+<p>0.9.10は1.0のRC版（リリース候補）ってことみたいですね。1.0が出るのは近そうだけどまだけっこう変わる可能性はありそうです。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Backbone.js 0.9.9 の変更点]]></title>
@@ -1354,59 +1384,6 @@ graceful shutdown!
 </ins></p>
 
 <p><a href="http://d.hatena.ne.jp/hokaccha/20120808/1344436656">pygmentsが原因でjekyllが重くなってた - hokaccha.hamalog v2</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Firefox5でCSSの@keyframesにクオートがあると動かない件について]]></title>
-    <link href="http://webtech-walker.com/archive/2011/06/24154503.html"/>
-    <updated>2011-06-24T00:00:00+09:00</updated>
-    <id>http://webtech-walker.com/archive/2011/06/24154503</id>
-    <content type="html"><![CDATA[<p>Firefox5でCSSのAnimationsが実装されましたが、ちょっとWebkit系と違うところがあるみたいです。</p>
-
-<p>どう違うかというと、@keyframesのアニメーション名にクオートを付けるとWebkit系は動くけどFirefox5は動かないみたい。</p>
-
-<p><a href="/sample/2011-06-24-24154503/index.html">DEMO</a></p>
-
-<p>つまりこういうこと。（説明簡略化のためベンダプレフィックスは除いてます）</p>
-
-<div class="highlight"><pre><code class="css"><span class="c">/* Webkitは動くけどFirefoxは動かない */</span>
-<span class="k">@keyframas</span> <span class="s1">&#39;hoge&#39;</span> <span class="p">{</span>
-    <span class="c">/* ... */</span>
-<span class="p">}</span>
-
-<span class="c">/* WebkitでもFirefoxでも動く */</span>
-<span class="k">@keyframas</span> <span class="nt">hoge</span> <span class="p">{</span>
-    <span class="c">/* ... */</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p>で、仕様はどうなってるか見てみると</p>
-
-<p><a href="http://www.w3.org/TR/css3-animations/">CSS Animations Module Level 3</a></p>
-
-<blockquote>
-  <p>keyframes-rule: ‘@keyframes’ IDENT ‘{’ keyframes-blocks ‘}’;</p>
-</blockquote>
-
-<p>って書いてあります。で、IDENTってところにキーフレーム名がくるわけですが、このIDENTってのが何かというは別の仕様に書いてあって</p>
-
-<p><a href="http://www.w3.org/TR/CSS21/syndata.html">Syntax and basic data types</a></p>
-
-<p>ここで定義されてるんですけど、IDENTはどうもクオートがつかない文字っぽいんですよね。なのでFirefoxでクオートがあると動かないのは仕様通りな気がします。ちなみにAnimationsの仕様書のExampleのコードはクオートありになってるんですが、これはExampleのコードが間違えなのかな。。？</p>
-
-<p>さらに、Safariのドキュメント見てみると</p>
-
-<p><a href="http://developer.apple.com/library/safari/#documentation/appleapplications/reference/SafariCSSRef/Articles/OtherStandardCSS3Features.html">Safari CSS Reference: Supported CSS Rules</a></p>
-
-<blockquote>
-  <p>keyframes-rule: ‘@-webkit-keyframes’ [ IDENT | STRING ] ‘{’ keyframes-blocks ‘}’;</p>
-</blockquote>
-
-<p>って書いてあって、W3Cのほうの仕様書と違ってSTRINGが追加されてます。STRINGはクオートで囲む文字列のようなので、これに従うとWebkitのほうが正しいわけです。</p>
-
-<p>まあまだ全然仕様が固まってない状態なのでこういうのもしょうがないんでしょうか。</p>
 ]]></content>
   </entry>
   
