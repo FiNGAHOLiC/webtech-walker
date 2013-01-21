@@ -4,7 +4,7 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2013-01-21T19:02:21+09:00</updated>
+  <updated>2013-01-21T19:07:35+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
@@ -29,7 +29,7 @@ Passing {silent:true} on change will no longer delay individual “change:attr�
   <li>その他バグFixいくつか。</li>
 </ul>
 
-<p>ソース見てるともうちょっと細かいところで変更ありそうな感じなんだけどとりあえずChange Log + 大きい変更点はこんな感じです。特にバリデーションの挙動はここ最近でよく変わってるので注意が必要そうです。</p>
+<p>バリデーションの挙動はここ最近でよく変わってるので注意が必要そうです。</p>
 
 <p>ちなみにドキュメントの冒頭に以下のようにあります。</p>
 
