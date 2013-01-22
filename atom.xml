@@ -4,7 +4,7 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2013-01-21T19:07:35+09:00</updated>
+  <updated>2013-01-22T15:47:37+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
@@ -16,7 +16,11 @@
     <link href="http://webtech-walker.com/archive/2013/01/backbone_0.9.10.html"/>
     <updated>2013-01-20T00:00:00+09:00</updated>
     <id>http://webtech-walker.com/archive/2013/01/backbone_0.9.10</id>
-    <content type="html"><![CDATA[<p>Backbone.jsの0.9.10がリリースされました。変更点は次のような感じです。</p>
+    <content type="html"><![CDATA[<p>Backbone.jsの0.9.10がリリースされました。</p>
+
+<p><a href="http://backbonejs.org/#changelog">Backbone.js - Change Log</a></p>
+
+<p>変更点は次のような感じです。</p>
 
 <ul>
   <li><code>route</code>イベントはこれまではBackbone.historyで発火してたんですが、routerでも発火されるようになりました。</li>
