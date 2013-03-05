@@ -4,12 +4,51 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2013-01-26T21:49:26+09:00</updated>
+  <updated>2013-03-05T12:15:01+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Windows8のChromeやFirefoxはタッチイベントとマウスイベント両方考慮すべし]]></title>
+    <link href="http://webtech-walker.com/archive/2013/03/win8_chrome_touch_event.html"/>
+    <updated>2013-03-05T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2013/03/win8_chrome_touch_event</id>
+    <content type="html"><![CDATA[<p>タッチ系の操作をスマホでもデスクトップPCでも動くようにするため、タッチイベントがある場合は<code>touchstart</code>や<code>touchmove</code>を使い、タッチイベントをサポートしていないブラウザでは<code>mousedown</code>や<code>mousemove</code>を使って同じ挙動にするというケースがあります。</p>
+
+<p>例えばこういうやつ。</p>
+
+<p><a href="http://pxgrid.github.com/js-flipsnap/demo.html">flipsnap.js DEMO</a></p>
+
+<p>そのようなケースでは僕はこれまで次のように書いていました。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">supportTouch</span> <span class="o">=</span> <span class="s1">&#39;ontouchstart&#39;</span> <span class="k">in</span> <span class="nb">window</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">touchStartEvent</span> <span class="o">=</span> <span class="nx">supportTouch</span> <span class="o">?</span> <span class="s1">&#39;touchstart&#39;</span> <span class="o">:</span> <span class="s1">&#39;mousedown&#39;</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">touchMoveEvent</span> <span class="o">=</span> <span class="nx">supportTouch</span> <span class="o">?</span> <span class="s1">&#39;touchmove&#39;</span> <span class="o">:</span> <span class="s1">&#39;mousemove&#39;</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">touchEndEvent</span> <span class="o">=</span> <span class="nx">supportTouch</span> <span class="o">?</span> <span class="s1">&#39;touchend&#39;</span> <span class="o">:</span> <span class="s1">&#39;mouseup&#39;</span><span class="p">;</span>
+
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="nx">touchStartEvent</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="p">...</span> <span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="nx">touchMoveEvent</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="p">...</span> <span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="nx">touchEndEvent</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="p">...</span> <span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>タッチ系のイベントがあるかどうかでバインドするイベントを決める感じです。</p>
+
+<p>しかし、これだとWindows8のChromeやFirefoxでマウスの操作が動きません。Windows8のChromeやFirefoxはタッチイベントをサポートしており、画面をタッチして操作した場合はタッチ系のイベントが、マウスで操作した場合はマウス系のイベントが発火するようになっています。</p>
+
+<p>なので上記のような処理だとタッチ系のイベントしかハンドラがバインドされず、マウスで操作しようとしたときに何もおきないということになります。</p>
+
+<p>対応方法は色々あると思うけど、flipsnap.jsでは<code>touchstart</code>と<code>mousedown</code>の両方にイベントをバインドしておいて、それらのイベントリスナの中でmoveイベントとendイベントをバインドし、endイベントでリスナを解除するみたいな感じにしました。</p>
+
+<p>ちなみにWindows8のIE10の場合はまたちょっと話が違ってきていて、MSPointerというポインターイベントがあってそれはこの前書いたのでそっちを参照のこと。</p>
+
+<p><a href="http://webtech-walker.com/archive/2012/11/flipsnap_ie10_pointerevents.html">flipsnap.jsでIE10のPointer Eventsに対応した - Webtech Walker</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Backbone.js 0.9.10 の変更点]]></title>
@@ -1367,27 +1406,6 @@ graceful shutdown!
 </div>
 
 <p>どれが一番いいかはよくわからん。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[github pages + jekyllにした]]></title>
-    <link href="http://webtech-walker.com/archive/2012/08/renewal.html"/>
-    <updated>2012-08-08T00:00:00+09:00</updated>
-    <id>http://webtech-walker.com/archive/2012/08/renewal</id>
-    <content type="html"><![CDATA[<p>5年くらい前のWordPressで動いてたブログをjekyllにしてgithub pagesで動くように移行しました。ついでにデザインもリニューアル。</p>
-
-<p>エントリーのURLは変わってないんだけど、フィードのURLだけ変わりました。というか、feedburner.jpのドメインでフィード配信してたんですけど、feedburner.jpがちょっと前に使えなくなったみたいで、変えないといけなくなりました。新しいのはこれ。</p>
-
-<p><a href="http://webtech-walker.com/atom.xml">Feed</a></p>
-
-<p>github pagesとjekyllにしてgitでデプロイできるのとMarkdownで記事書けるようにったのはすごくいいんだけど、問題は記事数が多くて（160記事くらい）jekyllの実行に20秒くらいかかること。なんか一周してMTの再構築問題に戻ってきた気分。</p>
-
-<p><ins>
-追記：jekyllの実行に時間がかかるの解決した。こっちに書いた。
-</ins></p>
-
-<p><a href="http://d.hatena.ne.jp/hokaccha/20120808/1344436656">pygmentsが原因でjekyllが重くなってた - hokaccha.hamalog v2</a></p>
 ]]></content>
   </entry>
   
