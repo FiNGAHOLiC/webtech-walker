@@ -4,12 +4,142 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2013-03-05T12:15:01+09:00</updated>
+  <updated>2013-04-09T00:31:26+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu上でXvfbを使ってJavaScriptのユニットテストをChromeとFirefoxで実行する]]></title>
+    <link href="http://webtech-walker.com/archive/2013/04/xvfb-js-unit-test.html"/>
+    <updated>2013-04-09T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2013/04/xvfb-js-unit-test</id>
+    <content type="html"><![CDATA[<p>JavaScriptのユニットテストをJenkinsとかでCIしたいとき、PhantomJSで実行するのもいいけどやっぱりChromeとかFirefoxみたいな実際のブラウザでテストしたい。でも環境作るのめんどくさいよなーと思ってたけどXvfbを使うとChromeとかFirefoxが動くのでLinux版のChromeとFirefoxだけだとわりと簡単に環境つくれた。</p>
+
+<p>Xvfbというのは画面入出力をシミュレートするやつでデスクトップ環境を用意しなくてもChromeとかFirefoxとかが動かせるやつ。</p>
+
+<p>OSはUbuntsの12.04（precise64）で試した。</p>
+
+<p>まずXvfbを入れる。</p>
+
+<pre><code>$ sudo apt-get install xvfb
+</code></pre>
+
+<p>次にFirefoxを入れる。これもすぐ入る。</p>
+
+<pre><code>$ sudo apt-get install firefox
+</code></pre>
+
+<p>Chromeは一手間必要だけどわりとすぐ入る。</p>
+
+<pre><code>$ wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+$ sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" &gt;&gt; /etc/apt/sources.list.d/google.list'
+$ sudo apt-get update
+$ sudo apt-get install google-chrome-stable
+</code></pre>
+
+<p>参考: <a href="http://shiganaiman.hatenablog.com/entry/2012/01/24/120405">UbuntuにGoogle Chromeをインストールする - しがないまんとはなんですと！</a></p>
+
+<p>ユニットテストを実行するのには<a href="https://github.com/airportyh/testem">Testem</a>を使ってみた。Testemはテストランナーのツールでユニットテストの自動実行とかをしてくれるやつ。</p>
+
+<p>Node.jsは入ってる前提で、npmでインストール。</p>
+
+<pre><code>$ npm install testem
+</code></pre>
+
+<p>そしたら<code>testem launchers</code>コマンドで今実行できるブラウザが表示されるので見てみる。</p>
+
+<pre><code>$ ./node_modules/.bin/testem launchers
+Have 2 launchers available; auto-launch info displayed on the right.
+
+Launcher      Type          CI  Dev
+------------  ------------  --  ---
+Firefox       browser       ✔           
+Chrome        browser       ✔ 
+</code></pre>
+
+<p>ちゃんとFirefoxとChromeがある！</p>
+
+<p>そして、適当にtestemの設定ファイルとテストファイルを用意する。</p>
+
+<pre><code># testem.yml
+framework: mocha
+src_files:
+  - expect.js
+  - test.js
+</code></pre>
+
+<div class="highlight"><pre><code class="javascript"><span class="c1">// test.js</span>
+<span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;document.body.tagName&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should be BODY&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">tagName</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">(</span><span class="s1">&#39;BODY&#39;</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>これでテストは通るはずだけどまだこのままだと動かない。</p>
+
+<pre><code>$ ./node_modules/.bin/testem ci
+# Launching Firefox
+# 
+TAP version 13
+not ok 1 - Firefox "undefined"
+  ---
+    message: "Exited with code 1"
+  ...
+
+# Launching Chrome
+# 
+not ok 2 - Chrome "undefined"
+  ---
+    message: "Exited with code 1"
+  ...
+
+
+1..2
+# tests 2
+# fail  2
+</code></pre>
+
+<p>なぜならまだXvfbを立ち上げてないのでディスプレイがなくてFirefoxもChromeも起動できない。</p>
+
+<p>なのでXvfbを立ち上げる。ホントはちゃんと起動スクリプトとか書いたほうがいいんだろうけどとりあえず適当に。</p>
+
+<pre><code>$ Xvfb :99 -screen 0 1024x768x24 &gt; /dev/null 2&gt;&amp;1 &amp;
+</code></pre>
+
+<p>これで<code>:99.0</code>でXvfbが立ち上がったのでこれを環境変数で指定してtestemを実行する。</p>
+
+<pre><code>$ DISPLAY=:99.0 ./node_modules/.bin/testem ci
+# Launching Firefox
+# .
+TAP version 13
+ok 1 - Firefox document.body.tagName should be BODY
+
+# Launching Chrome
+# .
+ok 2 - Chrome document.body.tagName should be BODY
+
+
+1..2
+# tests 2
+# pass  2
+
+# ok
+</code></pre>
+
+<p>そうするとちゃんとFirefoxとChromeでテストが実行される。すごい。後はこれをJenkinsとかで走らせればOK。たぶんSeleniumのテストとかもこれで走らせられるね。</p>
+
+<p>ちなみにTravis CIはXvfbに対応してるんだけど現時点ではFirefoxしか入ってないっぽい。</p>
+
+<p><a href="http://about.travis-ci.org/docs/user/gui-and-headless-browsers/">Travis CI: GUI &amp; Headless browser testing on travis-ci.org</a></p>
+
+<p>関係ないけどVagrant使うとこういうの手軽にまっさらな環境で試せるので楽チン。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Windows8のChromeやFirefoxはタッチイベントとマウスイベント両方考慮すべし]]></title>
@@ -1349,63 +1479,6 @@ graceful shutdown!
 </div>
 
 <p>のように<code>preventDefault()</code>を使うようにしたほうがいいよねというお話でした。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[JavaScriptのゲッタ]]></title>
-    <link href="http://webtech-walker.com/archive/2012/09/jsgetter.html"/>
-    <updated>2012-09-07T00:00:00+09:00</updated>
-    <id>http://webtech-walker.com/archive/2012/09/jsgetter</id>
-    <content type="html"><![CDATA[<p>JavaScriptでゲッタを定義するのに__defineGetter__っていうのが使えて</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
-
-<span class="nx">obj</span><span class="p">.</span><span class="nx">__defineGetter__</span><span class="p">(</span><span class="s1">&#39;hoge&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;hoge!!&#39;</span><span class="p">);</span>
-<span class="p">});</span>
-
-<span class="nx">obj</span><span class="p">.</span><span class="nx">hoge</span><span class="p">;</span> <span class="c1">//=&gt; hoge!!</span>
-</code></pre>
-</div>
-
-<p>こんな感じで()つけなくても関数が呼び出されるのでプロパティにアクセスのようにして関数を呼び出すことができる。</p>
-
-<p>Node.jsのライブラリのコード読んでるとよく__defineGetter__がでてくる（Node.jsのコードというかTJのコードに多いだけな気もする）。</p>
-
-<p><a href="https://github.com/visionmedia/express/blob/75fc8820016739a38b395955902ce118467c8f42/lib/request.js#L180">express/lib/request.js at master · visionmedia/express · GitHub</a></p>
-
-<p>でも__defineGetter__はECMAScript非標準なんで非推奨ってMDNに書いてある。</p>
-
-<p><a href="https://developer.mozilla.org/ja/docs/JavaScript/Reference/Global_Objects/Object/defineGetter">defineGetter | MDN</a></p>
-
-<p>Object.definePropertyを使えって書いてある。Object.definePropertyを使うとこんな感じ。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
-
-<span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s1">&#39;hoge&#39;</span><span class="p">,</span> <span class="p">{</span>  
-  <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;hoge!!&#39;</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">});</span>
-
-<span class="nx">obj</span><span class="p">.</span><span class="nx">hoge</span><span class="p">;</span> <span class="c1">//=&gt; hoge!!</span>
-</code></pre>
-</div>
-
-<p>もしくはこれでもいける。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="nx">get</span> <span class="nx">hoge</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;hoge!!&#39;</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">};</span>
-
-<span class="nx">obj</span><span class="p">.</span><span class="nx">hoge</span><span class="p">;</span> <span class="c1">//=&gt; hoge!!</span>
-</code></pre>
-</div>
-
-<p>どれが一番いいかはよくわからん。</p>
 ]]></content>
   </entry>
   
