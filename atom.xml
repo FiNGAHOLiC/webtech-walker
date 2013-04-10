@@ -4,12 +4,173 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2013-04-09T00:31:26+09:00</updated>
+  <updated>2013-04-10T17:54:10+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Node.jsのFiberを使って非同期処理を同期っぽく書く]]></title>
+    <link href="http://webtech-walker.com/archive/2013/04/node_await_flow.html"/>
+    <updated>2013-04-10T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2013/04/node_await_flow</id>
+    <content type="html"><![CDATA[<p>FirefoxのJavaScriptではバージョンを1.7以上に指定するとyieldが使えて非同期処理を同期っぽく書くことができるようになる。</p>
+
+<p>適当な例だけどこんな感じ。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">function</span> <span class="nx">run</span><span class="p">(</span><span class="nx">f</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">g</span> <span class="o">=</span> <span class="nx">f</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="nx">g</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">});</span>
+  <span class="nx">g</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
+<span class="p">}</span>
+ 
+<span class="nx">run</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="p">[];</span>
+
+  <span class="nx">result</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">);</span>
+
+  <span class="c1">// ここで1秒待つ</span>
+  <span class="nx">yield</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">result</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">);</span>
+    <span class="nx">next</span><span class="p">();</span>
+  <span class="p">},</span> <span class="mi">1000</span><span class="p">);</span>
+
+  <span class="c1">// ここで1秒待つ</span>
+  <span class="kd">var</span> <span class="nx">baz</span> <span class="o">=</span> <span class="nx">yield</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// nextの引数がyieldの返り値になる</span>
+    <span class="nx">next</span><span class="p">(</span><span class="s1">&#39;baz&#39;</span><span class="p">);</span>
+  <span class="p">},</span> <span class="mi">1000</span><span class="p">);</span>
+
+  <span class="nx">result</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">baz</span><span class="p">);</span>
+
+  <span class="c1">// 2秒後に出力</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span> <span class="c1">// [&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>ちなみにこのような手法は昔から知られているので詳しくは以下を参照のこと。</p>
+
+<ul>
+  <li><a href="http://labs.cybozu.co.jp/blog/kazuho/archives/2007/05/coopthread.php">Kazuho@Cybozu Labs: JavaScript/1.7 で協調的マルチスレッド</a></li>
+  <li><a href="http://d.hatena.ne.jp/amachang/20080303/1204544340">JavaScript1.7 の yield を使って、非同期処理を同期処理のように書く方法 - IT戦記</a></li>
+</ul>
+
+<p>このようにyieldが使えるようになると夢広がりんぐなわけですが、未だにFirefox以外では利用できないわけです。そこでNode.jsの<a href="https://github.com/laverdet/node-fibers">node-fibers</a>というネイティブ拡張を使うとyieldっぽいのができるようになる。</p>
+
+<p>さっきのをnode-fibersを使って書くとこんな感じになる。だいたい同じ。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">Fiber</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fibers&#39;</span><span class="p">);</span>
+
+<span class="kd">function</span> <span class="nx">run</span><span class="p">(</span><span class="nx">f</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">fiber</span> <span class="o">=</span> <span class="nx">Fiber</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">f</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="nx">fiber</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">});</span>
+  <span class="p">});</span>
+  <span class="nx">fiber</span><span class="p">.</span><span class="nx">run</span><span class="p">();</span>
+<span class="p">}</span>
+ 
+<span class="nx">run</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="p">[];</span>
+
+  <span class="nx">result</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">);</span>
+
+  <span class="c1">// ここで1秒待つ</span>
+  <span class="nx">Fiber</span><span class="p">.</span><span class="nx">yield</span><span class="p">(</span><span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">result</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">);</span>
+    <span class="nx">next</span><span class="p">();</span>
+  <span class="p">},</span> <span class="mi">1000</span><span class="p">));</span>
+
+  <span class="c1">// ここで1秒待つ</span>
+  <span class="kd">var</span> <span class="nx">baz</span> <span class="o">=</span> <span class="nx">Fiber</span><span class="p">.</span><span class="nx">yield</span><span class="p">(</span><span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// nextの引数がyieldの返り値になる</span>
+    <span class="nx">next</span><span class="p">(</span><span class="s1">&#39;baz&#39;</span><span class="p">);</span>
+  <span class="p">},</span> <span class="mi">1000</span><span class="p">));</span>
+
+  <span class="nx">result</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">baz</span><span class="p">);</span>
+
+  <span class="c1">// 2秒後に出力</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span> <span class="c1">// [&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>このままだとちょっと使いづらいので色々ラッパーがでてる。有名なのはこんなの。</p>
+
+<ul>
+  <li><a href="https://github.com/alexeypetrushin/synchronize">synchronize</a></li>
+  <li><a href="https://github.com/scriby/asyncblock">asyncblock</a></li>
+</ul>
+
+<p>ちょっと試しに自分でも作ってみた。</p>
+
+<p><a href="https://github.com/hokaccha/node-await-flow">hokaccha/node-await-flow GitHub</a></p>
+
+<p>こんな感じで使う。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">AwaitFlow</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;await-flow&#39;</span><span class="p">);</span>
+
+<span class="c1">// AwaitFlow.runのコールバックはawait関数を引数にとる</span>
+<span class="nx">AwaitFlow</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">await</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// await関数を実行するとnextが実行されるまで次の処理に移るのを待つ</span>
+  <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">await</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="c1">// next関数は第一引数にエラー、第二引数にawaitが返す値を指定する</span>
+      <span class="nx">next</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">);</span>
+    <span class="p">},</span> <span class="mi">1000</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span> <span class="c1">//=&gt; foo</span>
+<span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// 処理が全部終わったら呼ばれる。エラーはまとめてここで処理できる</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>ファイルを読み込んで1秒まって別のファイルに書き込むみたいのはこんな感じで書ける。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">AwaitFlow</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;await-flow&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
+
+<span class="nx">AwaitFlow</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">await</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// read file async</span>
+  <span class="kd">var</span> <span class="nx">content</span> <span class="o">=</span> <span class="nx">await</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="s1">&#39;./foo.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;utf8&#39;</span><span class="p">,</span> <span class="nx">next</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="c1">// wait 1000ms</span>
+  <span class="nx">await</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">setTimeout</span><span class="p">(</span><span class="nx">next</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="c1">// write file async</span>
+  <span class="nx">await</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span><span class="p">(</span><span class="s1">&#39;./bar.txt&#39;</span><span class="p">,</span> <span class="nx">content</span><span class="p">,</span> <span class="nx">next</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>Function#bindとか使えば1行でも書けるね！でも見づらいね！</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">AwaitFlow</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;await-flow&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
+
+<span class="nx">AwaitFlow</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">await</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">content</span> <span class="o">=</span> <span class="nx">await</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">fs</span><span class="p">,</span> <span class="s1">&#39;./foo.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;utf8&#39;</span><span class="p">));</span>
+  <span class="nx">await</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">next</span><span class="p">)</span> <span class="p">{</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="nx">next</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span> <span class="p">});</span>
+  <span class="nx">await</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">fs</span><span class="p">,</span> <span class="s1">&#39;./bar.txt&#39;</span><span class="p">,</span> <span class="nx">content</span><span class="p">));</span>
+<span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>エラー処理とかがまだいまいちな感じで機能もsynchronizeとかasyncblockとかに比べて全然なのでnpmには上げてない。とりあえずコルーチン使った非同期処理を自分で書いてみたかっただけ。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ubuntu上でXvfbを使ってJavaScriptのユニットテストをChromeとFirefoxで実行する]]></title>
@@ -1409,76 +1570,6 @@ graceful shutdown!
 <p><a href="http://d.hatena.ne.jp/hokaccha/20120808/1344436656">pygmentsが原因でjekyllが重くなってた - hokaccha.hamalog v2</a></p>
 
 <p>というわけでJekyllおすすめ。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[jQueryのイベントハンドラでreturn falseするとイベントのバブリングが止まる]]></title>
-    <link href="http://webtech-walker.com/archive/2012/09/event_handler_return_false.html"/>
-    <updated>2012-09-20T00:00:00+09:00</updated>
-    <id>http://webtech-walker.com/archive/2012/09/event_handler_return_false</id>
-    <content type="html"><![CDATA[<p>例えばjQueryでスムーズスクロール的なのを実装したとして、a要素のデフォルトの機能を止めるために以下のように<code>return false</code>ってするとイベントのバブリングまでとまるよという話。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a[href*=#]&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c1">// スムーズスクロースの処理</span>
-    <span class="p">...</span>
-
-    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
-  <span class="p">});</span>
-<span class="p">});</span>
-</code></pre>
-</div>
-
-<p>つまり</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a[href*=#]&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">ev</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
-    <span class="nx">ev</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">();</span>
-
-    <span class="c1">// スムーズスクロースの処理</span>
-    <span class="p">...</span>
-  <span class="p">});</span>
-<span class="p">});</span>
-</code></pre>
-</div>
-
-<p>としたときと同じ挙動になる。<code>return false</code>してるコードは、デフォルトの挙動を止めるのは意図してるけど、イベントのバブリングまで止めるのは意図してない場合が多いんじゃなかろうかと思う。意図してるなら特に問題ない。</p>
-
-<p>それでイベントのバブリングがとまると何が一番困るかというdelegateが使えなくなること。</p>
-
-<p>具体的にはこれが動かない。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a[href*=#]&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c1">// スムーズスクロースの処理</span>
-    <span class="p">...</span>
-
-    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
-  <span class="p">});</span>
-
-  <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">delegate</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;clicked!!&#39;</span><span class="p">);</span>
-  <span class="p">});</span>
-<span class="p">});</span>
-</code></pre>
-</div>
-
-<p>delegateはイベントのバブリングを利用してイベントを捕まえるので最初のスムーズスクロールで<code>return false</code>しちゃうとそこでイベントのバブリングが止まるのでdelegateのイベントが実行されない。なのでイベントのデフォルトの動作を止めたいだけなら、できるだけ</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a[href*=#]&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">ev</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
-
-    <span class="c1">// スムーズスクロースの処理</span>
-    <span class="p">...</span>
-  <span class="p">});</span>
-<span class="p">});</span>
-</code></pre>
-</div>
-
-<p>のように<code>preventDefault()</code>を使うようにしたほうがいいよねというお話でした。</p>
 ]]></content>
   </entry>
   
