@@ -497,9 +497,10 @@ body {
     color: #666;
     display: block; }
   .mod-entry .body .mod-ads {
-    margin: 30px 0 10px; }
-    .mod-entry .body .mod-ads .mobile {
-      display: none; }
+    margin: 20px 0 10px; }
+    .mod-entry .body .mod-ads .adsbygoogle {
+      width: 728px;
+      height: 90px; }
 .mod-entry .socials div {
   display: inline-block;
   vertical-align: top; }
@@ -526,14 +527,9 @@ body {
     border-bottom: 1px solid #CCC;
     padding-top: 5px;
     padding-bottom: 5px; }
-  .mod-entry .body .mod-ads .big {
-    display: none; }
-  .mod-entry .body .mod-ads .mobile {
-    display: block; } }
-@media screen and (max-width: 320px) {
-  .mod-entry .body .mod-ads {
-    position: relative;
-    right: 10px; } }
+  .mod-entry .body .mod-ads .adsbygoogle {
+    width: 300px;
+    height: 250px; } }
 @media screen and (max-width: 500px) {
   .mod-header h1 {
     padding: 30px 0; }
