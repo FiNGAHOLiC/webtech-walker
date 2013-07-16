@@ -496,8 +496,10 @@ body {
     font-size: 13px;
     color: #666;
     display: block; }
-  .mod-entry .body .banner {
+  .mod-entry .body .mod-ads {
     margin: 30px 0 10px; }
+    .mod-entry .body .mod-ads .mobile {
+      display: none; }
 .mod-entry .socials div {
   display: inline-block;
   vertical-align: top; }
@@ -523,7 +525,11 @@ body {
     border-top: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
     padding-top: 5px;
-    padding-bottom: 5px; } }
+    padding-bottom: 5px; }
+  .mod-entry .body .mod-ads .big {
+    display: none; }
+  .mod-entry .body .mod-ads .mobile {
+    display: block; } }
 @media screen and (max-width: 500px) {
   .mod-header h1 {
     padding: 30px 0; }
