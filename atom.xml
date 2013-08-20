@@ -4,12 +4,85 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2013-07-17T02:50:38+09:00</updated>
+  <updated>2013-08-20T18:41:15+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Travis CIで複数のjQueryのバージョンでテストを実行する]]></title>
+    <link href="http://webtech-walker.com/archive/2013/08/mocha_travis_multi_jquery_version.html"/>
+    <updated>2013-08-20T00:00:00+09:00</updated>
+    <id>http://webtech-walker.com/archive/2013/08/mocha_travis_multi_jquery_version</id>
+    <content type="html"><![CDATA[<p>Travis CIは</p>
+
+<pre><code>language: node_js
+node_js:
+  - 0.10
+  - 0.8
+  - 0.6
+</code></pre>
+
+<p>とか書けば複数のバージョンでテスト実行してくれてマジすごいんだけど、同じことをjQueryのバージョンでもやってみた。</p>
+
+<p>主にjQueryのプラグインを書いてる場合などに便利だと思う。1.9で非互換な変更があったんでバージョン違うとプラグイン動かないとかけっこうあるからね。</p>
+
+<p>まず<a href="https://github.com/metaskills/mocha-phantomjs">mocha-phantomjs</a>を使ってmochaで書いたテストをphantomjsで動くようにする。</p>
+
+<p>jQueryのバージョンはmocha-phantomjsに環境変数で渡したいんだけど、mocha-phantomjsは環境変数をブラウザに渡せるようになってなかったので、パッチ書いたのでひとまずそっちを使う。（Pull Requestは送っといたので取り込まれたらそっち使いましょう）</p>
+
+<pre><code>$ npm install git://github.com/hokaccha/mocha-phantomjs.git#topic/set-env
+</code></pre>
+
+<p>そしたらjQueryを環境変数からバージョンを切り替えて読めるようにする。こんな感じ。</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">v</span> <span class="o">=</span> <span class="s1">&#39;1.8.2&#39;</span><span class="p">;</span> <span class="c1">// ブラウザでテストを走らせる場合のバージョン</span>
+  <span class="kd">var</span> <span class="nx">mpjs</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">mochaPhantomJS</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">mpjs</span> <span class="o">&amp;&amp;</span> <span class="nx">mpjs</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">JQUERY_VERSION</span><span class="p">)</span> <span class="p">{</span>
+     <span class="nx">v</span> <span class="o">=</span> <span class="nx">mpjs</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">JQUERY_VERSION</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kd">var</span> <span class="nx">src</span> <span class="o">=</span> <span class="s1">&#39;http://ajax.googleapis.com/ajax/libs/jquery/&#39;</span> <span class="o">+</span> <span class="nx">v</span> <span class="o">+</span> <span class="s1">&#39;/jquery.js&#39;</span><span class="p">;</span>
+
+  <span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;&lt;script src=&quot;&#39;</span> <span class="o">+</span> <span class="nx">src</span> <span class="o">+</span> <span class="s1">&#39;&quot;&gt;&lt;/script&gt;&#39;</span><span class="p">);</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;&lt;script&gt;console.log(&quot;Load jQuery: &quot; + $.fn.jquery)&lt;/script&gt;&#39;</span><span class="p">);</span>
+<span class="p">})();</span>
+</code></pre>
+</div>
+
+<p>これでjQueryを環境変数からバージョンを指定して読み込めるようになるので、次のようなコマンドで実行するとバージョンを変更できる。</p>
+
+<pre><code>$ JQUERY_VERSION=1.9.1 ./node_modules/.bin/mocha-phantomjs test/index.html
+Load jQuery: 1.9.1
+
+# test result ...
+</code></pre>
+
+<p>Travis CI の設定はこんな感じ。</p>
+
+<pre><code>language: node_js
+node_js:
+  - 0.8
+script: npm test
+env:
+  - JQUERY_VERSION=1.6.4
+  - JQUERY_VERSION=1.7.2
+  - JQUERY_VERSION=1.8.3
+  - JQUERY_VERSION=1.10.2
+  - JQUERY_VERSION=2.0.2
+</code></pre>
+
+<p>Travis CIは環境変数が上記のように複数指定されてるとすべてのパターンでテストを実行してくれるのでこれで全部のバージョンでテストされる。</p>
+
+<p>結果はこんな感じ。</p>
+
+<p><a href="https://travis-ci.org/hokaccha/mocha-phantom-travis-test/builds/10399660">hokaccha/mocha-phantom-travis-test - Travis CI</a></p>
+
+<p>Travis CI 便利すぎる。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[JavaScriptでRuby 2.0のRefinements的なのを実装してみる]]></title>
@@ -1505,43 +1578,6 @@ $ git export-diff &lt;sha1&gt;..&lt;sha1&gt; path/to/dir
 </code></pre>
 
 <p>みたいな感じでもOK。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[jQueryでアニメーション終了時のcallback]]></title>
-    <link href="http://webtech-walker.com/archive/2012/09/jquery_animate_callback.html"/>
-    <updated>2012-09-23T00:00:00+09:00</updated>
-    <id>http://webtech-walker.com/archive/2012/09/jquery_animate_callback</id>
-    <content type="html"><![CDATA[<p>jQueryでfadeOutとかのアニメーションして終わったらなんかするといったときにcallback関数を引数に指定するのとDeferred使う方法があるんだけどこの二つは挙動が違う。</p>
-
-<p>こういうHTMLがあったとして</p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;div&gt;</span>foo<span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;div&gt;</span>bar<span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;div&gt;</span>baz<span class="nt">&lt;/div&gt;</span>
-</code></pre>
-</div>
-
-<p>まず以下のようなcallback関数の場合はそれぞれのfadeOutが終わるごとに呼ばれる。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;fin&#39;</span><span class="p">);</span>
-<span class="p">});</span>
-</code></pre>
-</div>
-
-<p>つまり<code>'fin'</code>が3回出力される。</p>
-
-<p>一方Deferredを使った場合はこんな感じ。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">.</span><span class="nx">promise</span><span class="p">().</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;fin&#39;</span><span class="p">);</span>
-<span class="p">});</span>
-</code></pre>
-</div>
-
-<p><code>.promise()</code>がDeferredオブジェクトを返すので<code>.done</code>に設定した関数がアニメーション終了時に呼ばれる。こっちは全てのアニメーションが終わった時点で呼ばれるので<code>'fin'</code>は一回しか呼ばれない。という違いがあるみたい。</p>
 ]]></content>
   </entry>
   
