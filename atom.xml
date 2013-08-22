@@ -4,7 +4,7 @@
   <title><![CDATA[Webtech Walker]]></title>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
   <link href="http://webtech-walker.com/"/>
-  <updated>2013-08-20T18:45:39+09:00</updated>
+  <updated>2013-08-23T08:33:00+09:00</updated>
   <id>http://webtech-walker.com/</id>
   <author>
     <name><![CDATA[Kazuhito Hokamura]]></name>
@@ -33,7 +33,9 @@ node_js:
 
 <p>jQueryのバージョンはmocha-phantomjsに環境変数で渡したいんだけど、mocha-phantomjsは環境変数をブラウザに渡せるようになってなかったので、パッチ書いたのでひとまずそっちを使う。（Pull Requestは送っといたので取り込まれたらそっち使いましょう）</p>
 
-<pre><code>$ npm install git://github.com/hokaccha/mocha-phantomjs.git#topic/set-env
+<p>（追記：取り込まれた）</p>
+
+<pre><code>$ npm install mocha-phantomjs
 </code></pre>
 
 <p>そしたらjQueryを環境変数からバージョンを切り替えて読めるようにする。こんな感じ。</p>
