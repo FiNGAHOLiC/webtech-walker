@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>JSDeferredのparallelとwaitで最低遅延時間を設定する - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,38 +22,55 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2011-03-30T00:00:00+09:00" pubdate>2011月03月30日</time>
-
+<time datetime="2011-03-30T00:00:00+09:00">2011年03月30日</time>
 <ul class="tags">
   
-    <li><a href="/tags/JavaScript.html">JavaScript</a></li>
+    <li><a href="/tags/javascript.html">JavaScript</a></li>
   
 </ul>
 
 <h1>JSDeferredのparallelとwaitで最低遅延時間を設定する</h1>
 
 <div class="body">
-<p>Ajaxでデータとってくる間にローディングいれるとき、場合によっては処理が一瞬で終わって逆にローディングがチカっとしてうざいので最低でも1秒はローディング出すって処理を最近だとJSDeferred使ってこんな感じで書いてる。</p>
 
-<div class="highlight"><pre><code class="javascript"><span class="nx">loading</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span>
+<p>Ajaxでデータとってくる間にローディングいれるとき、場合によっては処理が一瞬で終わって逆にローディングがチカっとしてうざいので最低でも1秒はローディング出すって処理を最近だとJSDeferred使ってこんな感じで書いてる。</p>
+<pre class="highlight javascript"><span class="nx">loading</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span>
 <span class="nx">Deferred</span><span class="p">.</span><span class="nx">parallel</span><span class="p">([</span>
     <span class="nx">Deferred</span><span class="p">.</span><span class="nx">wait</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
     <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
         <span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="nx">Deferred</span><span class="p">();</span>
         <span class="nx">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;hoge&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-            <span class="c1">// 何か処理</span>
-            <span class="nx">d</span><span class="p">.</span><span class="nx">call</span><span class="p">();</span>
+            <span class="c1">// 何か処理
+</span>            <span class="nx">d</span><span class="p">.</span><span class="nx">call</span><span class="p">();</span>
         <span class="p">});</span>
         <span class="k">return</span> <span class="nx">d</span><span class="p">;</span>
     <span class="p">}</span>
@@ -62,13 +78,10 @@
 <span class="p">.</span><span class="nx">next</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="nx">loading</span><span class="p">.</span><span class="nx">hide</span><span class="p">();</span>
 <span class="p">});</span>
-</code></pre>
-</div>
-
+</pre>
 <p>便利なり。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -78,7 +91,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -119,12 +132,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2011/03/28205254.html">flipsnap.jsというのを書いた</a></li>
-
-
-  <li class="next"><span>Next Entry:</span><a href="/archive/2011/03/30190850.html">iOSのSafariで特定のfont-sizeのときの謎の隙間</a></li>
-
+  <li class="next"><span>Next Entry:</span><a href="/archive/2011/04/20001022.html">CSS3のvim syntaxをちょっといじった</a></li>
 </ul>
 
 <div id="disqus_thread"></div>
@@ -139,8 +148,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -151,8 +161,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>Ubuntu上でXvfbを使ってJavaScriptのユニットテストをChromeとFirefoxで実行する - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,28 +22,48 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2013-04-09T00:00:00+09:00" pubdate>2013月04月09日</time>
-
+<time datetime="2013-04-09T00:00:00+09:00">2013年04月09日</time>
 <ul class="tags">
   
-    <li><a href="/tags/JavaScript.html">JavaScript</a></li>
+    <li><a href="/tags/javascript.html">JavaScript</a></li>
+  
+    <li><a href="/tags/test.html">test</a></li>
   
 </ul>
 
 <h1>Ubuntu上でXvfbを使ってJavaScriptのユニットテストをChromeとFirefoxで実行する</h1>
 
 <div class="body">
+
 <p>JavaScriptのユニットテストをJenkinsとかでCIしたいとき、PhantomJSで実行するのもいいけどやっぱりChromeとかFirefoxみたいな実際のブラウザでテストしたい。でも環境作るのめんどくさいよなーと思ってたけどXvfbを使うとChromeとかFirefoxが動くのでLinux版のChromeとFirefoxだけだとわりと簡単に環境つくれた。</p>
 
 <p>Xvfbというのは画面入出力をシミュレートするやつでデスクトップ環境を用意しなくてもChromeとかFirefoxとかが動かせるやつ。</p>
@@ -52,97 +71,77 @@
 <p>OSはUbuntsの12.04（precise64）で試した。</p>
 
 <p>まずXvfbを入れる。</p>
-
-<pre><code>$ sudo apt-get install xvfb
-</code></pre>
-
+<pre class="highlight text">$ sudo apt-get install xvfb
+</pre>
 <p>次にFirefoxを入れる。これもすぐ入る。</p>
-
-<pre><code>$ sudo apt-get install firefox
-</code></pre>
-
+<pre class="highlight text">$ sudo apt-get install firefox
+</pre>
 <p>Chromeは一手間必要だけどわりとすぐ入る。</p>
-
-<pre><code>$ wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-$ sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" &gt;&gt; /etc/apt/sources.list.d/google.list'
+<pre class="highlight text">$ wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+$ sudo sh -c &#39;echo &quot;deb http://dl.google.com/linux/chrome/deb/ stable main&quot; &gt;&gt; /etc/apt/sources.list.d/google.list&#39;
 $ sudo apt-get update
 $ sudo apt-get install google-chrome-stable
-</code></pre>
-
+</pre>
 <p>参考: <a href="http://shiganaiman.hatenablog.com/entry/2012/01/24/120405">UbuntuにGoogle Chromeをインストールする - しがないまんとはなんですと！</a></p>
 
 <p>ユニットテストを実行するのには<a href="https://github.com/airportyh/testem">Testem</a>を使ってみた。Testemはテストランナーのツールでユニットテストの自動実行とかをしてくれるやつ。</p>
 
 <p>Node.jsは入ってる前提で、npmでインストール。</p>
-
-<pre><code>$ npm install testem
-</code></pre>
-
+<pre class="highlight text">$ npm install testem
+</pre>
 <p>そしたら<code>testem launchers</code>コマンドで今実行できるブラウザが表示されるので見てみる。</p>
-
-<pre><code>$ ./node_modules/.bin/testem launchers
+<pre class="highlight text">$ ./node_modules/.bin/testem launchers
 Have 2 launchers available; auto-launch info displayed on the right.
 
 Launcher      Type          CI  Dev
 ------------  ------------  --  ---
 Firefox       browser       ✔           
 Chrome        browser       ✔ 
-</code></pre>
-
+</pre>
 <p>ちゃんとFirefoxとChromeがある！</p>
 
 <p>そして、適当にtestemの設定ファイルとテストファイルを用意する。</p>
-
-<pre><code># testem.yml
+<pre class="highlight text"># testem.yml
 framework: mocha
 src_files:
   - expect.js
   - test.js
-</code></pre>
-
-<div class="highlight"><pre><code class="javascript"><span class="c1">// test.js</span>
-<span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;document.body.tagName&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</pre><pre class="highlight javascript"><span class="c1">// test.js
+</span><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;document.body.tagName&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should be BODY&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="nx">expect</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">tagName</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">(</span><span class="s1">&#39;BODY&#39;</span><span class="p">);</span>
   <span class="p">});</span>
 <span class="p">});</span>
-</code></pre>
-</div>
-
+</pre>
 <p>これでテストは通るはずだけどまだこのままだと動かない。</p>
-
-<pre><code>$ ./node_modules/.bin/testem ci
+<pre class="highlight text">$ ./node_modules/.bin/testem ci
 # Launching Firefox
 # 
 TAP version 13
-not ok 1 - Firefox "undefined"
+not ok 1 - Firefox &quot;undefined&quot;
   ---
-    message: "Exited with code 1"
+    message: &quot;Exited with code 1&quot;
   ...
 
 # Launching Chrome
 # 
-not ok 2 - Chrome "undefined"
+not ok 2 - Chrome &quot;undefined&quot;
   ---
-    message: "Exited with code 1"
+    message: &quot;Exited with code 1&quot;
   ...
 
 
 1..2
 # tests 2
 # fail  2
-</code></pre>
-
+</pre>
 <p>なぜならまだXvfbを立ち上げてないのでディスプレイがなくてFirefoxもChromeも起動できない。</p>
 
 <p>なのでXvfbを立ち上げる。ホントはちゃんと起動スクリプトとか書いたほうがいいんだろうけどとりあえず適当に。</p>
-
-<pre><code>$ Xvfb :99 -screen 0 1024x768x24 &gt; /dev/null 2&gt;&amp;1 &amp;
-</code></pre>
-
+<pre class="highlight text">$ Xvfb :99 -screen 0 1024x768x24 &gt; /dev/null 2&gt;&amp;1 &amp;
+</pre>
 <p>これで<code>:99.0</code>でXvfbが立ち上がったのでこれを環境変数で指定してtestemを実行する。</p>
-
-<pre><code>$ DISPLAY=:99.0 ./node_modules/.bin/testem ci
+<pre class="highlight text">$ DISPLAY=:99.0 ./node_modules/.bin/testem ci
 # Launching Firefox
 # .
 TAP version 13
@@ -158,8 +157,7 @@ ok 2 - Chrome document.body.tagName should be BODY
 # pass  2
 
 # ok
-</code></pre>
-
+</pre>
 <p>そうするとちゃんとFirefoxとChromeでテストが実行される。すごい。後はこれをJenkinsとかで走らせればOK。たぶんSeleniumのテストとかもこれで走らせられるね。</p>
 
 <p>ちなみにTravis CIはXvfbに対応してるんだけど現時点ではFirefoxしか入ってないっぽい。</p>
@@ -168,8 +166,7 @@ ok 2 - Chrome document.body.tagName should be BODY
 
 <p>関係ないけどVagrant使うとこういうの手軽にまっさらな環境で試せるので楽チン。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -179,7 +176,7 @@ ok 2 - Chrome document.body.tagName should be BODY
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -220,12 +217,8 @@ ok 2 - Chrome document.body.tagName should be BODY
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2013/03/win8_chrome_touch_event.html">Windows8のChromeやFirefoxはタッチイベントとマウスイベント両方考慮すべし</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2013/04/node_await_flow.html">Node.jsのFiberを使って非同期処理を同期っぽく書く</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -240,8 +233,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -252,8 +246,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

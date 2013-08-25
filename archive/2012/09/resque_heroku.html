@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>HerokuでResqueを使うときに優雅に再起動する - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,22 +22,39 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2012-09-21T00:00:00+09:00" pubdate>2012月09月21日</time>
-
+<time datetime="2012-09-21T00:00:00+09:00">2012年09月21日</time>
 <ul class="tags">
   
-    <li><a href="/tags/Ruby.html">Ruby</a></li>
+    <li><a href="/tags/ruby.html">Ruby</a></li>
   
     <li><a href="/tags/heroku.html">heroku</a></li>
   
@@ -47,6 +63,7 @@
 <h1>HerokuでResqueを使うときに優雅に再起動する</h1>
 
 <div class="body">
+
 <p>Ruby製のジョブキューサーバーである<a href="https://github.com/defunkt/resque">Resque</a>はHerokuのWorkerプロセスで動かそうとすると一つ問題があった。</p>
 
 <p>シグナルハンドリングの問題なんだけど、Herokuはworkerプロセスを再起動するときに<code>SIGTERM</code>を送り、プロセスが終了したら再度プロセスを起動する。<code>SIGTERM</code>を送ってworkerが10秒間プロセスが終了しなかったら<code>SIGKILL</code>で強制終了させる。のでworker側は<code>SIGTERM</code>を受け取ったら10秒以内に安全に（今あるジョブを終了するなりなんなりして）プロセスを終了する必要がある。</p>
@@ -68,22 +85,19 @@
 <p>で、それがResqueの1.22.0で解決されたみたい。</p>
 
 <p>1.22.0では<code>TERM_CHILD=1</code>というのを環境変数で設定すればマスタプロセスが<code>SIGTERM</code>を受け取ったときに、起動している子プロセスに対して<code>SIGTERM</code>を送り、子プロセスが<code>RESQUE_TERM_TIMEOUT</code>で設定された秒数の間に終了しなかったら子プロセスに<code>SIGKILL</code>を送って強制終了させるという機能が実装された。これによって</p>
-
-<pre><code>$ TERM_CHILD=1 RESQUE_TERM_TIMEOUT=10 QUEUES=* rake resque:work
-</code></pre>
-
+<pre class="highlight text">$ TERM_CHILD=1 RESQUE_TERM_TIMEOUT=10 QUEUES=* rake resque:work
+</pre>
 <p>のように起動し、worker側で<code>SIGTERM</code>をハンドリングすることで安全に再起動できるようになる。</p>
 
-<h2 id="section">試してみる</h2>
-
-<div class="highlight"><pre><code class="ruby"><span class="c1"># worker.rb</span>
+<h2>試してみる</h2>
+<pre class="highlight ruby"><span class="c1"># worker.rb</span>
 
 <span class="nb">require</span> <span class="s1">&#39;resque/errors&#39;</span>
 
-<span class="k">class</span> <span class="nc">SampleWork</span>
+<span class="k">class </span><span class="nc">SampleWork</span>
   <span class="vi">@queue</span> <span class="o">=</span> <span class="ss">:test</span>
 
-  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">perform</span>
+  <span class="k">def </span><span class="nc">self</span><span class="o">.</span><span class="nf">perform</span>
     <span class="nb">sleep</span> <span class="mi">10</span>
     <span class="nb">puts</span> <span class="s1">&#39;complete job!&#39;</span>
   <span class="k">rescue</span> <span class="no">Resque</span><span class="o">::</span><span class="no">TermException</span>
@@ -91,70 +105,51 @@
     <span class="nb">puts</span> <span class="s1">&#39;graceful shutdown!&#39;</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</code></pre>
-</div>
-
-<div class="highlight"><pre><code class="ruby"><span class="c1"># clinet.rb</span>
+</pre><pre class="highlight ruby"><span class="c1"># clinet.rb</span>
 
 <span class="nb">require</span> <span class="s1">&#39;resque&#39;</span>
 <span class="nb">require</span> <span class="s1">&#39;./worker&#39;</span>
 
-<span class="no">Resque</span><span class="o">.</span><span class="n">enqueue</span> <span class="no">SampleWork</span>
-</code></pre>
-</div>
-
-<div class="highlight"><pre><code class="ruby"><span class="c1"># Rakefile</span>
+<span class="no">Resque</span><span class="nf">.enqueue</span> <span class="no">SampleWork</span>
+</pre><pre class="highlight ruby"><span class="c1"># Rakefile</span>
 
 <span class="nb">require</span> <span class="s1">&#39;resque/tasks&#39;</span>
 <span class="nb">require</span> <span class="s1">&#39;./worker&#39;</span>
-</code></pre>
-</div>
-
+</pre>
 <p>こんな感じのworkerをつくって試してみる。<code>Resque::TermException</code>という例外でResqueからの<code>SIGTERM</code>をキャッチできるようなのでこのworkerは<code>SIGTERM</code>を受け取ったら2秒待って文字列を出力した後終了することが期待される。</p>
 
 <p>まずは普通にworkerを起動してみる。</p>
-
-<pre><code>$ QUEUES=* rake resque:work                       
-</code></pre>
-
+<pre class="highlight text">$ QUEUES=* rake resque:work                       
+</pre>
 <p>この状態でclinet.rbでジョブを登録して10秒以内にResqueのマスタプロセスに対して<code>SIGTERM</code>を送る。</p>
-
-<pre><code>$ kill -TERM {pid}
-</code></pre>
-
+<pre class="highlight text">$ kill -TERM {pid}
+</pre>
 <p>そしたら起動していたワーカープロセスは何も出力されずに終了した。これは<code>SIGTERM</code>を受け取ったら強制終了というResqueのドキュメントに書いてある挙動なので正しい。</p>
 
 <p>次に<code>TERM_CHILD</code>と<code>RESQUE_TERM_TIMEOUT</code>を指定して起動してみる。</p>
-
-<pre><code>$ TERM_CHILD=1 RESQUE_TERM_TIMEOUT=10 QUEUES=* rake resque:work
-</code></pre>
-
+<pre class="highlight text">$ TERM_CHILD=1 RESQUE_TERM_TIMEOUT=10 QUEUES=* rake resque:work
+</pre>
 <p>同じようにclinet.rbでジョブを登録して10秒以内にResqueのマスタプロセスに対して<code>SIGTERM</code>を送る。そうすると2秒後に</p>
-
-<pre><code>$ TERM_CHILD=1 RESQUE_TERM_TIMEOUT=10 QUEUES=* rake resque:work
+<pre class="highlight text">$ TERM_CHILD=1 RESQUE_TERM_TIMEOUT=10 QUEUES=* rake resque:work
 graceful shutdown!
-</code></pre>
-
+</pre>
 <p>となってプロセスが終了して期待通り動いた。</p>
 
 <p>次に<code>RESQUE_TERM_TIMEOUT=1</code>としてタイムアウトを1秒に指定する。</p>
-
-<pre><code>$ TERM_CHILD=1 RESQUE_TERM_TIMEOUT=1 QUEUES=* rake resque:work
-</code></pre>
-
+<pre class="highlight text">$ TERM_CHILD=1 RESQUE_TERM_TIMEOUT=1 QUEUES=* rake resque:work
+</pre>
 <p>これで同じようにジョブを登録して<code>SIGTERM</code>を送ったら何も出力されずに終了した。sleepが2秒でタイムアウトが1秒なので<code>SIGTERM</code>のハンドリングで終了するより先にタイムアウトして終了したことがわかる。</p>
 
 <p>Resque 2.xではこれがデフォルトになるとかなんとか（要確認）。</p>
 
-<h3 id="section-1">参考</h3>
+<h3>参考</h3>
 
 <ul>
-  <li><a href="https://devcenter.heroku.com/articles/queuing-ruby-resque">Queuing in Ruby with Redis and Resque | Heroku Dev Center</a></li>
-  <li><a href="http://hone.heroku.com/resque/2012/08/21/resque-signals.html">hone.heroku.com | Resque Signals</a></li>
+<li><a href="https://devcenter.heroku.com/articles/queuing-ruby-resque">Queuing in Ruby with Redis and Resque | Heroku Dev Center</a></li>
+<li><a href="http://hone.heroku.com/resque/2012/08/21/resque-signals.html">hone.heroku.com | Resque Signals</a></li>
 </ul>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -164,7 +159,7 @@ graceful shutdown!
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -205,12 +200,8 @@ graceful shutdown!
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2012/09/fired-myblog.html">俺の最強ブログシステムも火を噴いてたぜ</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2012/09/jquery_animate_callback.html">jQueryでアニメーション終了時のcallback</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -225,8 +216,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -237,8 +229,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

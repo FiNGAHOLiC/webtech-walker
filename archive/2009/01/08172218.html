@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>簡単にsymfonyをインストールするスクリプト - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,22 +22,39 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2009-01-08T00:00:00+09:00" pubdate>2009月01月08日</time>
-
+<time datetime="2009-01-08T00:00:00+09:00">2009年01月08日</time>
 <ul class="tags">
   
-    <li><a href="/tags/PHP.html">PHP</a></li>
+    <li><a href="/tags/php.html">PHP</a></li>
   
     <li><a href="/tags/symfony.html">symfony</a></li>
   
@@ -49,6 +65,7 @@
 <h1>簡単にsymfonyをインストールするスクリプト</h1>
 
 <div class="body">
+
 <p>symfonyをインストールするとき、極力環境に依存しないようにするため、pearコマンドでプロジェクト毎にインストールしてるんですが、毎回同じことやってるのでスクリプト書いてみました。かなりやっつけですけど、とりあえず自分が使えればいいかなという感じ。</p>
 
 <p>プロジェクト毎にインストールする方法の詳細はこちらを参考。</p>
@@ -56,46 +73,38 @@
 <p><a href="http://tech.kayac.com/archive/symfony-installation.html">symfonyのインストール手順 : tech.kayac.com - KAYAC engineers’ blog</a></p>
 
 <p>symfonyのルートディレクトリにvendorというディレクトリ作ってそこにsymfonyをインストールします。コードは以下。pearは必須です。</p>
-
-<div class="highlight"><pre><code class="sh"><span class="c">#!/bin/sh</span>
+<pre class="highlight shell"><span class="c">#!/bin/sh</span>
 <span class="nv">pjName</span><span class="o">=</span><span class="nv">$1</span>
 <span class="nv">version</span><span class="o">=</span><span class="nv">$2</span>
 
-<span class="k">if</span> <span class="o">[</span> ! <span class="s2">&quot;$pjName&quot;</span> -o ! <span class="s2">&quot;$version&quot;</span> <span class="o">]</span>; <span class="k">then</span>
-<span class="k">    </span><span class="nb">echo</span> <span class="s1">&#39;usage: sfinit project_name version&#39;</span>;
+<span class="k">if</span> <span class="o">[</span> ! <span class="s2">&quot;</span><span class="nv">$pjName</span><span class="s2">&quot;</span> -o ! <span class="s2">&quot;</span><span class="nv">$version</span><span class="s2">&quot;</span> <span class="o">]</span>; <span class="k">then
+    </span><span class="nb">echo</span> <span class="s1">&#39;usage: sfinit project_name version&#39;</span>;
     <span class="nb">exit</span>;
-<span class="k">fi</span>
+<span class="k">fi
 
-<span class="k">if </span>expr <span class="s2">&quot;$version&quot;</span> : <span class="s2">&quot;^1\.0&quot;</span> &gt;/dev/null; <span class="k">then</span>
-<span class="k">    </span><span class="nv">create</span><span class="o">=</span>init-project
-<span class="k">else</span>
-<span class="k">    </span><span class="nv">create</span><span class="o">=</span>generate:project 
-<span class="k">fi</span>
+if </span>expr <span class="s2">&quot;</span><span class="nv">$version</span><span class="s2">&quot;</span> : <span class="s2">&quot;^1</span><span class="se">\.</span><span class="s2">0&quot;</span> &gt;/dev/null; <span class="k">then
+    </span><span class="nv">create</span><span class="o">=</span>init-project
+<span class="k">else
+    </span><span class="nv">create</span><span class="o">=</span>generate:project 
+<span class="k">fi
 
-mkdir -p <span class="k">${</span><span class="nv">pjName</span><span class="k">}</span>/vendor
+</span>mkdir -p <span class="k">${</span><span class="nv">pjName</span><span class="k">}</span>/vendor
 <span class="nb">cd</span> <span class="k">${</span><span class="nv">pjName</span><span class="k">}</span>/vendor
 pear config-create <span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span> .pearrc
 pear -c .pearrc channel-discover pear.symfony-project.com
 pear -c .pearrc install -a symfony/symfony-<span class="k">${</span><span class="nv">version</span><span class="k">}</span>
 <span class="nb">cd</span> ..
 vendor/pear/symfony <span class="k">${</span><span class="nv">create</span><span class="k">}</span> <span class="k">${</span><span class="nv">pjName</span><span class="k">}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>このスクリプトをどっかパスが通ってるところに置きます。スクリプトにsfinitと名前つけたとすると、</p>
-
-<pre><code>$ sfinit プロジェクト名 symfomyのバージョン
-</code></pre>
-
+<pre class="highlight text">$ sfinit プロジェクト名 symfomyのバージョン
+</pre>
 <p>というコマンドをsymfonyをインストールしたいディレクトリで実行します。例えば、1.2.1でbbsというプロジェクトをつくるならこんな感じ。</p>
-
-<pre><code>$ sfinit bbs 1.2.1
-</code></pre>
-
+<pre class="highlight text">$ sfinit bbs 1.2.1
+</pre>
 <p>とりあえず、1.0.19、1.1.6、1.2.1（それぞれ現時点での最新）は正常にインストールされることを確認しました。これで少しはsymfonyのインストールが楽になる。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -105,7 +114,7 @@ vendor/pear/symfony <span class="k">${</span><span class="nv">create</span><span
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -146,12 +155,8 @@ vendor/pear/symfony <span class="k">${</span><span class="nv">create</span><span
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2009/01/03145545.html">iPhoneでWebページのアイコンを表示させる方法</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2009/01/11222613.html">symfony1.2のDoctrineを使ってみた</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -166,8 +171,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -178,8 +184,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>CSS3のvim syntaxをちょっといじった - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,22 +22,39 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2011-04-20T00:00:00+09:00" pubdate>2011月04月20日</time>
-
+<time datetime="2011-04-20T00:00:00+09:00">2011年04月20日</time>
 <ul class="tags">
   
-    <li><a href="/tags/CSS.html">CSS</a></li>
+    <li><a href="/tags/css.html">CSS</a></li>
   
     <li><a href="/tags/vim.html">vim</a></li>
   
@@ -47,6 +63,7 @@
 <h1>CSS3のvim syntaxをちょっといじった</h1>
 
 <div class="body">
+
 <p>vimでCSS書いてるとMediaQueryとかの表示がうまくいかなくてずっとほっといたんですけど、すでにやってる人がいたので使ってみたんですけど、ちょっと気になるところがあったりしたので直したり、ベンダプレフィックス追加したりしました。</p>
 
 <p><a href="https://github.com/hokaccha/vim-css3-syntax">hokaccha/vim-css3-syntax - GitHub</a></p>
@@ -57,8 +74,7 @@
 
 <p><a href="http://hail2u.net/blog/software/vim-css3-syntax.html">VimのCSS3シンタックス・ファイルみたいな何か - Weblog - hail2u.net</a></p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -68,7 +84,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -109,12 +125,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2011/03/30190850.html">iOSのSafariで特定のfont-sizeのときの謎の隙間</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2011/04/28140132.html">Google Chrome11でサポートされた音声入力API</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -129,8 +141,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -141,8 +154,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

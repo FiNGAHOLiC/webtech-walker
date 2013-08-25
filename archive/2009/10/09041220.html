@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>mysqlのSTRICT_ALL_TABLES - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,50 +22,62 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2009-10-09T00:00:00+09:00" pubdate>2009月10月09日</time>
-
+<time datetime="2009-10-09T00:00:00+09:00">2009年10月09日</time>
 <ul class="tags">
   
-    <li><a href="/tags/MySQL.html">MySQL</a></li>
+    <li><a href="/tags/mysql.html">MySQL</a></li>
   
 </ul>
 
 <h1>mysqlのSTRICT_ALL_TABLES</h1>
 
 <div class="body">
+
 <p>mysqlでは、int型に文字列を入れようとすると0が入ったり、NOT NULL制約のカラムに値を指定しなかった場合は空文字が入ったりします。</p>
 
-<p>それがいいかどうかは別として、それらを許可しないためにはsql_modeをSTRICT_ALL_TABLESに設定すればいいみたい。</p>
-
-<pre><code>mysql&gt; SET sql_mode = 'STRICT_ALL_TABLES'
-</code></pre>
-
+<p>それがいいかどうかは別として、それらを許可しないためにはsql<em>modeをSTRICT</em>ALL_TABLESに設定すればいいみたい。</p>
+<pre class="highlight text">mysql&gt; SET sql_mode = &#39;STRICT_ALL_TABLES&#39;
+</pre>
 <p>DBICでこれが指定してあったからエラーになってちょっとはまったんですけどね。</p>
-
-<div class="highlight"><pre><code class="perl"><span class="k">my</span> <span class="nv">$schema</span> <span class="o">=</span> <span class="n">Testblog</span><span class="o">-&gt;</span><span class="nb">connect</span><span class="p">(</span>
+<pre class="highlight perl"><span class="k">my</span> <span class="nv">$schema</span> <span class="o">=</span> <span class="nv">Testblog</span><span class="o">-&gt;</span><span class="nb">connect</span><span class="p">(</span>
     <span class="s">&#39;dbi:mysql:testblog;host=localhost&#39;</span><span class="p">,</span>
     <span class="s">&#39;root&#39;</span><span class="p">,</span>
     <span class="s">&#39;&#39;</span><span class="p">,</span>
-    <span class="p">{</span> <span class="n">on_connect_do</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s">&quot;SET sql_mode = &#39;STRICT_ALL_TABLES&#39;&quot;</span><span class="p">]</span> <span class="p">}</span>
+    <span class="p">{</span> <span class="nv">on_connect_do</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s">&quot;SET sql_mode = &#39;STRICT_ALL_TABLES&#39;&quot;</span><span class="p">]</span> <span class="p">}</span>
 <span class="p">);</span>
-</code></pre>
-</div>
-
+</pre>
 <p>DBICで指定するときはこんな感じ。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -76,7 +87,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -117,12 +128,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2009/10/08082914.html">JSのpreventDefault</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2009/10/25204058.html">vimで開いたファイルの履歴をたどる</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -137,8 +144,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -149,8 +157,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

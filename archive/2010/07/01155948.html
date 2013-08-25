@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>HTML5の新要素をjQueryでappendとかするとIEでバグる件 - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,80 +22,78 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2010-07-01T00:00:00+09:00" pubdate>2010月07月01日</time>
-
+<time datetime="2010-07-01T00:00:00+09:00">2010年07月01日</time>
 <ul class="tags">
   
-    <li><a href="/tags/jQuery.html">jQuery</a></li>
+    <li><a href="/tags/jquery.html">jQuery</a></li>
   
-    <li><a href="/tags/IE.html">IE</a></li>
+    <li><a href="/tags/ie.html">IE</a></li>
   
 </ul>
 
 <h1>HTML5の新要素をjQueryでappendとかするとIEでバグる件</h1>
 
 <div class="body">
+
 <p>jQueryでsectionとかarticleとかをappendしたときにstyleが反映されなかったという話しを聞いたので調べた＆検証してみたメモ。</p>
 
-<p><a href="/sample/2010-07-01-01155948/index.html">デモつくった</a></p>
+<p><a href="/sample/2010-07-01-01155948/">デモつくった</a></p>
 
 <p>調べてみたところ、定義されていない要素をinnerHTMLしてappendChildすると、以下の例の場合IE8以下では開始タグ、テキストノード、終了タグの3つの要素として追加されるとのこと。（html5shivは読み込んでます）</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
+<pre class="highlight javascript"><span class="kd">var</span> <span class="nx">div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
 <span class="nx">div</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">&#39;&lt;section&gt;section&lt;/section&gt;&#39;</span><span class="p">;</span>
 <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;box&#39;</span><span class="p">).</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">div</span><span class="p">);</span>
-</code></pre>
-</div>
-
+</pre>
 <p>以下のようにcreateElementすればいける。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
+<pre class="highlight javascript"><span class="kd">var</span> <span class="nx">div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">section</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;section&#39;</span><span class="p">);</span>
 <span class="nx">section</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">&#39;section&#39;</span><span class="p">;</span>
 <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;box&#39;</span><span class="p">).</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">section</span><span class="p">);</span>
-</code></pre>
-</div>
-
+</pre>
 <p>同じ理由でjQueryのappendがダメになるみたい。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#box&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;&lt;section&gt;section&lt;/section&gt;&#39;</span><span class="p">);</span>
-</code></pre>
-</div>
-
+<pre class="highlight javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#box&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;&lt;section&gt;section&lt;/section&gt;&#39;</span><span class="p">);</span>
+</pre>
 <p>こうすればいけるっぽい。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#box&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;&lt;section&gt;&#39;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="s1">&#39;section&#39;</span><span class="p">)</span> <span class="p">);</span>
-</code></pre>
-</div>
-
+<pre class="highlight javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#box&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;&lt;section&gt;&#39;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="s1">&#39;section&#39;</span><span class="p">)</span> <span class="p">);</span>
+</pre>
 <p>あと、<a href="http://jdbartlett.com/innershiv/">innershiv.js</a>というのがあって、これを使うといけるみたい。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
+<pre class="highlight javascript"><span class="kd">var</span> <span class="nx">div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
 <span class="nx">div</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span> <span class="nx">innerShiv</span><span class="p">(</span><span class="s1">&#39;&lt;section&gt;section&lt;/section&gt;&#39;</span><span class="p">)</span> <span class="p">);</span>
 <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;box&#39;</span><span class="p">).</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">div</span><span class="p">);</span>
-</code></pre>
-</div>
-
+</pre>
 <p>jQueryのappendもおｋ。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#box&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span> <span class="nx">innerShiv</span><span class="p">(</span><span class="s1">&#39;&lt;section&gt;section&lt;/section&gt;&#39;</span><span class="p">)</span> <span class="p">);</span>
-</code></pre>
-</div>
-
-
-
-<div class="mod-ads">
+<pre class="highlight javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#box&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span> <span class="nx">innerShiv</span><span class="p">(</span><span class="s1">&#39;&lt;section&gt;section&lt;/section&gt;&#39;</span><span class="p">)</span> <span class="p">);</span>
+</pre>
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -106,7 +103,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -147,12 +144,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2010/06/23194041.html">jstudy #1 を開催しました</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2010/07/26135737.html">はてブのWeb HookでDeliciousと同期する</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -167,8 +160,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -179,8 +173,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>nodebrewでバイナリからインストールできるようにした - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,55 +22,68 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2012-12-10T00:00:00+09:00" pubdate>2012月12月10日</time>
-
+<time datetime="2012-12-10T00:00:00+09:00">2012年12月10日</time>
 <ul class="tags">
   
-    <li><a href="/tags/Node.js.html">Node.js</a></li>
+    <li><a href="/tags/node-js.html">Node.js</a></li>
   
 </ul>
 
 <h1>nodebrewでバイナリからインストールできるようにした</h1>
 
 <div class="body">
+
 <p><a href="https://github.com/hokaccha/nodebrew">nodebrew</a>の0.6.0をリリースしました。<code>install-binary</code>というコマンドを追加しまして、コンパイル済みのバイナリからインストールできるようにしました。</p>
 
 <p>バイナリのファイルはNode.jsのv0.8.6以降で配布されるようになったので、それ以前のバージョンはインストールできません。Mac OSX、Linux、Solaris用のがそれぞれ32bitと64bitのものが用意されていて、nodebrewがアーキテクチャから自動で判別してとってくるようにしています。OSXとUbuntuくらいでしか試してないので動かなかった場合は報告ください。</p>
 
 <p>こんな感じです。</p>
-
-<pre><code>$ nodebrew install-binary v0.8.6
+<pre class="highlight text">$ nodebrew install-binary v0.8.6
 fetch: http://nodejs.org/dist/v0.8.6/node-v0.8.6-darwin-x64.tar.gz
 ######################################################################## 100.0%
 install success
-</code></pre>
-
+</pre>
 <p>これまでコンパイルが必要だったのでインストールに時間がかかっていましたが、バイナリだとダウンロードして展開するだけなんでちょっぱやで終わります。</p>
 
 <p>最初は<code>install</code>コマンドと統合しようと思ったんだけどいきなり統合するのもアレなのでひとまず様子見で別コマンドにしてます。将来的には<code>install</code>コマンドに統合してオプションとかで切り替えられるようにするかもしれません。</p>
 
 <p>あと、人知れずちょっと前のバージョンアップで<a href="https://twitter.com/hide_o_55">@hide_o_55</a>さんが実装してくれた<code>migrate-package</code>というコマンドが入っています。これは<code>npm install -g</code>でグローバルにインストールしたモジュールを移行してくれるコマンドです。</p>
-
-<pre><code>$ nodebrew migrate-package v0.6.4
-</code></pre>
-
+<pre class="highlight text">$ nodebrew migrate-package v0.6.4
+</pre>
 <p>とかやるとv0.6.4でグローバルにインストールされているモジュールをカレントのバージョンにも<code>npm install -g</code>でインストールしてくれます。便利。</p>
 
 <p><code>nodebrew selfupdate</code>コマンドでアップデートできるのでぜひ使ってみてください。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -81,7 +93,7 @@ install success
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -122,12 +134,8 @@ install success
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2012/12/jquery_deprecated.html">jQueryの非推奨な機能</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2012/12/backbone_node_common.html">Backbone.jsでNode.jsとクライアントサイドのロジックをイケてる感じで共通化する</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -142,8 +150,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -154,8 +163,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

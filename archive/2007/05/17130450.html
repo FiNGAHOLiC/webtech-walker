@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>MySQLの小技メモ - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,125 +22,122 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2007-05-17T00:00:00+09:00" pubdate>2007月05月17日</time>
-
+<time datetime="2007-05-17T00:00:00+09:00">2007年05月17日</time>
 <ul class="tags">
   
-    <li><a href="/tags/MySQL.html">MySQL</a></li>
+    <li><a href="/tags/mysql.html">MySQL</a></li>
   
 </ul>
 
 <h1>MySQLの小技メモ</h1>
 
 <div class="body">
+
 <p>MySQLで忘れがちなコマンドとかメモです。</p>
 
-<h2 id="unique-key--">UNIQUE KEY :: 複数のカラムでユニークになる条件を指定する</h2>
-
-<pre><code>CREATE TABLE `test_table` (
+<h2>UNIQUE KEY :: 複数のカラムでユニークになる条件を指定する</h2>
+<pre class="highlight text">CREATE TABLE `test_table` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `name` text NOT NULL default '',
-  `email` text NOT NULL default '',
-  `tel` text NOT NULL default '',
+  `name` text NOT NULL default &#39;&#39;,
+  `email` text NOT NULL default &#39;&#39;,
+  `tel` text NOT NULL default &#39;&#39;,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`,`email`)
 )
-</code></pre>
-
+</pre>
 <p>UNIQUE KEYの部分でユニークになる条件を指定しています。nameとemailが両方重複しているデータが登録できなくなります。</p>
-
-<pre><code>select * from test_table;
+<pre class="highlight text">select * from test_table;
 +----+------+------------------+--------------+
 | id | name | email            | tel          |
 +----+------+------------------+--------------+
 |  1 | hoka | hoka@example.com | 01-2345-6789 |
 +----+------+------------------+--------------+
-</code></pre>
-
+</pre>
 <p>例えば上記のように入力されていたら、以下のようなSQLはエラーになるわけです。</p>
+<pre class="highlight text">INSERT INTO test_table (name,email,tel) VALUES(&quot;hoka&quot;,&quot;hoka@example.com&quot;,&quot;12-3456-7890&quot;);
 
-<pre><code>INSERT INTO test_table (name,email,tel) VALUES("hoka","hoka@example.com","12-3456-7890");
-
-INSERT INTO test_table (name,email,tel) VALUES("hokamura“,”hoka@example.com”,”12-3456-7890″);
-INSERT INTO test_table (name,email,tel) VALUES("hoka","hokamura@example.com","12-3456-7890");
-</code></pre>
-
-<h2 id="mysqldump--">mysqldump :: データベースのバックアップを取る</h2>
+INSERT INTO test_table (name,email,tel) VALUES(&quot;hokamura“,”hoka@example.com”,”12-3456-7890″);
+INSERT INTO test_table (name,email,tel) VALUES(&quot;hoka&quot;,&quot;hokamura@example.com&quot;,&quot;12-3456-7890&quot;);
+</pre>
+<h2>mysqldump :: データベースのバックアップを取る</h2>
 
 <p>mysqldumpでデータベースのバックアップを取ることが出来ます。詳細は以下の通りです。</p>
 
-<h3 id="section">すべてのデータベースのバックアップ</h3>
-
-<pre><code>$ mysqldump -u root -x --all-databases &gt; dump.sql
-</code></pre>
-
-<h3 id="section-1">特定のデータベースのみのバックアップ</h3>
-
-<pre><code>$ mysqldump -u root データベース名 &gt; dump.sql
-</code></pre>
-
-<h3 id="mysqldump">mysqldumpのすべてのデータベースのバックアップを復元</h3>
-
-<pre><code>$ mysql -u root -p &lt; dump.sql
-</code></pre>
-
-<h3 id="section-2">特定データベースのみの復元</h3>
-
-<pre><code>$ mysql -u root データベース名 &lt; dump.sql
-</code></pre>
-
-<h2 id="order-by-rand--">order by rand() :: ランダムにレコードを取り出す</h2>
+<h3>すべてのデータベースのバックアップ</h3>
+<pre class="highlight text">$ mysqldump -u root -x --all-databases &gt; dump.sql
+</pre>
+<h3>特定のデータベースのみのバックアップ</h3>
+<pre class="highlight text">$ mysqldump -u root データベース名 &gt; dump.sql
+</pre>
+<h3>mysqldumpのすべてのデータベースのバックアップを復元</h3>
+<pre class="highlight text">$ mysql -u root -p &lt; dump.sql
+</pre>
+<h3>特定データベースのみの復元</h3>
+<pre class="highlight text">$ mysql -u root データベース名 &lt; dump.sql
+</pre>
+<h2>order by rand() :: ランダムにレコードを取り出す</h2>
 
 <p>下記のSQLでランダムにソートしたデータを抽出できます。</p>
-
-<pre><code>SELECT * FROM table ORDER BY RAND();
-</code></pre>
-
+<pre class="highlight text">SELECT * FROM table ORDER BY RAND();
+</pre>
 <p>その中から一つだけ取り出すにはlimitをつければいいだけです。</p>
-
-<pre><code>SELECT id FROM entry ORDER BY rand() LIMIT 1;
-</code></pre>
-
+<pre class="highlight text">SELECT id FROM entry ORDER BY rand() LIMIT 1;
+</pre>
 <p>ただ、データ量がたくさんあるテーブルだと遅くなるようです。</p>
 
 <p><a href="http://d.hatena.ne.jp/naoya/20051118/1132279240">MySQL の order by rand() - naoyaのはてなダイアリー</a></p>
 
-<h2 id="create--select--">CREATE … SELECT :: 既存のテーブルをデータごと別名でコピーする</h2>
+<h2>CREATE &hellip; SELECT :: 既存のテーブルをデータごと別名でコピーする</h2>
 
 <p>テーブルをカラムのデータごとコピーするには下記SQLを実行します。</p>
-
-<pre><code>CREATE TABLE new_table SELECT * FROM original_table;
-</code></pre>
-
+<pre class="highlight text">CREATE TABLE new_table SELECT * FROM original_table;
+</pre>
 <p>マニュアルに下記のようあります。</p>
 
 <blockquote>
-  <p>インデックスは新しいテーブルに持ち越されません。また、一部のカラム型の変換が行われる場合があります。たとえば、AUTO_INCREMENT 属性は維持されず、VARCHAR 型のカラムは CHAR 型のカラムになることがあります。</p>
+<p>インデックスは新しいテーブルに持ち越されません。また、一部のカラム型の変換が行われる場合があります。たとえば、AUTO_INCREMENT 属性は維持されず、VARCHAR 型のカラムは CHAR 型のカラムになることがあります。</p>
 
-  <p><cite><a href="http://dev.mysql.com/doc/refman/4.1/ja/create-table.html">MySQL 4.1 リファレンスマニュアル::6.5.3. CREATE TABLE 構文</a></cite></p>
+<p><cite><a href="http://dev.mysql.com/doc/refman/4.1/ja/create-table.html">MySQL 4.1 リファレンスマニュアル::6.5.3. CREATE TABLE 構文</a></cite></p>
 </blockquote>
 
 <p>インデックスは持ち越されないようです。それはわかりました。データ型変わってしまうこともある、とありますがどんな条件で変わるかはちょっとわかりませんでした。</p>
 
-<h2 id="section-3">文字化けを直す</h2>
+<h2>文字化けを直す</h2>
 
 <p>MySQLの文字化けで悩んでる人は結構いると思いますが（僕だけかもしれないがorz）そんなMySQL文字化け問題を解決できそうなページを見つけました。こちらは元記事よりうまく説明できる自信が無いのでリンクだけ貼っておきます。</p>
 
 <p><a href="http://wota.jp/ac/?date=20061011">ヽ( ・∀・)ノくまくまー(2006-10-11)::[MySQL] 文字化け問題を本気で直す</a></p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -151,7 +147,7 @@ INSERT INTO test_table (name,email,tel) VALUES("hoka","hokamura@example.com","12
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -192,12 +188,8 @@ INSERT INTO test_table (name,email,tel) VALUES("hoka","hokamura@example.com","12
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2007/05/08223419.html">PHPのユーザーエージェントを変更する方法</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2007/05/21215114.html">IE6のバグのまとめ</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -212,8 +204,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -224,8 +217,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

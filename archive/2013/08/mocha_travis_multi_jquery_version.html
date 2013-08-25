@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>jQueryプラグインのテストを複数のjQueryのバージョンで実行する - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,22 +22,39 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2013-08-20T00:00:00+09:00" pubdate>2013月08月20日</time>
-
+<time datetime="2013-08-20T00:00:00+09:00">2013年08月20日</time>
 <ul class="tags">
   
-    <li><a href="/tags/JavaScript.html">JavaScript</a></li>
+    <li><a href="/tags/javascript.html">JavaScript</a></li>
   
     <li><a href="/tags/test.html">test</a></li>
   
@@ -47,15 +63,14 @@
 <h1>jQueryプラグインのテストを複数のjQueryのバージョンで実行する</h1>
 
 <div class="body">
+
 <p>Travis CIは</p>
-
-<pre><code>language: node_js
-node_js:
-  - 0.10
-  - 0.8
-  - 0.6
-</code></pre>
-
+<pre class="highlight yaml"><span class="s">language</span><span class="p">:</span> <span class="s">node_js</span>
+<span class="s">node_js</span><span class="p">:</span>
+  <span class="p">-</span> <span class="s">0.10</span>
+  <span class="p">-</span> <span class="s">0.8</span>
+  <span class="p">-</span> <span class="s">0.6</span>
+</pre>
 <p>とか書けば複数のバージョンでテスト実行してくれてマジすごいんだけど、同じことをjQueryのバージョンでもやってみた。</p>
 
 <p>主にjQueryのプラグインを書いてる場合などに便利だと思う。1.9で非互換な変更があったんでバージョン違うとプラグイン動かないとかけっこうあるからね。</p>
@@ -65,15 +80,12 @@ node_js:
 <p>jQueryのバージョンはmocha-phantomjsに環境変数で渡したいんだけど、mocha-phantomjsは環境変数をブラウザに渡せるようになってなかったので、パッチ書いたのでひとまずそっちを使う。（Pull Requestは送っといたので取り込まれたらそっち使いましょう）</p>
 
 <p>（追記：取り込まれた）</p>
-
-<pre><code>$ npm install mocha-phantomjs
-</code></pre>
-
+<pre class="highlight text">$ npm install mocha-phantomjs
+</pre>
 <p>そしたらjQueryを環境変数からバージョンを切り替えて読めるようにする。こんな感じ。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">v</span> <span class="o">=</span> <span class="s1">&#39;1.8.2&#39;</span><span class="p">;</span> <span class="c1">// ブラウザでテストを走らせる場合のバージョン</span>
-  <span class="kd">var</span> <span class="nx">mpjs</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">mochaPhantomJS</span><span class="p">;</span>
+<pre class="highlight javascript"><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">v</span> <span class="o">=</span> <span class="s1">&#39;1.8.2&#39;</span><span class="p">;</span> <span class="c1">// ブラウザでテストを走らせる場合のバージョン
+</span>  <span class="kd">var</span> <span class="nx">mpjs</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">mochaPhantomJS</span><span class="p">;</span>
   <span class="k">if</span> <span class="p">(</span><span class="nx">mpjs</span> <span class="o">&amp;&amp;</span> <span class="nx">mpjs</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">JQUERY_VERSION</span><span class="p">)</span> <span class="p">{</span>
      <span class="nx">v</span> <span class="o">=</span> <span class="nx">mpjs</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">JQUERY_VERSION</span><span class="p">;</span>
   <span class="p">}</span>
@@ -82,31 +94,25 @@ node_js:
   <span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;&lt;script src=&quot;&#39;</span> <span class="o">+</span> <span class="nx">src</span> <span class="o">+</span> <span class="s1">&#39;&quot;&gt;&lt;/script&gt;&#39;</span><span class="p">);</span>
   <span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;&lt;script&gt;console.log(&quot;Load jQuery: &quot; + $.fn.jquery)&lt;/script&gt;&#39;</span><span class="p">);</span>
 <span class="p">})();</span>
-</code></pre>
-</div>
-
+</pre>
 <p>これでjQueryを環境変数からバージョンを指定して読み込めるようになるので、次のようなコマンドで実行するとバージョンを変更できる。</p>
-
-<pre><code>$ JQUERY_VERSION=1.9.1 ./node_modules/.bin/mocha-phantomjs test/index.html
+<pre class="highlight text">$ JQUERY_VERSION=1.9.1 ./node_modules/.bin/mocha-phantomjs test/index.html
 Load jQuery: 1.9.1
 
 # test result ...
-</code></pre>
-
+</pre>
 <p>Travis CI の設定はこんな感じ。</p>
-
-<pre><code>language: node_js
-node_js:
-  - 0.8
-script: npm test
-env:
-  - JQUERY_VERSION=1.6.4
-  - JQUERY_VERSION=1.7.2
-  - JQUERY_VERSION=1.8.3
-  - JQUERY_VERSION=1.10.2
-  - JQUERY_VERSION=2.0.2
-</code></pre>
-
+<pre class="highlight yaml"><span class="s">language</span><span class="p">:</span> <span class="s">node_js</span>
+<span class="s">node_js</span><span class="p">:</span>
+  <span class="p">-</span> <span class="s">0.8</span>
+<span class="s">script</span><span class="p">:</span> <span class="s">npm test</span>
+<span class="s">env</span><span class="p">:</span>
+  <span class="p">-</span> <span class="s">JQUERY_VERSION=1.6.4</span>
+  <span class="p">-</span> <span class="s">JQUERY_VERSION=1.7.2</span>
+  <span class="p">-</span> <span class="s">JQUERY_VERSION=1.8.3</span>
+  <span class="p">-</span> <span class="s">JQUERY_VERSION=1.10.2</span>
+  <span class="p">-</span> <span class="s">JQUERY_VERSION=2.0.2</span>
+</pre>
 <p>Travis CIは環境変数が上記のように複数指定されてるとすべてのパターンでテストを実行してくれるのでこれで全部のバージョンでテストされる。</p>
 
 <p>結果はこんな感じ。</p>
@@ -115,8 +121,7 @@ env:
 
 <p>Travis CI 便利すぎる。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -126,7 +131,7 @@ env:
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -167,10 +172,7 @@ env:
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2013/05/javascript_refinements.html">JavaScriptでRuby 2.0のRefinements的なのを実装してみる</a></li>
-
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -185,8 +187,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -197,8 +200,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

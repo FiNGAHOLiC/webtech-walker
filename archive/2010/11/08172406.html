@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>Macで設定とかインストールいらずで静的コンテンツ用のサーバーを立ち上げる方法 - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,63 +22,74 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2010-11-08T00:00:00+09:00" pubdate>2010月11月08日</time>
-
+<time datetime="2010-11-08T00:00:00+09:00">2010年11月08日</time>
 <ul class="tags">
   
-    <li><a href="/tags/Mac.html">Mac</a></li>
+    <li><a href="/tags/mac.html">Mac</a></li>
   
-    <li><a href="/tags/Python.html">Python</a></li>
+    <li><a href="/tags/python.html">Python</a></li>
   
 </ul>
 
 <h1>Macで設定とかインストールいらずで静的コンテンツ用のサーバーを立ち上げる方法</h1>
 
 <div class="body">
+
 <p>Macで簡単に静的コンテンツを配信するサーバーを立ち上げる方法を紹介します。</p>
 
 <p>Macには最初からApacheが入っているのでこれを有効にすればいいんですけど、バーチャルホストの設定とかが面倒だし、XAMPPみたいのはインストールして設定するのが面倒です。そこでpythonのSimpleHTTPServerというモジュールを使います。これは最初からMacにインストールされているので特にインストールなどは必要ありません（たぶん10.5からはデフォルトで入ってる）。</p>
 
 <p>まずターミナル.appを開きます。次にドキュメントルートに設定したいディレクトリに移動します。以下のようにcdコマンドで移動できます。</p>
-
-<pre><code>$ cd /Users/hokamura/Sites
-</code></pre>
-
+<pre class="highlight text">$ cd /Users/hokamura/Sites
+</pre>
 <p>パスとかよくわかんない人はFinderでフォルダをターミナルにドラッグアンドドロップすればそのディレクトリのパスがコピーされます。</p>
 
 <p>cdしたら以下のようなコマンドを打ち込みます。</p>
-
-<pre><code>$ python -m SimpleHTTPServer
-</code></pre>
-
+<pre class="highlight text">$ python -m SimpleHTTPServer
+</pre>
 <p>そうすると http://localhost:8000/ にアクセスできるようになります。</p>
 
-<p><img src="/img/posts/2010-11-08-08172406/mac_server1.png" alt="ターミナルでサーバーを立ち上げるキャプチャ" /></p>
+<p><img alt="ターミナルでサーバーを立ち上げるキャプチャ" src="/img/posts/2010-11-08-08172406/mac_server1.png" /></p>
 
 <p>サーバーを終了する場合はターミナルでCtrl+cを押すと終了できます。</p>
 
 <p>また、port番号はデフォルト8000ですが、任意のものに変更できるので複数のサーバーを起動することもできます。</p>
-
-<pre><code>$ python -m SimpleHTTPServer 5000
-</code></pre>
-
+<pre class="highlight text">$ python -m SimpleHTTPServer 5000
+</pre>
 <p>とすれば http://localhost:5000/ でアクセスできます。</p>
 
 <p>PHPなどのプログラムを動かしたい場合はApacheなどを使う必要がありあますが、HTMLだけ確認したいときなどに便利です。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -89,7 +99,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -130,12 +140,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2010/10/28182612.html">jquery.ui.slideDownStream というのを書いた</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2010/11/10190952.html">郵便番号から住所を検索するJavaScriptの再々発明</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -150,8 +156,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -162,8 +169,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

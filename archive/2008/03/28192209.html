@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>上下中央ハックの別の使い道 - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,77 +22,88 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2008-03-28T00:00:00+09:00" pubdate>2008月03月28日</time>
-
+<time datetime="2008-03-28T00:00:00+09:00">2008年03月28日</time>
 <ul class="tags">
   
-    <li><a href="/tags/CSS.html">CSS</a></li>
+    <li><a href="/tags/css.html">CSS</a></li>
   
 </ul>
 
 <h1>上下中央ハックの別の使い道</h1>
 
 <div class="body">
+
 <p>最近話題になっていた、<a href="http://www.yomotsu.net/wp/?p=387">ヨモツネットさんのCSSで簡単に上下中央揃えを実現する方法</a>ですが、ちょっと別の使い道もあるなと思いました。</p>
 
 <p>以下のような、テキストが画像の下に回り込まないで、画像の幅が可変(ページ毎に画像の幅が違うなど）なデザインの場合です。画像の幅が固定の場合すぐできるんですけどね。</p>
 
-<p><img src="/img/posts/2008-03-28-28192209/sample.gif" alt="右に画像、左に本文" /></p>
+<p><img alt="右に画像、左に本文" src="/img/posts/2008-03-28-28192209/sample.gif" /></p>
 
 <p>そういうときにもこのハックが使えるかなと。ただ、元ネタのままのスタイルだとIEでテキストが長くなったとき、画像の下にテキストが落ちます（display:inlineなんだから当然っちゃ当然）。幅を指定すればいいんですが、今回は画像幅が可変という前提ですので、テキスト落ちを回避するために画像のボックスをfloatさせました。</p>
 
-<p><a href="/sample/2008-03-28-28192209/index.html">DEMO</a></p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;content&quot;</span><span class="nt">&gt;</span>
+<p><a href="/sample/2008-03-28-28192209/">DEMO</a></p>
+<pre class="highlight html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;content&quot;</span><span class="nt">&gt;</span>
 <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">&quot;image&quot;</span><span class="nt">&gt;&lt;img</span> <span class="na">src=</span><span class="s">&quot;xxx.gif&quot;</span> <span class="na">alt=</span><span class="s">&quot;画像&quot;</span> <span class="nt">/&gt;&lt;/p&gt;</span>
 <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">&quot;textBody&quot;</span><span class="nt">&gt;</span>本文本文本文本文本文本文本文本文本文本文本文（以下略）<span class="nt">&lt;/p&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
-</code></pre>
-</div>
-
-<div class="highlight"><pre><code class="css"><span class="nt">div</span><span class="nc">.content</span> <span class="p">{</span>
-  <span class="k">width</span><span class="o">:</span> <span class="m">400px</span><span class="p">;</span>
+</pre><pre class="highlight css"><span class="nt">div</span><span class="nc">.content</span> <span class="p">{</span>
+  <span class="nl">width</span><span class="p">:</span> <span class="m">400px</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="nt">div</span><span class="nc">.content</span> <span class="nt">p</span><span class="p">{</span>
-  <span class="k">margin</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span>
+  <span class="nl">margin</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="nt">div</span><span class="nc">.content</span> <span class="nt">p</span><span class="nc">.image</span> <span class="p">{</span>
-  <span class="k">float</span><span class="o">:</span> <span class="k">left</span><span class="p">;</span>
+  <span class="nl">float</span><span class="p">:</span> <span class="nb">left</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="nt">div</span><span class="nc">.content</span> <span class="nt">p</span><span class="nc">.textBody</span> <span class="p">{</span>
-  <span class="k">display</span><span class="o">:</span> <span class="k">table-cell</span><span class="p">;</span>
+  <span class="nl">display</span><span class="p">:</span> <span class="nb">table-cell</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="o">*</span><span class="nt">html</span> <span class="nt">div</span><span class="nc">.content</span> <span class="nt">p</span><span class="nc">.textBody</span> <span class="p">{</span>
-  <span class="k">display</span><span class="o">:</span> <span class="k">inline</span><span class="p">;</span>
-  <span class="n">zoom</span><span class="o">:</span> <span class="m">1</span><span class="p">;</span>
+  <span class="nl">display</span><span class="p">:</span> <span class="nb">inline</span><span class="p">;</span>
+  <span class="py">zoom</span><span class="p">:</span> <span class="m">1</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="o">*</span><span class="nd">:first-child</span><span class="o">+</span><span class="nt">html</span> <span class="nt">div</span><span class="nc">.content</span> <span class="nt">p</span><span class="nc">.textBody</span> <span class="p">{</span>
-  <span class="k">display</span><span class="o">:</span> <span class="k">inline</span><span class="p">;</span>
-  <span class="n">zoom</span><span class="o">:</span> <span class="m">1</span><span class="p">;</span>
+  <span class="nl">display</span><span class="p">:</span> <span class="nb">inline</span><span class="p">;</span>
+  <span class="py">zoom</span><span class="p">:</span> <span class="m">1</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>どうだろう、使えるかな？</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -103,7 +113,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -144,12 +154,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2008/03/26142420.html">IE6でmin-widthを実装する方法のまとめ</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2008/04/21205738.html">target疑似クラスを用いて、CSSのみでLightBox風UIを実現する方法</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -164,8 +170,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -176,8 +183,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>画像とかのパスを//で始めるのは何か問題があるのかな - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,43 +22,58 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2010-03-01T00:00:00+09:00" pubdate>2010月03月01日</time>
-
+<time datetime="2010-03-01T00:00:00+09:00">2010年03月01日</time>
 <ul class="tags">
   
-    <li><a href="/tags/HTML.html">HTML</a></li>
+    <li><a href="/tags/html.html">HTML</a></li>
   
 </ul>
 
 <h1>画像とかのパスを//で始めるのは何か問題があるのかな</h1>
 
 <div class="body">
+
 <p>知らなかったんだけど、画像のパスとかリンクとかhttp:を省略して//から書くことができるんですね。リンクだけじゃなくて画像とかも。そして//から始めると、今見てるページのプロトコルになるんですね（httpだったらhttp、httpsだったらhttpsってこと）。</p>
-
-<pre><code>&lt;img src="//example.com/banner.gif" alt="banner /&gt;
-</code></pre>
-
+<pre class="highlight text">&lt;img src=&quot;//example.com/banner.gif&quot; alt=&quot;banner /&gt;
+</pre>
 <p>外部ドメインのバナーとか貼るときとかに全ページ共通でhttp://~と書いてるとhttpsのページでIEがエラー吐くんでhttpとhttpsで切り替えたりしてたんですけど、//から書けばいいんじゃないか疑惑。</p>
 
 <p>これって何か問題あるのかな。ブラウザによって挙動がおかしいとか。問題無ければ使いたいところ。</p>
 
 <p>追記：IEでリクエストが2回走ることがあるらしい。</p>
 
-<p><a href="http://robertnyman.com/2010/02/18/css-files-downloaded-twice-in-internet-explorer-with-protocol-relative-urls/">CSS files downloaded twice in Internet Explorer with protocol relative URLs - Robert’s talk</a></p>
+<p><a href="http://robertnyman.com/2010/02/18/css-files-downloaded-twice-in-internet-explorer-with-protocol-relative-urls/">CSS files downloaded twice in Internet Explorer with protocol relative URLs - Robert&rsquo;s talk</a></p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -69,7 +83,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -110,12 +124,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2010/02/17194501.html">vimのsyntax/perl.vimをちょっと直す</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2010/03/04034601.html">git log</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -130,8 +140,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -142,8 +153,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

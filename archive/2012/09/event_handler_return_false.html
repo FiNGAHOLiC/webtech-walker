@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>jQueryのイベントハンドラでreturn falseするとイベントのバブリングが止まる - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,67 +22,78 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2012-09-20T00:00:00+09:00" pubdate>2012月09月20日</time>
-
+<time datetime="2012-09-20T00:00:00+09:00">2012年09月20日</time>
 <ul class="tags">
   
-    <li><a href="/tags/JavaScript.html">JavaScript</a></li>
+    <li><a href="/tags/javascript.html">JavaScript</a></li>
   
-    <li><a href="/tags/jQuery.html">jQuery</a></li>
+    <li><a href="/tags/jquery.html">jQuery</a></li>
   
 </ul>
 
 <h1>jQueryのイベントハンドラでreturn falseするとイベントのバブリングが止まる</h1>
 
 <div class="body">
-<p>例えばjQueryでスムーズスクロール的なのを実装したとして、a要素のデフォルトの機能を止めるために以下のように<code>return false</code>ってするとイベントのバブリングまでとまるよという話。</p>
 
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<p>例えばjQueryでスムーズスクロール的なのを実装したとして、a要素のデフォルトの機能を止めるために以下のように<code>return false</code>ってするとイベントのバブリングまでとまるよという話。</p>
+<pre class="highlight javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a[href*=#]&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c1">// スムーズスクロースの処理</span>
-    <span class="p">...</span>
+    <span class="c1">// スムーズスクロースの処理
+</span>    <span class="p">...</span>
 
     <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
   <span class="p">});</span>
 <span class="p">});</span>
-</code></pre>
-</div>
-
+</pre>
 <p>つまり</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<pre class="highlight javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a[href*=#]&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">ev</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
     <span class="nx">ev</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">();</span>
 
-    <span class="c1">// スムーズスクロースの処理</span>
-    <span class="p">...</span>
+    <span class="c1">// スムーズスクロースの処理
+</span>    <span class="p">...</span>
   <span class="p">});</span>
 <span class="p">});</span>
-</code></pre>
-</div>
-
+</pre>
 <p>としたときと同じ挙動になる。<code>return false</code>してるコードは、デフォルトの挙動を止めるのは意図してるけど、イベントのバブリングまで止めるのは意図してない場合が多いんじゃなかろうかと思う。意図してるなら特に問題ない。</p>
 
 <p>それでイベントのバブリングがとまると何が一番困るかというdelegateが使えなくなること。</p>
 
 <p>具体的にはこれが動かない。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<pre class="highlight javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a[href*=#]&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c1">// スムーズスクロースの処理</span>
-    <span class="p">...</span>
+    <span class="c1">// スムーズスクロースの処理
+</span>    <span class="p">...</span>
 
     <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
   <span class="p">});</span>
@@ -92,26 +102,20 @@
     <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;clicked!!&#39;</span><span class="p">);</span>
   <span class="p">});</span>
 <span class="p">});</span>
-</code></pre>
-</div>
-
+</pre>
 <p>delegateはイベントのバブリングを利用してイベントを捕まえるので最初のスムーズスクロールで<code>return false</code>しちゃうとそこでイベントのバブリングが止まるのでdelegateのイベントが実行されない。なのでイベントのデフォルトの動作を止めたいだけなら、できるだけ</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<pre class="highlight javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a[href*=#]&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">ev</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
 
-    <span class="c1">// スムーズスクロースの処理</span>
-    <span class="p">...</span>
+    <span class="c1">// スムーズスクロースの処理
+</span>    <span class="p">...</span>
   <span class="p">});</span>
 <span class="p">});</span>
-</code></pre>
-</div>
-
+</pre>
 <p>のように<code>preventDefault()</code>を使うようにしたほうがいいよねというお話でした。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -121,7 +125,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -162,12 +166,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2012/09/jsgetter.html">JavaScriptのゲッタ</a></li>
-
-
-  <li class="next"><span>Next Entry:</span><a href="/archive/2012/09/fired-myblog.html">俺の最強ブログシステムも火を噴いてたぜ</a></li>
-
+  <li class="next"><span>Next Entry:</span><a href="/archive/2012/09/resque_heroku.html">HerokuでResqueを使うときに優雅に再起動する</a></li>
 </ul>
 
 <div id="disqus_thread"></div>
@@ -182,8 +182,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -194,8 +195,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

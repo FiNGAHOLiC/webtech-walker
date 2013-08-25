@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>svnコマンドの覚え書き - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,19 +22,36 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2008-11-24T00:00:00+09:00" pubdate>2008月11月24日</time>
-
+<time datetime="2008-11-24T00:00:00+09:00">2008年11月24日</time>
 <ul class="tags">
   
     <li><a href="/tags/svn.html">svn</a></li>
@@ -45,24 +61,22 @@
 <h1>svnコマンドの覚え書き</h1>
 
 <div class="body">
+
 <p>メインPCにMacを使うようになってsvnもコマンドラインで使っているのですが、たまにしか使わないコマンドはすぐ忘れてしまうのでメモっときます。</p>
 
-<h2 id="svn">svnの管理下から除外する</h2>
+<h2>svnの管理下から除外する</h2>
 
 <p>キャッシュや設定ファイルなどの、svnの管理下に置きたくないファイルやディレクトリを指定します。cacheディレクトリ以下の全ファイルをsvnの管理下から除外したい場合は　</p>
-
-<pre><code>svn propset svn:ignore '*' ./cache
-</code></pre>
-
+<pre class="highlight text">svn propset svn:ignore &#39;*&#39; ./cache
+</pre>
 <p>のように指定します。</p>
 
-<h2 id="section">外部定義を設定する</h2>
+<h2>外部定義を設定する</h2>
 
 <p>複数の作業プロジェクトの中で共通したディレクトリを共有したりするときにはsvn:externalsを設定します。</p>
 
 <p>例えばプロジェクトが以下のようなディレクトリ構成になっていたとして</p>
-
-<pre><code>/project
+<pre class="highlight text">/project
   ├front
   ｜　├web
   ｜　├app
@@ -72,72 +86,50 @@
       ├web
       ├app
       └lib
-</code></pre>
-
+</pre>
 <p>libをfrontとadminで共有したいときにはadminのカレントディレクトに移動して</p>
-
-<pre><code>svn propset svn:externals "lib http://code.webtech-walker.com/svn/project/front/lib" .
-</code></pre>
-
+<pre class="highlight text">svn propset svn:externals &quot;lib http://code.webtech-walker.com/svn/project/front/lib&quot; .
+</pre>
 <p>とします。</p>
 
 <p>複数設定する場合はsvn propsetで改行区切りでもできますが、下記のようにsvn propeditにエディタを指定して設定することも可能です。（上のsvn:ignoreも同じ）</p>
-
-<pre><code>svn propedit svn:externals . --editor-cmd=vi
-</code></pre>
-
+<pre class="highlight text">svn propedit svn:externals . --editor-cmd=vi
+</pre>
 <p>設定したものは下記コマンドで確認できます。</p>
-
-<pre><code>svn proplist -v
-</code></pre>
-
-<h2 id="section-1">ブランチを作成する</h2>
+<pre class="highlight text">svn proplist -v
+</pre>
+<h2>ブランチを作成する</h2>
 
 <p>svn copyコマンドでブランチを作成します。</p>
-
-<pre><code>svn copy http://code.webtech-walker.com/svn/trunk http://code.webtech-walker.com/svn/branches -m "コミットログ"
-</code></pre>
-
-<h2 id="section-2">ブランチをマージする</h2>
+<pre class="highlight text">svn copy http://code.webtech-walker.com/svn/trunk http://code.webtech-walker.com/svn/branches -m &quot;コミットログ&quot;
+</pre>
+<h2>ブランチをマージする</h2>
 
 <p>trunkをチェックアウトしているディレクトリに移動して</p>
-
-<pre><code>cd &lt;svn_dir&gt;/trunk
-</code></pre>
-
+<pre class="highlight text">cd &lt;svn_dir&gt;/trunk
+</pre>
 <p>ブランチを作成したリビジョンから最新のリビジョンまでをマージします。ブランチを作成したときのリビジョンが仮に100だとしたら、以下のようにします。</p>
-
-<pre><code>svn merge -r 100:HEAD http://code.webtech-walker.com/svn/branches .
-</code></pre>
-
+<pre class="highlight text">svn merge -r 100:HEAD http://code.webtech-walker.com/svn/branches .
+</pre>
 <p>この時点ではまだコミットはしていないので、確認してOKならコミットします。</p>
 
-<h2 id="adddel">一括でadd/delする</h2>
+<h2>一括でadd/delする</h2>
 
 <p>一括でsvn addする場合は</p>
-
-<pre><code>svn st | grep '^?' | awk '{ print $2 }' | xargs svn add
-</code></pre>
-
+<pre class="highlight text">svn st | grep &#39;^?&#39; | awk &#39;{ print $2 }&#39; | xargs svn add
+</pre>
 <p>をaliasで指定してたんですが、addの場合は</p>
-
-<pre><code>svn add * --force 
-</code></pre>
-
+<pre class="highlight text">svn add * --force 
+</pre>
 <p>でできるみたいですね。ちなみに削除済みのファイルを一括でsvn delする場合は</p>
-
-<pre><code>svn del * --force 
-</code></pre>
-
+<pre class="highlight text">svn del * --force 
+</pre>
 <p>とすると存在するファイルやディレクトリが削除されるので</p>
-
-<pre><code>svn st | grep '^!' | awk '{ print $2 }' | xargs svn delete
-</code></pre>
-
+<pre class="highlight text">svn st | grep &#39;^!&#39; | awk &#39;{ print $2 }&#39; | xargs svn delete
+</pre>
 <p>とかしないとダメっぽい。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -147,7 +139,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -188,12 +180,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2008/11/02151611.html">word-break:break-allをFirefox等でも実現するjavascript</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2008/12/15101251.html">zshの設定メモ</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -208,8 +196,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -220,8 +209,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

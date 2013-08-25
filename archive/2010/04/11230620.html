@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>ターミナルからMacVimでファイルを開く - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,22 +22,39 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2010-04-11T00:00:00+09:00" pubdate>2010月04月11日</time>
-
+<time datetime="2010-04-11T00:00:00+09:00">2010年04月11日</time>
 <ul class="tags">
   
-    <li><a href="/tags/Mac.html">Mac</a></li>
+    <li><a href="/tags/mac.html">Mac</a></li>
   
     <li><a href="/tags/vim.html">vim</a></li>
   
@@ -47,6 +63,7 @@
 <h1>ターミナルからMacVimでファイルを開く</h1>
 
 <div class="body">
+
 <p>ずっとやりたいと思って放置してたのを勉強会で教えてもらってできるようになった。</p>
 
 <p>教えてもらったのはこれ。</p>
@@ -54,14 +71,11 @@
 <p><a href="http://d.hatena.ne.jp/namutaka/20100118/1263830555">MacVim起動コマンド完成版 - namutakaの日記</a></p>
 
 <p>僕の環境にはなぜかmvimというコマンドが入ってなくて、MacVimのソースの中に入ってるからそこからとってきて使おうと思ったけどソースみてみたらインストールされてるMacVim探してコマンド実行してるだけなんでエイリアスだけで済ませた。</p>
-
-<pre><code>alias macvim="/Applications/MacVim.app/Contents/MacOS/Vim -g --remote-tab-silent"
-</code></pre>
-
+<pre class="highlight text">alias macvim=&quot;/Applications/MacVim.app/Contents/MacOS/Vim -g --remote-tab-silent&quot;
+</pre>
 <p>特にエラーもでないし引数指定しないというのは特に想定しなくてもいいので僕の場合はこれで事足りる。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -71,7 +85,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -112,12 +126,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2010/04/06155654.html">jQueryでcheckboxがcheckされてるかの値をとる</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2010/04/14094735.html">symfonyのunitテストでちょっと楽する</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -132,8 +142,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -144,8 +155,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

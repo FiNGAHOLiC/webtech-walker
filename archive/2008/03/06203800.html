@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>IE8 Beta1を早速使ってみた - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,43 +22,61 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2008-03-06T00:00:00+09:00" pubdate>2008月03月06日</time>
-
+<time datetime="2008-03-06T00:00:00+09:00">2008年03月06日</time>
 <ul class="tags">
   
-    <li><a href="/tags/IE.html">IE</a></li>
+    <li><a href="/tags/ie.html">IE</a></li>
   
-    <li><a href="/tags/CSS.html">CSS</a></li>
+    <li><a href="/tags/css.html">CSS</a></li>
   
 </ul>
 
 <h1>IE8 Beta1を早速使ってみた</h1>
 
 <div class="body">
+
 <p>IE8 Beta1が公開されていたので使ってみました。</p>
 
-<h2 id="acid2">Acid2テスト</h2>
+<h2>Acid2テスト</h2>
 
 <p>Acid2テストはクリアしていると聞いているので早速試してみることに。</p>
 
 <p>おっ！ちゃんとでたー！</p>
 
-<p><img src="/img/posts/2008-03-06-06203800/acid2.jpg" alt="IE8でのAcid2テストの結果" /></p>
+<p><img alt="IE8でのAcid2テストの結果" src="/img/posts/2008-03-06-06203800/acid2.jpg" /></p>
 
 <p>ちなみに最近公開されたAcid3テストの結果は17点でした。（Win Firefox2･･･50点、Win Opera 9.26･･･47点）</p>
 
-<h2 id="css">CSSセレクタの対応</h2>
+<h2>CSSセレクタの対応</h2>
 
 <p>CSSのセレクタで、IE7で対応していなかったものを中心にいくつか試してみました。</p>
 
@@ -118,46 +135,34 @@
 
 <p>なぜかIE6、IE7で対応していたはずのfirst-letterとfirst-lineがダメでした。後述するレンダリングモードの切り替えでIE6モード、IE7モードにると対応しているみたいでした。謎です。この辺りは正式版までには直るかな？</p>
 
-<h2 id="haslayout">hasLayoutプロパティ</h2>
+<h2>hasLayoutプロパティ</h2>
 
 <p>たしかIE8からhasLayoutプロパティはなくなったんですよね。とりあえずこの前書いた、<a href="/archive/2007/11/27033016.html">hasLayoutプロパティがtrueのとき起こるバグ</a>は直ってるみたいです。</p>
 
 <p>hasLayoutプロパティがないということは、clearfix的なものに指定しているIE用の下記スタイルは意味がなくなります。</p>
-
-<div class="highlight"><pre><code class="css"><span class="nc">.clearfix</span> <span class="p">{</span>
-  <span class="n">zoom</span><span class="o">:</span> <span class="m">1</span><span class="p">;</span>
+<pre class="highlight css"><span class="nc">.clearfix</span> <span class="p">{</span>
+  <span class="py">zoom</span><span class="p">:</span> <span class="m">1</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>検証の結果、上記スタイルではclearfixの動作にはなりませんでした。いいですね。hasLayoutプロパティによるclearfixが使用できない代わりに、:after擬似要素が使えるのでモダンブラウザ用の下記スタイルは反映されます。contentプロパティにも対応しているのを確認できました。</p>
-
-<div class="highlight"><pre><code class="css"><span class="nc">.clearfix</span><span class="nd">:after</span> <span class="p">{</span>
-  <span class="k">content</span><span class="o">:</span> <span class="s2">&quot;.&quot;</span><span class="p">;</span>
-  <span class="k">display</span><span class="o">:</span> <span class="k">block</span><span class="p">;</span>
-  <span class="k">height</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span>
-  <span class="k">clear</span><span class="o">:</span> <span class="k">both</span><span class="p">;</span>
-  <span class="k">visibility</span><span class="o">:</span> <span class="k">hidden</span><span class="p">;</span>
+<pre class="highlight css"><span class="nc">.clearfix</span><span class="nd">:after</span> <span class="p">{</span>
+  <span class="nl">content</span><span class="p">:</span> <span class="s1">&quot;.&quot;</span><span class="p">;</span>
+  <span class="nl">display</span><span class="p">:</span> <span class="nb">block</span><span class="p">;</span>
+  <span class="nl">height</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span>
+  <span class="nl">clear</span><span class="p">:</span> <span class="nb">both</span><span class="p">;</span>
+  <span class="nl">visibility</span><span class="p">:</span> <span class="nb">hidden</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
-<h2 id="section">レンダリングモードの切り替え</h2>
+</pre>
+<h2>レンダリングモードの切り替え</h2>
 
 <p>下記ソースをhead内に記述することでレンダリングモードが切り替わるみたいです。（HTTPヘッダでの指定でも切り替わるようですけど未検証です）</p>
 
-<h3 id="ie6">IE6以前のモード</h3>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;X-UA-Compatible&quot;</span> <span class="na">content=</span><span class="s">&quot;IE=6&quot;</span> <span class="nt">/&gt;</span>
-</code></pre>
-</div>
-
-<h3 id="ie7">IE7モード</h3>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;X-UA-Compatible&quot;</span> <span class="na">content=</span><span class="s">&quot;IE=7&quot;</span> <span class="nt">/&gt;</span>
-</code></pre>
-</div>
-
+<h3>IE6以前のモード</h3>
+<pre class="highlight html"><span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;X-UA-Compatible&quot;</span> <span class="na">content=</span><span class="s">&quot;IE=6&quot;</span> <span class="nt">/&gt;</span>
+</pre>
+<h3>IE7モード</h3>
+<pre class="highlight html"><span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;X-UA-Compatible&quot;</span> <span class="na">content=</span><span class="s">&quot;IE=7&quot;</span> <span class="nt">/&gt;</span>
+</pre>
 <p>モードを切り替えたとき、clearfixがhasLayoutプロパティと:afterのどちらで動作しているかを検証しました。。IE8モードはmetaタグによる指定が無い状態です。</p>
 
 <table summary="IE8の各レンダリングモードに対するハックの対応表">
@@ -220,12 +225,11 @@
 
 <p>IE8モードでIE7用のハックが反映される・・・ダメじゃね？とりあえず正式版までに直るのを期待ですね。</p>
 
-<h2 id="section-1">終わり</h2>
+<h2>終わり</h2>
 
 <p>とりあえず簡単に試してみましたけど、IE7からはだいぶよくなったかなという感じです。後は新たなバグが出ないことを祈るのみ・・・</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -235,7 +239,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -276,12 +280,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2008/02/21023832.html">Dreamweaver CS3 10周年記念イベントレポート</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2008/03/12232403.html">画像ロールオーバーのjavascript</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -296,8 +296,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -308,8 +309,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

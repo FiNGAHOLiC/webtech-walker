@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>iPhone用のCSSを読み込ませる方法 - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,30 +22,48 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2009-02-01T00:00:00+09:00" pubdate>2009月02月01日</time>
-
+<time datetime="2009-02-01T00:00:00+09:00">2009年02月01日</time>
 <ul class="tags">
   
-    <li><a href="/tags/iOS.html">iOS</a></li>
+    <li><a href="/tags/ios.html">iOS</a></li>
   
-    <li><a href="/tags/CSS.html">CSS</a></li>
+    <li><a href="/tags/css.html">CSS</a></li>
   
 </ul>
 
 <h1>iPhone用のCSSを読み込ませる方法</h1>
 
 <div class="body">
+
 <p>iPhoneのみにスタイルを読み込ませるにはMediaQueryというのを使います。MediaQueryはMediaTypeを拡張したもので、CSSを読み込ませるメディアをMediaTypeより細かく指定できます。</p>
 
 <p>詳しくは以下を参照してください。</p>
@@ -54,17 +71,13 @@
 <p><a href="http://d.hatena.ne.jp/amachang/20080425/1209139140">MediaQuery まとめ - IT戦記</a></p>
 
 <p>具体的にどうやってiPhone用にCSSを読み込ませるようにするかというと、こんな感じです。</p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">media=</span><span class="s">&quot;screen and (min-device-width: 481px)&quot;</span> <span class="na">href=</span><span class="s">&quot;/css/default.css&quot;</span> <span class="nt">/&gt;</span>
+<pre class="highlight html"><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">media=</span><span class="s">&quot;screen and (min-device-width: 481px)&quot;</span> <span class="na">href=</span><span class="s">&quot;/css/default.css&quot;</span> <span class="nt">/&gt;</span>
 <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">media=</span><span class="s">&quot;only screen and (max-device-width: 480px)&quot;</span> <span class="na">href=</span><span class="s">&quot;/css/iPhone.css&quot;</span> <span class="nt">/&gt;</span>
 <span class="c">&lt;!--[if IE]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;screen&quot; href=&quot;/css/default.css&quot; /&gt;&lt;![endif]--&gt;</span>
-</code></pre>
-</div>
-
+</pre>
 <p>デバイスが481px以上ならdefault.css、デバイスが480pxならiPhone.cssを読み込みます。で、IEはMediaQueryに対応してないのでIE用にdefault.cssコンディショナルコメントで読み込ませます。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -74,7 +87,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -115,12 +128,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2009/01/30091816.html">dl要素の仕様についての疑問</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2009/02/08031540.html">surround.vimでHTML編集を効率化</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -135,8 +144,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -147,8 +157,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

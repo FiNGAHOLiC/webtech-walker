@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>git log - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,19 +22,36 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2010-03-04T00:00:00+09:00" pubdate>2010月03月04日</time>
-
+<time datetime="2010-03-04T00:00:00+09:00">2010年03月04日</time>
 <ul class="tags">
   
     <li><a href="/tags/git.html">git</a></li>
@@ -45,120 +61,88 @@
 <h1>git log</h1>
 
 <div class="body">
+
 <p>についてのメモ。</p>
 
-<h2 id="section">出力件数を指定する</h2>
+<h2>出力件数を指定する</h2>
 
 <p>出力件数を表示する。どちらもいっしょ。</p>
-
-<pre><code>$ git log -n 10 # 最新10件のログ
+<pre class="highlight text">$ git log -n 10 # 最新10件のログ
 $ git log -10   # 最新10件のログ
-</code></pre>
-
-<h2 id="section-1">範囲指定</h2>
+</pre>
+<h2>範囲指定</h2>
 
 <p>コミットの範囲を指定する</p>
-
-<pre><code>$ git log HEAD~10..HEAD~5        # 10個前か5個前までのログ
+<pre class="highlight text">$ git log HEAD~10..HEAD~5        # 10個前か5個前までのログ
 $ git log HEAD~10..              # 10個前から最新までのログ
 $ git log 3hg4390fj3..93jj23rn20 # ハッシュ値で範囲指定
-</code></pre>
-
-<h2 id="section-2">パッチ形式で出力する</h2>
+</pre>
+<h2>パッチ形式で出力する</h2>
 
 <p>-pでパッチ形式で出力する。</p>
-
-<pre><code>$ git log -p
-</code></pre>
-
-<h2 id="author">Authorから探す</h2>
+<pre class="highlight text">$ git log -p
+</pre>
+<h2>Authorから探す</h2>
 
 <p>コミットした人を指定する。部分一致っぽい。</p>
-
-<pre><code>$ git log --author=hokamura # hokamuraを含むAuthorのログ
-</code></pre>
-
-<h2 id="section-3">コミット日時から探す</h2>
+<pre class="highlight text">$ git log --author=hokamura # hokamuraを含むAuthorのログ
+</pre>
+<h2>コミット日時から探す</h2>
 
 <p>指定した時間以降のコミットを表示する。どちらもいっしょ。</p>
-
-<pre><code>$ git log --after=2010-01-01 # 2010年1月1日以降のログ
+<pre class="highlight text">$ git log --after=2010-01-01 # 2010年1月1日以降のログ
 $ git log --since=2010-01-01 # 2010年1月1日以降のログ
-</code></pre>
-
+</pre>
 <p>指定した時間以前のコミットを表示する。どちらもいっしょ。</p>
-
-<pre><code>$ git log --until=2010-01-01   # 2010年1月1日以前のログ
+<pre class="highlight text">$ git log --until=2010-01-01   # 2010年1月1日以前のログ
 $ git log --before=2010-01-01  # 2010年1月1日以前のログ
-</code></pre>
-
+</pre>
 <p>相対的にも書ける。</p>
+<pre class="highlight text">$ git log --since=&quot;2 week ago&quot; # 2週間前までのログ
+</pre>
+<h2>コミットログから探す</h2>
 
-<pre><code>$ git log --since="2 week ago" # 2週間前までのログ
-</code></pre>
-
-<h2 id="section-4">コミットログから探す</h2>
-
-<p>–grepでコミットログのテキストから検索する。</p>
-
-<pre><code>$ git log --grep=added # コミットログにaddedを含むログ
-</code></pre>
-
-<h2 id="section-5">変更した文字列から探す</h2>
+<p>&ndash;grepでコミットログのテキストから検索する。</p>
+<pre class="highlight text">$ git log --grep=added # コミットログにaddedを含むログ
+</pre>
+<h2>変更した文字列から探す</h2>
 
 <p>変更下箇所にfoo()を含むコミットだけを検索する</p>
-
-<pre><code>$ git log -S'foo()'
-</code></pre>
-
+<pre class="highlight text">$ git log -S&#39;foo()&#39;
+</pre>
 <p>簡略形で出力する</p>
 
-<p>–prettyでコミットログの形式を指定できる。</p>
+<p>&ndash;prettyでコミットログの形式を指定できる。</p>
 
 <p>shortでコミットログを一行目だけ表示にする。</p>
-
-<pre><code>$ git log --pretty=short
-</code></pre>
-
+<pre class="highlight text">$ git log --pretty=short
+</pre>
 <p>onelineだとハッシュ値とコミットログの一行目を合わせて一行で表示する。</p>
-
-<pre><code>$ git log --pretty=oneline
-</code></pre>
-
+<pre class="highlight text">$ git log --pretty=oneline
+</pre>
 <p>formatで自由にフォーマットを決められる。</p>
-
-<pre><code>$ git log --pretty=format:'%h %s'
-</code></pre>
-
+<pre class="highlight text">$ git log --pretty=format:&#39;%h %s&#39;
+</pre>
 <p>formatに指定できるものはhelpなどご参照あれ。</p>
 
-<h2 id="section-6">日付のフォーマットを指定する</h2>
-
-<pre><code>$ git log --date=short
+<h2>日付のフォーマットを指定する</h2>
+<pre class="highlight text">$ git log --date=short
 $ git log --date=iso
-</code></pre>
-
-<h2 id="section-7">グラフを表示する</h2>
+</pre>
+<h2>グラフを表示する</h2>
 
 <p>コミットのグラフを出力する。</p>
-
-<pre><code>$ git log --graph
-</code></pre>
-
+<pre class="highlight text">$ git log --graph
+</pre>
 <p>これだと一個のコミットの表示が長くてよくわからいので</p>
-
-<pre><code>$ git log --graph --pretty=oneline
-</code></pre>
-
+<pre class="highlight text">$ git log --graph --pretty=oneline
+</pre>
 <p>とか</p>
-
-<pre><code>$ git log --graph --pretty=format:%s
-</code></pre>
-
+<pre class="highlight text">$ git log --graph --pretty=format:%s
+</pre>
 <p>とかがよさげ。これはちょっと感動した。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -168,7 +152,7 @@ $ git log --date=iso
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -209,12 +193,8 @@ $ git log --date=iso
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2010/03/01214138.html">画像とかのパスを//で始めるのは何か問題があるのかな</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2010/03/06013431.html">Yokoyama.pm #5にいってきた</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -229,8 +209,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -241,8 +222,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

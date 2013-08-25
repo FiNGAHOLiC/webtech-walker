@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>font-sizeのパーセント表記一覧 - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,65 +22,81 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2008-05-16T00:00:00+09:00" pubdate>2008月05月16日</time>
-
+<time datetime="2008-05-16T00:00:00+09:00">2008年05月16日</time>
 <ul class="tags">
   
-    <li><a href="/tags/CSS.html">CSS</a></li>
+    <li><a href="/tags/css.html">CSS</a></li>
   
 </ul>
 
 <h1>font-sizeのパーセント表記一覧</h1>
 
 <div class="body">
+
 <p>font-sizeはpxやptなどで指定するとIEで拡大、縮小ができないので、パーセントなどで指定することが多いと思います。しかし、パーセントで指定すると、ブラウザごとに大きさが違ったりします。そこで、基本サイズが12px～16pxのときに10px～26px相当を表示するパーセントの数値を計算して、各ブラウザで確認したものをまとめました。</p>
 
-<h2 id="section">注意点</h2>
+<h2>注意点</h2>
 
 <p>これは僕が自分で確認できる環境でのみ動作確認を行っています。動作確認したブラウザは以下になります。</p>
 
-<h3 id="windows">Windows</h3>
+<h3>Windows</h3>
 
 <ul>
-  <li>IE6</li>
-  <li>IE7</li>
-  <li>Firefox2.0.0.14</li>
-  <li>Opera9.27</li>
-  <li>safari3.1</li>
-  <li>Netscape7.01</li>
+<li>IE6</li>
+<li>IE7</li>
+<li>Firefox2.0.0.14</li>
+<li>Opera9.27</li>
+<li>safari3.1</li>
+<li>Netscape7.01</li>
 </ul>
 
-<h3 id="mac">Mac</h3>
+<h3>Mac</h3>
 
 <ul>
-  <li>Firefox2.0.0.14</li>
-  <li>Opera9.27</li>
-  <li>Safari3.1.1</li>
-  <li>Safari2.0.4</li>
-  <li>IE5.2</li>
+<li>Firefox2.0.0.14</li>
+<li>Opera9.27</li>
+<li>Safari3.1.1</li>
+<li>Safari2.0.4</li>
+<li>IE5.2</li>
 </ul>
 
 <p>計算式は以下のとおりです。小数点以下は四捨五入するとブラウザ間で差異でるようなので、切り上げることで対応しました。</p>
-
-<pre><code>表示したいサイズ / 基本サイズ * 100 （小数点以下切り上げ）
-</code></pre>
-
-<h2 id="font-size">font-sizeのパーセント表記一覧表</h2>
+<pre class="highlight text">表示したいサイズ / 基本サイズ * 100 （小数点以下切り上げ）
+</pre>
+<h2>font-sizeのパーセント表記一覧表</h2>
 
 <p>そんな感じで計算した結果が下記です。CSSファイルの最初とかにこの対応表を書いておくと便利かなーとか思います。</p>
 
-<h3 id="px">基本サイズ12px</h3>
+<h3>基本サイズ12px</h3>
 
 <table summary="基本サイズ12pxのときのfont-size対応表">
   <tr>
@@ -158,7 +173,7 @@
   </tr>
 </table>
 
-<h3 id="px-1">基本サイズ13px</h3>
+<h3>基本サイズ13px</h3>
 
 <table summary="基本サイズ13pxのときのfont-size対応表">
   <tr>
@@ -235,7 +250,7 @@
   </tr>
 </table>
 
-<h3 id="px-2">基本サイズ14px</h3>
+<h3>基本サイズ14px</h3>
 
 <table summary="基本サイズ14pxのときのfont-size対応表">
   <tr>
@@ -312,7 +327,7 @@
   </tr>
 </table>
 
-<h3 id="px-3">基本サイズ15px</h3>
+<h3>基本サイズ15px</h3>
 
 <table summary="基本サイズ15pxのときのfont-size対応表">
   <tr>
@@ -389,7 +404,7 @@
   </tr>
 </table>
 
-<h3 id="px-4">基本サイズ16px</h3>
+<h3>基本サイズ16px</h3>
 
 <table summary="基本サイズ16pxのときのfont-size対応表">
   <tr>
@@ -466,26 +481,23 @@
   </tr>
 </table>
 
-<h2 id="section-1">基本サイズについて</h2>
+<h2>基本サイズについて</h2>
 
 <p>一応、基本サイズについても触れておきます。基本サイズとはここではサイトのデフォルトのfont-sizeのことを指しています。一般的にはbodyにfont-sizeを指定します（下記は12pxの場合）。</p>
-
-<div class="highlight"><pre><code class="css"><span class="nt">body</span> <span class="p">{</span>
-    <span class="k">font-size</span><span class="o">:</span> <span class="m">12px</span><span class="p">;</span>
+<pre class="highlight css"><span class="nt">body</span> <span class="p">{</span>
+    <span class="nl">font-size</span><span class="p">:</span> <span class="m">12px</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="c">/* for IE6 */</span>
 <span class="o">*</span> <span class="nt">html</span> <span class="nt">body</span> <span class="p">{</span>
-    <span class="k">font-size</span><span class="o">:</span> <span class="m">75</span><span class="o">%</span><span class="p">;</span>
+    <span class="nl">font-size</span><span class="p">:</span> <span class="m">75</span><span class="err">%</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="c">/* for IE7 */</span>
 <span class="o">*</span><span class="nd">:first-child</span><span class="o">+</span><span class="nt">html</span> <span class="nt">body</span> <span class="p">{</span>
-    <span class="k">font-size</span><span class="o">:</span> <span class="m">75</span><span class="o">%</span><span class="p">;</span>
+    <span class="nl">font-size</span><span class="p">:</span> <span class="m">75</span><span class="err">%</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>各pxに対応する、IEハックで指定するパーセントの値は以下のとおりです。</p>
 
 <table summary="基本サイズの調整表">
@@ -517,12 +529,11 @@
 
 <p>これは余談ですが、一般的にfont-sizeを指定しないときのブラウザのデフォルトサイズは16pxです。しかしMacのFirefox2のデフォルトサイズが14pxなので、基本サイズを16pxにする場合もちゃんと指定したほうがいいです。確かFirefox3ではMac版もデフォルト16pxになると聞いたような聞いてないような。</p>
 
-<h2 id="yahoo-uifontscss">Yahoo UIのfonts.cssについて</h2>
+<h2>Yahoo UIのfonts.cssについて</h2>
 
 <p>ぶっちゃけ、<a href="http://developer.yahoo.com/yui/fonts/">Yahoo!UIのfonts.css</a>を使えば？話なんですよね。fonts.cssはすごく便利だと思うし、僕も今まで何度もお世話になりました。でも、基本サイズが13px以外のときで微妙に面倒だったり、CSSがValidじゃなかったり、諸事情により使えない状況もあるので、今回はfonts.cssには頼らずにコーディングする場合の話です。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -532,7 +543,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -573,12 +584,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2008/04/21205738.html">target疑似クラスを用いて、CSSのみでLightBox風UIを実現する方法</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2008/05/24232248.html">第18回WebSig会議にいってきた</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -593,8 +600,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -605,8 +613,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

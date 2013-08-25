@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>WEB+DB PRESSにHTML5とCSS3の記事を書きました - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,19 +22,36 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2010-08-23T00:00:00+09:00" pubdate>2010月08月23日</time>
-
+<time datetime="2010-08-23T00:00:00+09:00">2010年08月23日</time>
 <ul class="tags">
   
     <li><a href="/tags/book.html">book</a></li>
@@ -45,39 +61,39 @@
 <h1>WEB+DB PRESSにHTML5とCSS3の記事を書きました</h1>
 
 <div class="body">
+
 <p><a href="http://twitter.com/yksk">@yksk</a>さんと一緒にでHTML5とCSS3の特集記事を<a href="http://www.amazon.co.jp/exec/obidos/ASIN/4774143243/ref=nosim/webtech00-22">WEB+DB PRESS Vol.58</a>に書かせていただきました。</p>
 
-<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4774143243/ref=nosim/webtech00-22"><img src="/img/posts/2010-08-23-23081631/webdb58.jpg" alt="WEB+DB PRESS Vol.58" /></a></p>
+<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4774143243/ref=nosim/webtech00-22"><img alt="WEB+DB PRESS Vol.58" src="/img/posts/2010-08-23-23081631/webdb58.jpg" /></a></p>
 
 <p>簡単に内容を紹介しておきます。</p>
 
-<h2 id="html5css3">第一章 HTML5とCSS3で何が変わるのか</h2>
+<h2>第一章 HTML5とCSS3で何が変わるのか</h2>
 
 <p>イントロ的な内容で、新しい技術によってWeb制作がどのように変わってきているかなど</p>
 
-<h2 id="html5">第二章 HTML5でセマンティックなマークアップ</h2>
+<h2>第二章 HTML5でセマンティックなマークアップ</h2>
 
 <p>セクショニングの解説とMicrodataの紹介</p>
 
-<h2 id="css3">第三章 CSS3による表現手法の多様化</h2>
+<h2>第三章 CSS3による表現手法の多様化</h2>
 
 <p>nth-childeなどのセレクタ、border-radius、Webフォント、transition、animationなどCSS3から使えるようになった技術の紹介</p>
 
-<h2 id="webhtml5-api">第四章 WebアプリケーションのためのHTML5 API</h2>
+<h2>第四章 WebアプリケーションのためのHTML5 API</h2>
 
 <p>Video要素、Audio要素やアプリケーションキャッシュ、WebStorageなどのAPIについて紹介</p>
 
-<h2 id="section">第五章 インタラクティブな動作の実現</h2>
+<h2>第五章 インタラクティブな動作の実現</h2>
 
 <p>SVGとCanvasについての紹介です。それぞれの基本的な書き方やクロスブラウザ対応などについて解説</p>
 
-<h2 id="api">第六章 今後実装されるであろうAPI</h2>
+<h2>第六章 今後実装されるであろうAPI</h2>
 
 <p>WebWorkersやWebSocket、XHR Level2など、これから実装が期待されるAPIの紹介
 という感じです。正確にはHTML5やCSS3に含まれないものもありますが、最近使われるようになった技術でどう変わってきているかということろにフォーカスして書きました。興味がある方はぜひ読んでみてください。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -87,7 +103,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -128,12 +144,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2010/07/29135051.html">gitのリモートリポジトリをつくる</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2010/09/05184807.html">SVG2Raphaelをとりあえず公開</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -148,8 +160,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -160,8 +173,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

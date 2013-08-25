@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>Safari3.1の開発ツールがなかなかすごい - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,83 +22,100 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2008-03-19T00:00:00+09:00" pubdate>2008月03月19日</time>
-
+<time datetime="2008-03-19T00:00:00+09:00">2008年03月19日</time>
 <ul class="tags">
   
-    <li><a href="/tags/Safari.html">Safari</a></li>
+    <li><a href="/tags/safari.html">Safari</a></li>
   
 </ul>
 
 <h1>Safari3.1の開発ツールがなかなかすごい</h1>
 
 <div class="body">
+
 <p>Macをほとんど使わないので、Safariは動作確認程度でしか使ったことなかったんですが、Windows版の正式バージョンがリリースされたんでいろいろと使ってみました。デフォルトで入っている開発用ツールがなかなかいい感じでした。</p>
 
-<h2 id="section">メニューバーに開発メニューを表示する</h2>
+<h2>メニューバーに開発メニューを表示する</h2>
 
 <p>デフォルトでは開発メニューが表示されていないので、「編集」→「設定」→「詳細タブ」の「メニューバーに[開発]メニュー]を表示」にチェックをつけます。</p>
 
-<p><img src="/img/posts/2008-03-19-19214614/1.gif" alt="safari設定画面の詳細タブ" /></p>
+<p><img alt="safari設定画面の詳細タブ" src="/img/posts/2008-03-19-19214614/1.gif" /></p>
 
 <p>そうするとメニューバーに開発メニューが追加されます。これで準備ＯＫ。</p>
 
-<p><img src="/img/posts/2008-03-19-19214614/2.gif" alt="safariのメニューバー" /></p>
+<p><img alt="safariのメニューバー" src="/img/posts/2008-03-19-19214614/2.gif" /></p>
 
-<h2 id="section-1">使ってみる</h2>
+<h2>使ってみる</h2>
 
 <p>いろいろと機能はあるみたいですけど、とりあえず便利そうなのをいくつか使ってみました。</p>
 
-<h3 id="section-2">ユーザーエージェント</h3>
+<h3>ユーザーエージェント</h3>
 
 <p>ユーザーエージェントを変更できます。「その他」から任意のユーザーエージェントも設定できます。FirefoxのUser Agent Switcherのようなものですね。</p>
 
-<p><img src="/img/posts/2008-03-19-19214614/3.gif" alt="編集→ユーザーエージェント→ユーザーエージェント一覧" /></p>
+<p><img alt="編集→ユーザーエージェント→ユーザーエージェント一覧" src="/img/posts/2008-03-19-19214614/3.gif" /></p>
 
-<h3 id="web">Webインスペクタ</h3>
+<h3>Webインスペクタ</h3>
 
 <p>HTMLのDOMツリーを見ることができます。選択したDOM要素に適用されているスタイルや詳細が右側に表示されます。Firebugみたいにソースの変更はできないみたいです。</p>
 
-<p><img src="/img/posts/2008-03-19-19214614/4.gif" alt="DOMツリー" /></p>
+<p><img alt="DOMツリー" src="/img/posts/2008-03-19-19214614/4.gif" /></p>
 
-<h3 id="section-3">エラーコンソールを表示</h3>
+<h3>エラーコンソールを表示</h3>
 
 <p>javascriptのエラーを表示します。javascriptを実行することもできます。console.logも使えるようです。</p>
 
-<p><img src="/img/posts/2008-03-19-19214614/5.gif" alt="javascriptのエラー" /></p>
+<p><img alt="javascriptのエラー" src="/img/posts/2008-03-19-19214614/5.gif" /></p>
 
-<h3 id="section-4">ネットワークタイムライン</h3>
+<h3>ネットワークタイムライン</h3>
 
 <p>ファイルの読み込み時間などを見ることができます。見た目もきれいですね。</p>
 
-<p><img src="/img/posts/2008-03-19-19214614/6.gif" alt="ネットワークタイムライン" /></p>
+<p><img alt="ネットワークタイムライン" src="/img/posts/2008-03-19-19214614/6.gif" /></p>
 
-<h3 id="section-5">その他もろもろ</h3>
+<h3>その他もろもろ</h3>
 
 <ul>
-  <li>キャッシュを無効にする</li>
-  <li>イメージを無効にする</li>
-  <li>スタイルを無効にする</li>
-  <li>JavaScript を無効にする</li>
-  <li>Runaway JavaScript タイマーを無効にする</li>
-  <li>サイト固有のハックを無効にする</li>
+<li>キャッシュを無効にする</li>
+<li>イメージを無効にする</li>
+<li>スタイルを無効にする</li>
+<li>JavaScript を無効にする</li>
+<li>Runaway JavaScript タイマーを無効にする</li>
+<li>サイト固有のハックを無効にする</li>
 </ul>
 
 <p>デフォルトでこれだけの機能があるとは、やるなぁSafari。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -109,7 +125,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -150,12 +166,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2008/03/12232403.html">画像ロールオーバーのjavascript</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2008/03/25234222.html">IE6のmin-width、min-heightハックに関して</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -170,8 +182,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -182,8 +195,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

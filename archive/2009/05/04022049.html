@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>sfFormのformtterで出力結果のHTMLを変更する - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,22 +22,39 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2009-05-04T00:00:00+09:00" pubdate>2009月05月04日</time>
-
+<time datetime="2009-05-04T00:00:00+09:00">2009年05月04日</time>
 <ul class="tags">
   
-    <li><a href="/tags/PHP.html">PHP</a></li>
+    <li><a href="/tags/php.html">PHP</a></li>
   
     <li><a href="/tags/symfony.html">symfony</a></li>
   
@@ -47,83 +63,77 @@
 <h1>sfFormのformtterで出力結果のHTMLを変更する</h1>
 
 <div class="body">
+
 <p>最近sfFormerと名乗ってもいいくらいsfFromしかやってないです。今回はformatterについてのメモ。</p>
 
 <p>formatterを自分で定義すればrender()で出力するHTMLを変更できます。実装もそんなに難しくないので、ulをdtに変えるだけとかだったら割とさっくりできます。ただドキュメントがないからソース読んで察するしかないのが難点。</p>
 
 <p>今回は以下のようなフォームをdlで実装してみます。ラジオボタンの中にテキストボックスが入ってるのがなかなかやっかい。</p>
 
-<p><img src="/img/posts/2009-05-04-04022049/form.png" alt="フォームのキャプチャ" /></p>
+<p><img alt="フォームのキャプチャ" src="/img/posts/2009-05-04-04022049/form.png" /></p>
 
 <p>出力したいHTMLのソースはこんな感じ。</p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;dl&gt;</span>
+<pre class="highlight html"><span class="nt">&lt;dl&gt;</span>
     <span class="nt">&lt;dt&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;radio&quot;</span> <span class="na">name=</span><span class="s">&quot;name_type&quot;</span> <span class="na">id=</span><span class="s">&quot;name_type_1&quot;</span> <span class="na">value=</span><span class="s">&quot;1&quot;</span> <span class="nt">/&gt;&lt;label</span> <span class="na">for=</span><span class="s">&quot;name_type_1&quot;</span><span class="nt">&gt;</span>個人<span class="nt">&lt;/label&gt;&lt;/dt&gt;</span>
     <span class="nt">&lt;dd&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;personal_name&quot;</span> <span class="nt">/&gt;&lt;/dd&gt;</span>
     <span class="nt">&lt;dt&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;radio&quot;</span> <span class="na">name=</span><span class="s">&quot;name_type&quot;</span> <span class="na">id=</span><span class="s">&quot;name_type_2&quot;</span> <span class="na">value=</span><span class="s">&quot;2&quot;</span> <span class="nt">/&gt;&lt;label</span> <span class="na">for=</span><span class="s">&quot;name_type_2&quot;</span><span class="nt">&gt;</span>法人<span class="nt">&lt;/label&gt;&lt;/dt&gt;</span>
     <span class="nt">&lt;dd&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;company_name&quot;</span> <span class="nt">/&gt;&lt;/dd&gt;</span>
 <span class="nt">&lt;/dl&gt;</span>
-</code></pre>
-</div>
-
+</pre>
 <p>実装はこんな感じ。</p>
 
-<div class="highlight"><pre><code class="php"><span class="k">class</span> <span class="nc">inputForm</span> <span class="k">extends</span> <span class="nx">sfForm</span>
-<span class="p">{</span>
-    <span class="k">public</span> <span class="k">function</span> <span class="nf">configure</span><span class="p">()</span> <span class="p">{</span>
-        <span class="c1">// ラジオボタンのwidget作成</span>
-        <span class="c1">// formatterにcallbackを渡す</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">widgetSchema</span><span class="p">[</span><span class="s1">&#39;name_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">sfWidgetFormSelectRadio</span><span class="p">(</span>
-            <span class="k">array</span><span class="p">(</span>
-                <span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;1&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;個人&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;法人&#39;</span><span class="p">),</span>
-                <span class="s1">&#39;formatter&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="nv">$this</span><span class="p">,</span> <span class="s1">&#39;nameTypeFormatter&#39;</span><span class="p">),</span>
-            <span class="p">)</span>
-        <span class="p">);</span>
+<p>{% highlight php startinline %}
+class inputForm extends sfForm
+{
+    public function configure() {
+        // ラジオボタンのwidget作成
+        // formatterにcallbackを渡す
+        $this->widgetSchema[&lsquo;name_type&rsquo;] = new sfWidgetFormSelectRadio(
+            array(
+                &lsquo;choices&rsquo; =&gt; array(&lsquo;1&rsquo; =&gt; &lsquo;個人&rsquo;, &lsquo;2&rsquo; =&gt; &lsquo;法人&rsquo;),
+                &lsquo;formatter&rsquo; =&gt; array($this, &lsquo;nameTypeFormatter&rsquo;),
+            )
+        );</p>
+<pre class="highlight text">    // 名前の入力フィールドwidget作成
+    $this-&gt;widgetSchema[&#39;personal_name&#39;] = new sfWidgetFormInput();
+    $this-&gt;widgetSchema[&#39;company_name&#39;]  = new sfWidgetFormInput();
 
-        <span class="c1">// 名前の入力フィールドwidget作成</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">widgetSchema</span><span class="p">[</span><span class="s1">&#39;personal_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">sfWidgetFormInput</span><span class="p">();</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">widgetSchema</span><span class="p">[</span><span class="s1">&#39;company_name&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="k">new</span> <span class="nx">sfWidgetFormInput</span><span class="p">();</span>
+    // 作成したwidgetの名前の配列をoptionにセット
+    $this-&gt;widgetSchema[&#39;name_type&#39;]-&gt;addOption(&#39;inputNames&#39;, array(&#39;personal_name&#39;, &#39;company_name&#39;));
+}
 
-        <span class="c1">// 作成したwidgetの名前の配列をoptionにセット</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">widgetSchema</span><span class="p">[</span><span class="s1">&#39;name_type&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">addOption</span><span class="p">(</span><span class="s1">&#39;inputNames&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;personal_name&#39;</span><span class="p">,</span> <span class="s1">&#39;company_name&#39;</span><span class="p">));</span>
-    <span class="p">}</span>
+public function nameTypeFormatter($widget, $inputs) {
+    $row = array();
+    $inputNames = $widget-&gt;getOption(&#39;inputNames&#39;);
 
-    <span class="k">public</span> <span class="k">function</span> <span class="nf">nameTypeFormatter</span><span class="p">(</span><span class="nv">$widget</span><span class="p">,</span> <span class="nv">$inputs</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nv">$row</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
-        <span class="nv">$inputNames</span> <span class="o">=</span> <span class="nv">$widget</span><span class="o">-&gt;</span><span class="na">getOption</span><span class="p">(</span><span class="s1">&#39;inputNames&#39;</span><span class="p">);</span>
+    // 列を作成
+    foreach ($inputs as $key =&gt; $input) {
+        $dt = $widget-&gt;renderContentTag(&#39;dt&#39;, $input[&#39;input&#39;].$input[&#39;label&#39;]);
+        $dd = $widget-&gt;renderContentTag(&#39;dd&#39;, $this[$inputNames[$key]]-&gt;render());
 
-        <span class="c1">// 列を作成</span>
-        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$inputs</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$input</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nv">$dt</span> <span class="o">=</span> <span class="nv">$widget</span><span class="o">-&gt;</span><span class="na">renderContentTag</span><span class="p">(</span><span class="s1">&#39;dt&#39;</span><span class="p">,</span> <span class="nv">$input</span><span class="p">[</span><span class="s1">&#39;input&#39;</span><span class="p">]</span><span class="o">.</span><span class="nv">$input</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]);</span>
-            <span class="nv">$dd</span> <span class="o">=</span> <span class="nv">$widget</span><span class="o">-&gt;</span><span class="na">renderContentTag</span><span class="p">(</span><span class="s1">&#39;dd&#39;</span><span class="p">,</span> <span class="nv">$this</span><span class="p">[</span><span class="nv">$inputNames</span><span class="p">[</span><span class="nv">$key</span><span class="p">]]</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">());</span>
-            
-            <span class="nv">$row</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$dt</span><span class="o">.</span><span class="nv">$dd</span><span class="p">;</span>
-        <span class="p">}</span>
+        $row[] = $dt.$dd;
+    }
 
-        <span class="c1">// 列を連結してdlでラップ</span>
-        <span class="nv">$dl</span> <span class="o">=</span> <span class="nv">$widget</span><span class="o">-&gt;</span><span class="na">renderContentTag</span><span class="p">(</span><span class="s1">&#39;dl&#39;</span><span class="p">,</span> <span class="nb">join</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nv">$row</span><span class="p">));</span>
+    // 列を連結してdlでラップ
+    $dl = $widget-&gt;renderContentTag(&#39;dl&#39;, join(&quot;\n&quot;, $row));
 
-        <span class="k">return</span> <span class="nv">$dl</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre>
-</div>
+    return $dl;
+}
+</pre>
+<p>}
+&ldquo;`</p>
 
 <p>formatterの中で入力フィールドもrender()で出力してます。これでviewのほうでは、</p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;table&gt;</span>
+<pre class="highlight html"><span class="nt">&lt;table&gt;</span>
     <span class="nt">&lt;tr&gt;</span>
         <span class="nt">&lt;th&gt;</span>お名前<span class="nt">&lt;/th&gt;</span>
         <span class="nt">&lt;td&gt;</span><span class="cp">&lt;?php echo $form[&#39;name_type&#39;]-&gt;render() ?&gt;</span><span class="nt">&lt;/td&gt;</span>
     <span class="nt">&lt;/tr&gt;</span>
 <span class="nt">&lt;/table&gt;</span>
-</code></pre>
-</div>
-
+</pre>
 <p>これだけでおｋ。こんな感じで大体のことは実現可能です。ドキュメントできてないので詳しくはソース読まないとわかりませんが。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -133,7 +143,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -174,12 +184,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2009/05/03040526.html">sfFormで画像アップロード</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2009/06/10205605.html">MTインストール時のmt-staticが見つからない問題について</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -194,8 +200,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -206,8 +213,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

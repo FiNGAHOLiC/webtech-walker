@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>vimのsyntax/perl.vimをちょっと直す - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,37 +22,55 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2010-02-17T00:00:00+09:00" pubdate>2010月02月17日</time>
-
+<time datetime="2010-02-17T00:00:00+09:00">2010年02月17日</time>
 <ul class="tags">
   
     <li><a href="/tags/vim.html">vim</a></li>
   
-    <li><a href="/tags/Perl.html">Perl</a></li>
+    <li><a href="/tags/perl.html">Perl</a></li>
   
 </ul>
 
 <h1>vimのsyntax/perl.vimをちょっと直す</h1>
 
 <div class="body">
+
 <p><ins>追記: mattnさんに教えてもらったsyntax使えばよさげです！</ins> → <a href="http://www.vim.org/scripts/script.php?script_id=2300">perl-mauke.vim - improved perl syntax highlighting : vim online</a></p>
 
 <p>前々からperlのsyntaxがおかしいところがあるのには気付いてたけど、見て見ぬふりをしていたのを直した。</p>
 
-<p><code>m!hoge$!</code>とか<code>qq[hoge'fuga]</code>とかがあるとその後のsyntaxがおかしくなってた。</p>
+<p><code>m!hoge$!</code>とか<code>qq[hoge&#39;fuga]</code>とかがあるとその後のsyntaxがおかしくなってた。</p>
 
-<p><img src="/img/posts/2010-02-17-17194501/vim.jpg" alt="vimのキャプチャ" /></p>
+<p><img alt="vimのキャプチャ" src="/img/posts/2010-02-17-17194501/vim.jpg" /></p>
 
 <p>こんな感じでおかしくなってたのを直した。diffはこんな感じ。</p>
 
@@ -61,8 +78,7 @@
 
 <p>$VIMRUNTIME/syntax/perl.vimからうまく差分だけ上書きする方法がわからんかったのでとりあえず~/.vimrc/syntax/perl.vimにまるっとコピって修正した。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -72,7 +88,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -113,12 +129,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2010/02/15094126.html">javascriptのreplaceにfunctionを渡す</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2010/03/01214138.html">画像とかのパスを//で始めるのは何か問題があるのかな</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -133,8 +145,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -145,8 +158,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

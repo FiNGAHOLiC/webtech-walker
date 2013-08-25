@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>textobj-camelcase.vim - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,19 +22,36 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2009-11-05T00:00:00+09:00" pubdate>2009月11月05日</time>
-
+<time datetime="2009-11-05T00:00:00+09:00">2009年11月05日</time>
 <ul class="tags">
   
     <li><a href="/tags/vim.html">vim</a></li>
@@ -45,9 +61,9 @@
 <h1>textobj-camelcase.vim</h1>
 
 <div class="body">
-<p>キャメルケースとかアンスコ区切り単位で取り扱いたい場面ってけっこうありますよね。camelcasemotion.vimっていう便利なプラグインがあるんですけど、そこまで高機能じゃなくてテキストオブジェクトで扱えるだけで僕は十分なのでtextobj-userを利用してプラグインを書きました。</p>
 
-<div class="highlight"><pre><code class="vim"><span class="c">&quot; textobj-camelcase - Text objects for camel case.</span>
+<p>キャメルケースとかアンスコ区切り単位で取り扱いたい場面ってけっこうありますよね。camelcasemotion.vimっていう便利なプラグインがあるんですけど、そこまで高機能じゃなくてテキストオブジェクトで扱えるだけで僕は十分なのでtextobj-userを利用してプラグインを書きました。</p>
+<pre class="highlight viml"><span class="c">&quot; textobj-camelcase - Text objects for camel case.</span>
 <span class="c">&quot; Version: 0.0.1</span>
 <span class="c">&quot; Author: Kazuhito Hokamura</span>
 <span class="c">&quot; License: MIT license (see &lt;http://www.opensource.org/licenses/mit-license&gt;)</span>
@@ -56,21 +72,18 @@
   <span class="k">finish</span>
 <span class="k">endif</span>
 
-<span class="k">call</span> textobj#user#plugin<span class="p">(</span><span class="s1">&#39;camelcase&#39;</span><span class="p">,</span> {
-\      <span class="s1">&#39;-&#39;</span>: {
-\           <span class="s1">&#39;*pattern*&#39;</span>: <span class="s1">&#39;[A-Za-z][a-z0-9]\+&#39;</span><span class="p">,</span>
-\           <span class="s1">&#39;select&#39;</span>: [<span class="s1">&#39;ac&#39;</span><span class="p">,</span> <span class="s1">&#39;ic&#39;</span>]<span class="p">,</span>
-\      }<span class="p">,</span>
-\   }<span class="p">)</span>
+<span class="k">call</span> textobj#user#plugin<span class="p">(</span><span class="s1">&#39;camelcase&#39;</span><span class="p">,</span> <span class="p">{</span>
+<span class="se">\</span>      <span class="s1">&#39;-&#39;</span><span class="p">:</span> <span class="p">{</span>
+<span class="se">\</span>           <span class="s1">&#39;*pattern*&#39;</span><span class="p">:</span> <span class="s1">&#39;[A-Za-z][a-z0-9]\+&#39;</span><span class="p">,</span>
+<span class="se">\</span>           <span class="s1">&#39;select&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;ac&#39;</span><span class="p">,</span> <span class="s1">&#39;ic&#39;</span><span class="p">],</span>
+<span class="se">\</span>      <span class="p">},</span>
+<span class="se">\</span>   <span class="p">})</span>
 
 <span class="k">let</span> loaded_textobj_camelcase <span class="p">=</span> <span class="m">1</span>
-</code></pre>
-</div>
-
+</pre>
 <p>うん、便利。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -80,7 +93,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -121,12 +134,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2009/10/30173903.html">Ark(Catalyst)のルーティング</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2009/11/18193412.html">Crypt::DHが遅いときはMath::BigInt::GMPを入れるといいらしい</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -141,8 +150,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -153,8 +163,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

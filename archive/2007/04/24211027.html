@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>CSSの隣接セレクタを使ってMacのDock風インターフェースを作成する - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,28 +22,46 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2007-04-24T00:00:00+09:00" pubdate>2007月04月24日</time>
-
+<time datetime="2007-04-24T00:00:00+09:00">2007年04月24日</time>
 <ul class="tags">
   
-    <li><a href="/tags/CSS.html">CSS</a></li>
+    <li><a href="/tags/css.html">CSS</a></li>
   
 </ul>
 
 <h1>CSSの隣接セレクタを使ってMacのDock風インターフェースを作成する</h1>
 
 <div class="body">
+
 <p>CSSのセレクタって意外と多いんですよね。未対応ブラウザのことを考えると実際に使用するのはもう少し先のことになりそうなセレクタも多いんですが、ここらで一度実際に使ってみたいと思います。</p>
 
 <p>今回は隣接セレクタを使ってMacのDock風インターフェースを作ってみることにしました。</p>
@@ -53,9 +70,8 @@
 
 <p>FireFoxとIE7では動きました。IE6では動きません。</p>
 
-<p><a href="/sample/2007-04-24-24211027/index.html">MacのDock風インターフェースのサンプル</a></p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;ul&gt;</span>
+<p><a href="/sample/2007-04-24-24211027/">MacのDock風インターフェースのサンプル</a></p>
+<pre class="highlight html"><span class="nt">&lt;ul&gt;</span>
   <span class="nt">&lt;li&gt;&lt;img</span> <span class="na">src=</span><span class="s">&quot;icon1.png&quot;</span> <span class="na">alt=</span><span class="s">&quot;icon1&quot;</span><span class="nt">/&gt;&lt;/li&gt;</span>
   <span class="nt">&lt;li&gt;&lt;img</span> <span class="na">src=</span><span class="s">&quot;icon2.png&quot;</span> <span class="na">alt=</span><span class="s">&quot;icon2&quot;</span><span class="nt">/&gt;&lt;/li&gt;</span>
   <span class="nt">&lt;li&gt;&lt;img</span> <span class="na">src=</span><span class="s">&quot;icon3.png&quot;</span> <span class="na">alt=</span><span class="s">&quot;icon3&quot;</span><span class="nt">/&gt;&lt;/li&gt;</span>
@@ -63,78 +79,57 @@
   <span class="nt">&lt;li&gt;&lt;img</span> <span class="na">src=</span><span class="s">&quot;icon5.png&quot;</span> <span class="na">alt=</span><span class="s">&quot;icon5&quot;</span><span class="nt">/&gt;&lt;/li&gt;</span>
   <span class="nt">&lt;li&gt;&lt;img</span> <span class="na">src=</span><span class="s">&quot;icon6.png&quot;</span> <span class="na">alt=</span><span class="s">&quot;icon6&quot;</span><span class="nt">/&gt;&lt;/li&gt;</span>
 <span class="nt">&lt;/ul&gt;</span>
-</code></pre>
-</div>
-
-<div class="highlight"><pre><code class="css"><span class="nt">img</span><span class="p">{</span>
-  <span class="k">border</span><span class="o">:</span><span class="k">none</span><span class="p">;</span>
+</pre><pre class="highlight css"><span class="nt">img</span><span class="p">{</span>
+  <span class="nl">border</span><span class="p">:</span><span class="nb">none</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="nt">li</span> <span class="p">{</span>
-  <span class="k">float</span><span class="o">:</span><span class="k">left</span><span class="p">;</span>
-  <span class="k">list-style</span><span class="o">:</span><span class="k">none</span><span class="p">;</span>
+  <span class="nl">float</span><span class="p">:</span><span class="nb">left</span><span class="p">;</span>
+  <span class="nl">list-style</span><span class="p">:</span><span class="nb">none</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="nt">li</span> <span class="nt">img</span> <span class="p">{</span>
-  <span class="k">width</span><span class="o">:</span><span class="m">64px</span><span class="p">;</span>
-  <span class="k">height</span><span class="o">:</span><span class="m">64px</span><span class="p">;</span>
+  <span class="nl">width</span><span class="p">:</span><span class="m">64px</span><span class="p">;</span>
+  <span class="nl">height</span><span class="p">:</span><span class="m">64px</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="nt">li</span><span class="nd">:hover</span> <span class="nt">img</span> <span class="p">{</span>
-  <span class="k">width</span><span class="o">:</span><span class="m">128px</span><span class="p">;</span>
-  <span class="k">height</span><span class="o">:</span><span class="m">128px</span><span class="p">;</span>
+  <span class="nl">width</span><span class="p">:</span><span class="m">128px</span><span class="p">;</span>
+  <span class="nl">height</span><span class="p">:</span><span class="m">128px</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="nt">li</span><span class="nd">:hover</span> <span class="o">+</span><span class="nt">li</span> <span class="nt">img</span> <span class="p">{</span>
-  <span class="k">width</span><span class="o">:</span><span class="m">96px</span><span class="p">;</span>
-  <span class="k">height</span><span class="o">:</span><span class="m">96px</span><span class="p">;</span>
+  <span class="nl">width</span><span class="p">:</span><span class="m">96px</span><span class="p">;</span>
+  <span class="nl">height</span><span class="p">:</span><span class="m">96px</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="nt">li</span><span class="nd">:hover</span> <span class="o">+</span><span class="nt">li</span> <span class="o">+</span><span class="nt">li</span> <span class="nt">img</span> <span class="p">{</span>
-  <span class="k">width</span><span class="o">:</span><span class="m">80px</span><span class="p">;</span>
-  <span class="k">height</span><span class="o">:</span><span class="m">80px</span><span class="p">;</span>
+  <span class="nl">width</span><span class="p">:</span><span class="m">80px</span><span class="p">;</span>
+  <span class="nl">height</span><span class="p">:</span><span class="m">80px</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>隣接セレクタは、ある要素の直後の兄弟要素を指定できます。このソースを例に挙げてみます。</p>
-
-<div class="highlight"><pre><code class="css"><span class="nt">li</span><span class="nd">:hover</span> <span class="o">+</span><span class="nt">li</span> <span class="nt">img</span> <span class="p">{</span>
-  <span class="k">width</span><span class="o">:</span><span class="m">96px</span><span class="p">;</span>
-  <span class="k">height</span><span class="o">:</span><span class="m">96px</span><span class="p">;</span>
+<pre class="highlight css"><span class="nt">li</span><span class="nd">:hover</span> <span class="o">+</span><span class="nt">li</span> <span class="nt">img</span> <span class="p">{</span>
+  <span class="nl">width</span><span class="p">:</span><span class="m">96px</span><span class="p">;</span>
+  <span class="nl">height</span><span class="p">:</span><span class="m">96px</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>この場合、li:hoverの直後のli要素内のimg要素を指定していることになります。この例で言うとマウスオーバーした要素の一つ右の画像です。</p>
-
-<div class="highlight"><pre><code class="css"><span class="nt">li</span><span class="nd">:hover</span> <span class="o">+</span><span class="nt">li</span> <span class="o">+</span><span class="nt">li</span> <span class="nt">img</span> <span class="p">{</span>
-  <span class="k">width</span><span class="o">:</span><span class="m">80px</span><span class="p">;</span>
-  <span class="k">height</span><span class="o">:</span><span class="m">80px</span><span class="p">;</span>
+<pre class="highlight css"><span class="nt">li</span><span class="nd">:hover</span> <span class="o">+</span><span class="nt">li</span> <span class="o">+</span><span class="nt">li</span> <span class="nt">img</span> <span class="p">{</span>
+  <span class="nl">width</span><span class="p">:</span><span class="m">80px</span><span class="p">;</span>
+  <span class="nl">height</span><span class="p">:</span><span class="m">80px</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>これだとli:hoverの直後のli要素の直後のli要素なので2つとなりのli要素内のimg要素を指定しています。一つ前の要素とかもしてできればもっとDock風になるんですけど、現在はこれが限界のようです。</p>
 
 <p>こういった便利なセレクタがブラウザ依存を気にせず使えるようになるとコーディングもしやすくなりそうですね。ちなみにCSSのセレクタのまとめは下記サイトなどがうまくまとめられています。</p>
 
 <ul>
-  <li><a href="http://css-happylife.com/archives/2007/0416_0013.php">CSSセレクタ簡易対応表 - CSS HappyLife</a></li>
-  <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>[CSS セレクタに関するおさらい</td>
-          <td>WWW WATCH](http://hyper-text.org/archives/2007/01/css_electors_reference.shtml)</td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
+<li><a href="http://css-happylife.com/archives/2007/0416_0013.php">CSSセレクタ簡易対応表 - CSS HappyLife</a></li>
+<li><a href="http://hyper-text.org/archives/2007/01/css_electors_reference.shtml">CSS セレクタに関するおさらい | WWW WATCH</a></li>
 </ul>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -144,7 +139,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -185,12 +180,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2007/03/06143435.html">IEでページが真っ白になる謎現象</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2007/04/26154112.html">smartyでマルチバイトに対応したtruncate修飾子</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -205,8 +196,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -217,8 +209,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

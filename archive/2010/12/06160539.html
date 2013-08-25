@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>githubがhistory.replaceState使ってた - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,33 +22,51 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2010-12-06T00:00:00+09:00" pubdate>2010月12月06日</time>
-
+<time datetime="2010-12-06T00:00:00+09:00">2010年12月06日</time>
 <ul class="tags">
   
-    <li><a href="/tags/JavaScript.html">JavaScript</a></li>
+    <li><a href="/tags/javascript.html">JavaScript</a></li>
   
 </ul>
 
 <h1>githubがhistory.replaceState使ってた</h1>
 
 <div class="body">
+
 <p>JavaScriptでhistory.pushStateとhistory.replaceStateっていう履歴管理のための仕様があるんですけど、これを使うとlocation.hashを使って実装しているような、ページ遷移をしないでコンテンツを入れ替える（Twitterの新UIみたいな）ものを実現できます。</p>
 
 <ul>
-  <li><a href="http://www.w3.org/TR/html5/history.html#dom-history-pushstate">5.4 Session history and navigation — HTML5</a></li>
-  <li><a href="https://developer.mozilla.org/en/DOM/Manipulating_the_browser_history#Adding_and_modifying_history_entries">Manipulating the browser history - MDC Doc Center</a></li>
+<li><a href="http://www.w3.org/TR/html5/history.html#dom-history-pushstate">5.4 Session history and navigation — HTML5</a></li>
+<li><a href="https://developer.mozilla.org/en/DOM/Manipulating_the_browser_history#Adding_and_modifying_history_entries">Manipulating the browser history - MDC Doc Center</a></li>
 </ul>
 
 <p>で、これを実際使ってるところは見たことなかったんですけど、githubがいつの間にか使ってました。適当なリポジトリに入ってhistory.replaceStateをサポートしてるブラウザ（現時点ではchromeかsafari）で見るとページ遷移なしで動いて、切り替わるときにURLが書き換わってるのがわかると思います。さらにブラウザの戻るボタンもちゃんと動きます。</p>
@@ -58,12 +75,11 @@
 
 <p>なんか次世代って感じですねー</p>
 
-<p><ins>追記：補足記事</ins></p>
+<ins>追記：補足記事</ins>
 
 <p><a href="/archive/2011/01/21123625.html">補足：githubのアレ(history.replaceStateとかhistory.pushStateの話)</a></p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -73,7 +89,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -114,12 +130,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2010/11/24184510.html">iOS4.2の加速度センサ試してみたよ</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2010/12/20184859.html">iPhoneとかでタップしたときに画像切り替えるjQuery Plugin</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -134,8 +146,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -146,8 +159,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

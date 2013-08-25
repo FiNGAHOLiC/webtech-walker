@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>FirefoxのアドオンHtml Validatorについての覚え書き - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,29 +22,47 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2008-02-07T00:00:00+09:00" pubdate>2008月02月07日</time>
-
+<time datetime="2008-02-07T00:00:00+09:00">2008年02月07日</time>
 <ul class="tags">
   
-    <li><a href="/tags/Firefox.html">Firefox</a></li>
+    <li><a href="/tags/firefox.html">Firefox</a></li>
   
 </ul>
 
 <h1>FirefoxのアドオンHtml Validatorについての覚え書き</h1>
 
 <div class="body">
-<h2 id="html-validator">Html Validatorって何？</h2>
+
+<h2>Html Validatorって何？</h2>
 
 <p>マークアップをする人は必ずHTMLのバリデーションを行うと思うんですが、そんなときにすごく便利なFirefoxアドオンがHtml Validatorです。いちいちlintやW3Cバリデーターを開いてバリデーションするのって結構面倒でじゃないですか？このアドオンを入れておくと、ブラウザの表示チェックと同時にバリデーションできます。</p>
 
@@ -53,32 +70,31 @@
 
 <p>アドオンをインストールすると、HTMLをチェックした結果がブラウザの右下に以下のようなアイコンで表示されます。</p>
 
-<p><img src="/img/posts/2008-02-07-07141217/1.jpg" alt="Html Validatorのアイコン" /></p>
+<p><img alt="Html Validatorのアイコン" src="/img/posts/2008-02-07-07141217/1.jpg" /></p>
 
 <p>緑のチェックはValidってことです。エラーがあると赤い×が、警告があると三角のびっくりマークのアイコンが表示されます。また、以下のようにソースを見るだけでエラーの内容や該当箇所もわかります。</p>
 
-<p><img src="/img/posts/2008-02-07-07141217/2.jpg" alt="ソース画面" /></p>
+<p><img alt="ソース画面" src="/img/posts/2008-02-07-07141217/2.jpg" /></p>
 
-<h2 id="section">アルゴリズムの違い</h2>
+<h2>アルゴリズムの違い</h2>
 
 <p>「オプション」&gt;「アルゴリズム」で、「HTML Tidy」、「SGML Parser」、「併用」の3種類から選べます。「HTML Tidy」ではオープンソースの HTML チェックプログラム「HTML Tidy」のアルゴリズムでチェックを行います。「SGML Parser」は、W3Cのバリデータと同じロジックでチェックします。「併用」を選ぶと、まず「SGML Parser」でチェックして、エラーがなければ「HTML Tidy」でチェックします。</p>
 
 <p>例えば「SGML Parser」では、table要素にsummary属性がなくてもValidを表す緑のチェックになりますが、「HTML Tidy」では警告がでます。単にvalidなHTMLにするだけなら「SGML Parser」でいいと思いますが、僕は「併用」を使用するようにしています。</p>
 
-<h2 id="section-1">不許可サイト</h2>
+<h2>不許可サイト</h2>
 
 <p>最近知ったのが不許可サイトの設定です。googleAdsenceを入れているサイトではgoogleAdsenceのエラーもカウントして、エラーのアイコンがでてしまいます。</p>
 
-<p><img src="/img/posts/2008-02-07-07141217/3.jpg" alt="google Adsenceがエラーになる" /></p>
+<p><img alt="google Adsenceがエラーになる" src="/img/posts/2008-02-07-07141217/3.jpg" /></p>
 
 <p>そういった場合、「オプション」&gt;「自動的に閲覧中のページを文法チェック」の横の「例外」ボタンを押すと、不許可サイトの設定ができるウィンドウが立ち上がります。ここでチェックしないサイトを設定すると、指定したサイトはチェックしなくなります。</p>
 
-<p><img src="/img/posts/2008-02-07-07141217/4.jpg" alt="不許可サイトが設定された" /></p>
+<p><img alt="不許可サイトが設定された" src="/img/posts/2008-02-07-07141217/4.jpg" /></p>
 
 <p>かなり便利なアドオンだと思うので、もし使ったことがなければ一度使ってみてはいかがでしょうか。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -88,7 +104,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -129,12 +145,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2008/01/18095902.html">CSS Nite in Ginza, Vol.21にいってきた</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2008/02/21023832.html">Dreamweaver CS3 10周年記念イベントレポート</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -149,8 +161,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -161,8 +174,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

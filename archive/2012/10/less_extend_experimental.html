@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>lessのextendがexperimentalなブランチにマージされたようです - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,65 +22,76 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2012-10-29T00:00:00+09:00" pubdate>2012月10月29日</time>
-
+<time datetime="2012-10-29T00:00:00+09:00">2012年10月29日</time>
 <ul class="tags">
   
     <li><a href="/tags/less.html">less</a></li>
   
-    <li><a href="/tags/CSS.html">CSS</a></li>
+    <li><a href="/tags/css.html">CSS</a></li>
   
 </ul>
 
 <h1>lessのextendがexperimentalなブランチにマージされたようです</h1>
 
 <div class="body">
+
 <p>一年くらい前に僕がpull requestしたSassのextendみたいな機能をlessにも実装するってやつが実験的なブランチにマージされたっぽい。</p>
 
-<p><a href="https://github.com/cloudhead/less.js/pull/509">Add Sass like extend by hokaccha · Pull Request #509 · cloudhead/less.js</a><br />
+<p><a href="https://github.com/cloudhead/less.js/pull/509">Add Sass like extend by hokaccha · Pull Request #509 · cloudhead/less.js</a><br>
 <a href="https://github.com/cloudhead/less.js/tree/1_4_0">cloudhead/less.js at 1_4_0</a></p>
 
 <p>シンタックスが<code>+</code>は隣接セレクタと間違えそうだからってことで<code>++</code>になってる。</p>
 
 <p>こんな感じのlessファイルをコンパイルすると</p>
-
-<div class="highlight"><pre><code class="css"><span class="nc">.foo</span> <span class="p">{</span>
-  <span class="k">color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span>
+<pre class="highlight css"><span class="nc">.foo</span> <span class="p">{</span>
+  <span class="nl">color</span><span class="p">:</span> <span class="no">red</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="nc">.bar</span> <span class="p">{</span>
-  <span class="o">++.</span><span class="n">foo</span><span class="p">;</span>
-  <span class="k">font-size</span><span class="o">:</span> <span class="m">13px</span><span class="p">;</span>
+  <span class="err">++.foo;</span>
+  <span class="nl">font-size</span><span class="p">:</span> <span class="m">13px</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>結果はこうなる。</p>
-
-<div class="highlight"><pre><code class="css"><span class="nc">.foo</span><span class="o">,</span>
+<pre class="highlight css"><span class="nc">.foo</span><span class="o">,</span>
 <span class="nc">.bar</span> <span class="p">{</span>
-  <span class="k">color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span>
+  <span class="nl">color</span><span class="p">:</span> <span class="no">red</span><span class="p">;</span>
 <span class="p">}</span>
 <span class="nc">.bar</span> <span class="p">{</span>
-  <span class="k">font-size</span><span class="o">:</span> <span class="m">13px</span><span class="p">;</span>
+  <span class="nl">font-size</span><span class="p">:</span> <span class="m">13px</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>npmはgithubからモジュールをインストールできて<code>#</code>以降にブランチ名を指定すれば特定のブランチのものを取ってくるので次のようにすれば試すことができる。</p>
-
-<pre><code>$ cd path/to/working_dir
+<pre class="highlight text">$ cd path/to/working_dir
 $ npm install git://github.com/cloudhead/less.js.git#1_4_0
 $ ./node_modules/.bin/lessc test.less
 .foo,
@@ -91,16 +101,14 @@ $ ./node_modules/.bin/lessc test.less
 .bar {
   font-size: 13px;
 }
-</code></pre>
-
+</pre>
 <p>lessの作者のcloudheadさんがやる気なくしたのかなんなのか、まったくコミットしなくなってlessはもう終わりだみたいな感じに一時期なっていて、extendのやつも全く取り込まれる気配がなかったんだけど、最近では別の人が開発を引き継いで開発が進んでるようで、extendもそういう流れで取り込まれたみたい。</p>
 
 <p>masterにいつマージされるか（そもそもマージされるかどうか）はまだ未定だけど早く使えるようになるといいな。</p>
 
 <p>ちなみにそんな僕は最近Sass派。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -110,7 +118,7 @@ $ ./node_modules/.bin/lessc test.less
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -151,12 +159,8 @@ $ ./node_modules/.bin/lessc test.less
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2012/10/mocha_phantomjs_travisci.html">mochaとphantomJSとtravis-ciでフロントエンドJavaScriptのテスト</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2012/10/jsippo_release_intro.html">「ノンプログラマのためのJavaScriptはじめの一歩」の1章が公開されました</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -171,8 +175,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -183,8 +188,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

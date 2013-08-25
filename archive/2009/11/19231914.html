@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>im.kayac.comでiPhoneにtwitterのリプライを通知する - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,88 +22,100 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2009-11-19T00:00:00+09:00" pubdate>2009月11月19日</time>
-
+<time datetime="2009-11-19T00:00:00+09:00">2009年11月19日</time>
 <ul class="tags">
   
-    <li><a href="/tags/Perl.html">Perl</a></li>
+    <li><a href="/tags/perl.html">Perl</a></li>
   
-    <li><a href="/tags/iOS.html">iOS</a></li>
+    <li><a href="/tags/ios.html">iOS</a></li>
   
 </ul>
 
 <h1>im.kayac.comでiPhoneにtwitterのリプライを通知する</h1>
 
 <div class="body">
-<p><a href="http://im.kayac.com/">im.kayac.com</a>というカヤックのサービスがあるんですが、これを使うとIMとかにHTTPとかメール経由で通知することができて、iPhoneにも対応したのでtwitterでリプライがあったら通知するスクリプト書いてみました。</p>
 
-<div class="highlight"><pre><code class="perl"><span class="c1">#!/usr/bin/env perl</span>
- 
-<span class="k">use</span> <span class="n">strict</span><span class="p">;</span>
-<span class="k">use</span> <span class="n">warnings</span><span class="p">;</span>
- 
-<span class="k">use</span> <span class="nn">AnyEvent::Twitter::</span><span class="n">Stream</span><span class="p">;</span>
-<span class="k">use</span> <span class="nn">AnyEvent::</span><span class="n">HTTP</span><span class="p">;</span>
-<span class="k">use</span> <span class="nn">HTTP::Request::</span><span class="n">Common</span><span class="p">;</span>
- 
-<span class="k">my</span> <span class="nv">$done</span> <span class="o">=</span> <span class="n">AnyEvent</span><span class="o">-&gt;</span><span class="n">condvar</span><span class="p">;</span>
- 
-<span class="k">my</span> <span class="nv">$streamer</span> <span class="o">=</span> <span class="nn">AnyEvent::Twitter::</span><span class="n">Stream</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span>
-    <span class="n">username</span> <span class="o">=&gt;</span> <span class="s">&#39;twitter_username&#39;</span><span class="p">,</span>
-    <span class="n">password</span> <span class="o">=&gt;</span> <span class="s">&#39;twitter_password&#39;</span><span class="p">,</span>
-    <span class="n">method</span> <span class="o">=&gt;</span> <span class="s">&#39;filter&#39;</span><span class="p">,</span>
-    <span class="n">track</span> <span class="o">=&gt;</span> <span class="s">&#39;@twitter_username&#39;</span><span class="p">,</span>
-    <span class="n">on_tweet</span> <span class="o">=&gt;</span> <span class="k">sub </span><span class="p">{</span>
+<p><a href="http://im.kayac.com/">im.kayac.com</a>というカヤックのサービスがあるんですが、これを使うとIMとかにHTTPとかメール経由で通知することができて、iPhoneにも対応したのでtwitterでリプライがあったら通知するスクリプト書いてみました。</p>
+<pre class="highlight perl"><span class="c1">#!/usr/bin/env perl</span>
+
+<span class="k">use</span> <span class="nv">strict</span><span class="p">;</span>
+<span class="k">use</span> <span class="nv">warnings</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nn">AnyEvent::Twitter::</span><span class="nv">Stream</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">AnyEvent::</span><span class="nv">HTTP</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">HTTP::Request::</span><span class="nv">Common</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">$done</span> <span class="o">=</span> <span class="nv">AnyEvent</span><span class="o">-&gt;</span><span class="nv">condvar</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">$streamer</span> <span class="o">=</span> <span class="nn">AnyEvent::Twitter::</span><span class="nv">Stream</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span>
+    <span class="nv">username</span> <span class="o">=&gt;</span> <span class="s">&#39;twitter_username&#39;</span><span class="p">,</span>
+    <span class="nv">password</span> <span class="o">=&gt;</span> <span class="s">&#39;twitter_password&#39;</span><span class="p">,</span>
+    <span class="nv">method</span> <span class="o">=&gt;</span> <span class="s">&#39;filter&#39;</span><span class="p">,</span>
+    <span class="nv">track</span> <span class="o">=&gt;</span> <span class="s">&#39;@twitter_username&#39;</span><span class="p">,</span>
+    <span class="nv">on_tweet</span> <span class="o">=&gt;</span> <span class="k">sub </span><span class="p">{</span>
         <span class="k">my</span> <span class="nv">$tweet</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
-        <span class="k">my</span> <span class="nv">$req</span> <span class="o">=</span> <span class="n">POST</span> <span class="s">&#39;http://im.kayac.com/api/post/im_username&#39;</span><span class="p">,</span> <span class="p">[</span>
-            <span class="n">message</span> <span class="o">=&gt;</span> <span class="s">&quot;$tweet-&gt;{user}{screen_name}: $tweet-&gt;{text}&quot;</span><span class="p">,</span>
-            <span class="n">password</span> <span class="o">=&gt;</span> <span class="s">&#39;im_password&#39;</span><span class="p">,</span>
+        <span class="k">my</span> <span class="nv">$req</span> <span class="o">=</span> <span class="nv">POST</span> <span class="s">&#39;http://im.kayac.com/api/post/im_username&#39;</span><span class="p">,</span> <span class="p">[</span>
+            <span class="nv">message</span> <span class="o">=&gt;</span> <span class="s">&quot;$tweet-&gt;{user}{screen_name}: $tweet-&gt;{text}&quot;</span><span class="p">,</span>
+            <span class="nv">password</span> <span class="o">=&gt;</span> <span class="s">&#39;im_password&#39;</span><span class="p">,</span>
         <span class="p">];</span>
- 
-        <span class="k">my</span> <span class="nv">%headers</span> <span class="o">=</span> <span class="nb">map</span> <span class="p">{</span> <span class="nv">$_</span> <span class="o">=&gt;</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="n">header</span><span class="p">(</span><span class="nv">$_</span><span class="p">),</span> <span class="p">}</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="n">headers</span><span class="o">-&gt;</span><span class="n">header_field_names</span><span class="p">;</span>
+
+        <span class="k">my</span> <span class="nv">%headers</span> <span class="o">=</span> <span class="nb">map</span> <span class="p">{</span> <span class="nv">$_</span> <span class="o">=&gt;</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="nv">header</span><span class="p">(</span><span class="nv">$_</span><span class="p">),</span> <span class="p">}</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="nv">headers</span><span class="o">-&gt;</span><span class="nv">header_field_names</span><span class="p">;</span>
         <span class="k">my</span> <span class="nv">$r</span><span class="p">;</span>
-        <span class="nv">$r</span> <span class="o">=</span> <span class="n">http_post</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="n">uri</span><span class="p">,</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="n">content</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=&gt;</span> <span class="o">\</span><span class="nv">%headers</span><span class="p">,</span> <span class="k">sub </span><span class="p">{</span> <span class="nb">undef</span> <span class="nv">$r</span> <span class="p">};</span>
+        <span class="nv">$r</span> <span class="o">=</span> <span class="nv">http_post</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="nv">uri</span><span class="p">,</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="nv">content</span><span class="p">,</span> <span class="nv">headers</span> <span class="o">=&gt;</span> <span class="o">\</span><span class="nv">%headers</span><span class="p">,</span> <span class="k">sub </span><span class="p">{</span> <span class="nb">undef</span> <span class="nv">$r</span> <span class="p">};</span>
     <span class="p">},</span>
-    <span class="n">on_error</span> <span class="o">=&gt;</span> <span class="k">sub </span><span class="p">{</span>
+    <span class="nv">on_error</span> <span class="o">=&gt;</span> <span class="k">sub </span><span class="p">{</span>
         <span class="k">my</span> <span class="nv">$error</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
         <span class="nb">warn</span> <span class="s">&quot;ERROR: $error&quot;</span><span class="p">;</span>
         <span class="nv">$done</span><span class="o">-&gt;</span><span class="nb">send</span><span class="p">;</span>
     <span class="p">},</span>
-    <span class="n">on_eof</span> <span class="o">=&gt;</span> <span class="k">sub </span><span class="p">{</span>
+    <span class="nv">on_eof</span> <span class="o">=&gt;</span> <span class="k">sub </span><span class="p">{</span>
         <span class="nv">$done</span><span class="o">-&gt;</span><span class="nb">send</span><span class="p">;</span>
     <span class="p">},</span>
 <span class="p">);</span>
- 
-<span class="nv">$done</span><span class="o">-&gt;</span><span class="nb">recv</span><span class="p">;</span>
-</code></pre>
-</div>
 
+<span class="nv">$done</span><span class="o">-&gt;</span><span class="nb">recv</span><span class="p">;</span>
+</pre>
 <p>これを起動しておけば自分宛のtweetがiPhoneに通知されます。こんなかんじ。</p>
 
-<p><img src="/img/posts/2009-11-19-19231914/iphone.png" alt="iPhoneにTwitterの通知がきてるキャプチャ" /></p>
+<p><img alt="iPhoneにTwitterの通知がきてるキャプチャ" src="/img/posts/2009-11-19-19231914/iphone.png" /></p>
 
 <p>いいかんじ。typester++</p>
 
 <p>追記：POSTパラメータにhandlerというのを指定するとiPhoneで起動するアプリを指定できるというのをtypesterに教えてもらった。</p>
-
-<pre><code>handler =&gt; 'tweetie://',
-</code></pre>
-
+<pre class="highlight text">handler =&gt; &#39;tweetie://&#39;,
+</pre>
 <p>とか書いておけば通知をタップするとtweetieを起動できる。便利！</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -114,7 +125,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -155,12 +166,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2009/11/18193412.html">Crypt::DHが遅いときはMath::BigInt::GMPを入れるといいらしい</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2010/01/20142405.html">zshから辞書を引くの続き</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -175,8 +182,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -187,8 +195,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

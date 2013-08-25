@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>最近のGoogle Analyticsのコードは</head>の直前に入れるべし - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,46 +22,63 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2010-06-02T00:00:00+09:00" pubdate>2010月06月02日</time>
-
+<time datetime="2010-06-02T00:00:00+09:00">2010年06月02日</time>
 <ul class="tags">
   
-    <li><a href="/tags/GoogleAnalytics.html">GoogleAnalytics</a></li>
+    <li><a href="/tags/googleanalytics.html">GoogleAnalytics</a></li>
   
 </ul>
 
 <h1>最近のGoogle Analyticsのコードは</head>の直前に入れるべし</h1>
 
 <div class="body">
+
 <p>今まではGoogle Analyticsのコードが非同期で実行できなかったので、AnalyticsのJSが読み込まれるまでコンテンツの描画をブロックしてしまうのでbodyの一番下とかにコードを置くのが普通でしたけど、最近は非同期で実行できるようになったので<code>&lt;/head&gt;</code>の直前に入れるのがよいみたいです。</p>
 
 <p>ヘルプに書いてあります。</p>
 
 <blockquote>
-  <p>コードを確認できたらコピーしてウェブページに貼り付けます。&lt;/head&gt;終了タグの直前に貼り付けてください*。</p>
+<p>コードを確認できたらコピーしてウェブページに貼り付けます。</head>終了タグの直前に貼り付けてください*。</p>
 
-  <p>*非同期トラッキング コードの主なメリットの 1 つは、HTML 文書の一番上に配置できることです。これによって、ユーザーがページを離れる前にトラッキング ビーコンが送信される可能性が高くなります。JavaScript コードは &lt;head&gt; セクションに配置することが慣例となっており、このコードを &lt;head&gt; セクションの一番下に配置すると最高のパフォーマンスが得られます。</p>
+<p>*非同期トラッキング コードの主なメリットの 1 つは、HTML 文書の一番上に配置できることです。これによって、ユーザーがページを離れる前にトラッキング ビーコンが送信される可能性が高くなります。JavaScript コードは <head> セクションに配置することが慣例となっており、このコードを <head> セクションの一番下に配置すると最高のパフォーマンスが得られます。</p>
 
-  <p><cite><a href="http://www.google.com/support/analytics/bin/answer.py?hl=ja_JP&amp;answer=174090&amp;utm_id=ad">トラッキング コードの設定 - Analytics ヘルプ</a></cite></p>
+<p><cite><a href="http://www.google.com/support/analytics/bin/answer.py?hl=ja_JP&answer=174090&utm_id=ad">トラッキング コードの設定 - Analytics ヘルプ</a></cite></p>
 </blockquote>
 
-<p><ins>追記：hamashunさんとvantさんからコメントいただきました。以下のエントリーに詳しく書かれています。ありがとうございました。</ins></p>
+<ins>追記：hamashunさんとvantさんからコメントいただきました。以下のエントリーに詳しく書かれています。ありがとうございました。</ins>
 
 <p><a href="http://t32k.me/mol/log/asynchronous-tracking/">Google Analytics 非同期トラッキングコード再考 | MOL</a></p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -72,7 +88,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -113,12 +129,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2010/05/30195334.html">vimからlocal::libを設定するプラグイン</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2010/06/11221010.html">gitでリモートブランチを削除する</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -133,8 +145,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -145,8 +158,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

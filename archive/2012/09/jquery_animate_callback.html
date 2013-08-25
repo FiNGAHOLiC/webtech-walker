@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>jQueryでアニメーション終了時のcallback - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,62 +22,70 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2012-09-23T00:00:00+09:00" pubdate>2012月09月23日</time>
-
+<time datetime="2012-09-23T00:00:00+09:00">2012年09月23日</time>
 <ul class="tags">
   
-    <li><a href="/tags/jQuery.html">jQuery</a></li>
+    <li><a href="/tags/jquery.html">jQuery</a></li>
   
-    <li><a href="/tags/JavaScript.html">JavaScript</a></li>
+    <li><a href="/tags/javascript.html">JavaScript</a></li>
   
 </ul>
 
 <h1>jQueryでアニメーション終了時のcallback</h1>
 
 <div class="body">
+
 <p>jQueryでfadeOutとかのアニメーションして終わったらなんかするといったときにcallback関数を引数に指定するのとDeferred使う方法があるんだけどこの二つは挙動が違う。</p>
 
 <p>こういうHTMLがあったとして</p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;div&gt;</span>foo<span class="nt">&lt;/div&gt;</span>
+<pre class="highlight html"><span class="nt">&lt;div&gt;</span>foo<span class="nt">&lt;/div&gt;</span>
 <span class="nt">&lt;div&gt;</span>bar<span class="nt">&lt;/div&gt;</span>
 <span class="nt">&lt;div&gt;</span>baz<span class="nt">&lt;/div&gt;</span>
-</code></pre>
-</div>
-
+</pre>
 <p>まず以下のようなcallback関数の場合はそれぞれのfadeOutが終わるごとに呼ばれる。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<pre class="highlight javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;fin&#39;</span><span class="p">);</span>
 <span class="p">});</span>
-</code></pre>
-</div>
-
-<p>つまり<code>'fin'</code>が3回出力される。</p>
+</pre>
+<p>つまり<code>&#39;fin&#39;</code>が3回出力される。</p>
 
 <p>一方Deferredを使った場合はこんな感じ。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">.</span><span class="nx">promise</span><span class="p">().</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<pre class="highlight javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">.</span><span class="nx">promise</span><span class="p">().</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;fin&#39;</span><span class="p">);</span>
 <span class="p">});</span>
-</code></pre>
-</div>
+</pre>
+<p><code>.promise()</code>がDeferredオブジェクトを返すので<code>.done</code>に設定した関数がアニメーション終了時に呼ばれる。こっちは全てのアニメーションが終わった時点で呼ばれるので<code>&#39;fin&#39;</code>は一回しか呼ばれない。という違いがあるみたい。</p>
 
-<p><code>.promise()</code>がDeferredオブジェクトを返すので<code>.done</code>に設定した関数がアニメーション終了時に呼ばれる。こっちは全てのアニメーションが終わった時点で呼ばれるので<code>'fin'</code>は一回しか呼ばれない。という違いがあるみたい。</p>
-
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -88,7 +95,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -129,12 +136,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2012/09/resque_heroku.html">HerokuでResqueを使うときに優雅に再起動する</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2012/09/git_export_diff.html">gitで差分ファイルを抽出する</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -149,8 +152,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -161,8 +165,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

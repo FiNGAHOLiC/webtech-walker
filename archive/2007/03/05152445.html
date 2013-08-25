@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>phpでmemory sizeエラーがでたときの対処法 - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,47 +22,57 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2007-03-05T00:00:00+09:00" pubdate>2007月03月05日</time>
-
+<time datetime="2007-03-05T00:00:00+09:00">2007年03月05日</time>
 <ul class="tags">
   
-    <li><a href="/tags/PHP.html">PHP</a></li>
+    <li><a href="/tags/php.html">PHP</a></li>
   
 </ul>
 
 <h1>phpでmemory sizeエラーがでたときの対処法</h1>
 
 <div class="body">
+
 <p>この前phpにて下記のようなエラーが出現。初めて見るエラーだったので何事かと思い調べてみました。</p>
-
-<pre><code>Fatal error: Allowed memory size of 8388608 bytes exhausted (tried to allocate 92160 bytes) in /***/***/***/***.php on line 1193
-</code></pre>
-
+<pre class="highlight text">Fatal error: Allowed memory size of 8388608 bytes exhausted (tried to allocate 92160 bytes) in /***/***/***/***.php on line 1193
+</pre>
 <p>どうやら調べたところ、8Mじゃメモリが足りませんよ～メモリ使いすぎですよ～というエラーでした。8Mというのはphpのメモリ上限のデフォルト値です。対処法としてはphp.iniのmemory_limitを編集すればオッケーです。</p>
-
-<div class="highlight"><pre><code class="ini"><span class="c">;memory_limit = 8M      ; Maximum amount of memory a script may consume (8MB)</span>
-<span class="na">memory_limit</span> <span class="o">=</span> <span class="s">16M</span>
-</code></pre>
-</div>
-
+<pre class="highlight ini"><span class="c">;memory_limit = 8M      ; Maximum amount of memory a script may consume (8MB)
+</span><span class="py">memory_limit</span> <span class="p">=</span> <span class="s">16M</span>
+</pre>
 <p>編集後はapacheを再起動しましょう。php.iniを編集できない場合はhtaccessでも対応可能です。実行するphpがあるフォルダに下記1行を書いたhtaccessを置けば対処できます。</p>
-
-<pre><code>php_value memory_limit 16M
-</code></pre>
-
-
-<div class="mod-ads">
+<pre class="highlight text">php_value memory_limit 16M
+</pre>
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -73,7 +82,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -114,12 +123,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2007/03/01143619.html">画像の下にできる隙間</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2007/03/06143435.html">IEでページが真っ白になる謎現象</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -134,8 +139,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -146,8 +152,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

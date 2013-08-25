@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>StorageEventで勘違いしていたこと - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,54 +22,68 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2011-05-01T00:00:00+09:00" pubdate>2011月05月01日</time>
-
+<time datetime="2011-05-01T00:00:00+09:00">2011年05月01日</time>
 <ul class="tags">
   
-    <li><a href="/tags/JavaScript.html">JavaScript</a></li>
+    <li><a href="/tags/javascript.html">JavaScript</a></li>
   
 </ul>
 
 <h1>StorageEventで勘違いしていたこと</h1>
 
 <div class="body">
+
 <p>StorageEventってlocalStorageとかsessionStorageとかでStorageの値を書き変えたときに発生するイベントってのは知ってたんだけど、前に試してみて動かなかったんで実装されてないのかなーと思って放置してた。</p>
 
 <p>でも<a href="http://amzn.to/m2MDro">入門HTML5</a>を読んだら、localStorage実装されてたらStorageEventも実装されてるよって書いてあったから試してみたけどやっぱ動かなかったんでちゃんと調べたら、そもそも勘違いしてたことに気づいた。</p>
 
 <p>普通に</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;storage&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+<pre class="highlight javascript"><span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;storage&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">evt</span><span class="p">);</span>
 <span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
-</code></pre>
-</div>
-
+</pre>
 <p>ってスクリプトを書いたHTMLを開いて、コンソールとかで localStorage.setItem(’hoge’, Math.random()) とか実行して発火しなかったんで、なんだよやっぱ動かねーじゃねーかと思ったんだけど、仕様書をよく読んだらこんな表記があった。</p>
 
 <blockquote>
-  <p>When the setItem(), removeItem(), and clear() methods are called on a Storage object x that is associated with a local storage area, if the methods did something, then in every Document object whose Window object’s localStorage attribute’s Storage object is associated with the same storage area, other than x, a storage event must be fired, as described below.</p>
+<p>When the setItem(), removeItem(), and clear() methods are called on a Storage object x that is associated with a local storage area, if the methods did something, then in every Document object whose Window object’s localStorage attribute’s Storage object is associated with the same storage area, other than x, a storage event must be fired, as described below.</p>
 
-  <p><cite><a href="http://www.w3.org/TR/2011/CR-webstorage-20111208/#localStorageEvent">Web Storage</a></cite></p>
+<p><cite><a href="http://www.w3.org/TR/2011/CR-webstorage-20111208/#localStorageEvent">Web Storage</a></cite></p>
 </blockquote>
 
 <p>つまり、Storageを更新した場合、Storageを更新したドキュメント以外の、同じStorage領域を持ってるドキュメントでStorageEventが発火するってことみたい。</p>
 
 <p>ウインドウを二つ開いて、コンソールでLocalStorage更新したら実行してない方のウィンドウで発火してた。こういう使い方だったのね。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -80,7 +93,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -121,12 +134,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2011/04/29180449.html">Chromeの等幅フォントがOsakaになってる件</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2011/05/12152024.html">AndroidでJavaScriptのconsole.logを表示する方法</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -141,8 +150,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -153,8 +163,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

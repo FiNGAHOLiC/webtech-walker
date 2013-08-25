@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>vimからlocal::libを設定するプラグイン - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,56 +22,66 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2010-05-30T00:00:00+09:00" pubdate>2010月05月30日</time>
-
+<time datetime="2010-05-30T00:00:00+09:00">2010年05月30日</time>
 <ul class="tags">
   
     <li><a href="/tags/vim.html">vim</a></li>
   
-    <li><a href="/tags/Perl.html">Perl</a></li>
+    <li><a href="/tags/perl.html">Perl</a></li>
   
 </ul>
 
 <h1>vimからlocal::libを設定するプラグイン</h1>
 
 <div class="body">
+
 <p>perlで開発してるときにlocal::libを切り替えるのは、シェルでは<a href="http://unknownplace.org/memo/2010/03/01/1/">typester先生が書いたスクリプト</a>で切り替えてたんですが、ref.vimとかprove.vim使うのに不便なことがあったので、vimでも同じことをするプラグインを書いてみました。</p>
 
 <p><a href="http://github.com/hokaccha/vim-perllocallib">hokaccha’s vim-perllocallib at master - GitHub</a></p>
 
 <p>これで</p>
-
-<pre><code>:Locallib /path/to/extlib
-</code></pre>
-
+<pre class="highlight text">:Locallib /path/to/extlib
+</pre>
 <p>もしくは</p>
-
-<pre><code>:call perllocallib#set('/path/to/extlib')
-</code></pre>
-
-<p>で設定したいパスにlocal::libの設定を適用できます。設定されるのは環境変数の$PATH, $PERL5LIB, $PERL_MM_OPTです。</p>
+<pre class="highlight text">:call perllocallib#set(&#39;/path/to/extlib&#39;)
+</pre>
+<p>で設定したいパスにlocal::libの設定を適用できます。設定されるのは環境変数の$PATH, $PERL5LIB, $PERL<em>MM</em>OPTです。</p>
 
 <p>僕は<a href="http://vim-users.jp/2009/12/hack112/">この方法</a>を使って、プロジェクト毎に.vimrcを読み込んでいて、そこに</p>
-
-<div class="highlight"><pre><code class="vim"><span class="k">call</span> perllocallib#<span class="k">set</span><span class="p">(</span><span class="s1">&#39;/path/to/extlib&#39;</span><span class="p">)</span>
-</code></pre>
-</div>
-
+<pre class="highlight viml"><span class="k">call</span> perllocallib#<span class="k">set</span><span class="p">(</span><span class="s1">&#39;/path/to/extlib&#39;</span><span class="p">)</span>
+</pre>
 <p>と書いてます。便利なり。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -82,7 +91,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -123,12 +132,8 @@
 </div>
 
 <ul class="paginate">
-
-  <li class="prev"><span>Prev Entry:</span><a href="/archive/2010/05/30191115.html">vimでHTMLの終了タグの直前にコメントを入れる</a></li>
-
-
+  <li class="prev"><span>Prev Entry:</span><a href="/archive/2010/05/27100603.html">jQueryの.load()でちょっとはまったメモ</a></li>
   <li class="next"><span>Next Entry:</span><a href="/archive/2010/06/02141817.html">最近のGoogle Analyticsのコードは</head>の直前に入れるべし</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -143,8 +148,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -155,8 +161,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

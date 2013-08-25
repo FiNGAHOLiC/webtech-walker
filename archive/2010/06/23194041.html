@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>jstudy #1 を開催しました - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,22 +22,39 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2010-06-23T00:00:00+09:00" pubdate>2010月06月23日</time>
-
+<time datetime="2010-06-23T00:00:00+09:00">2010年06月23日</time>
 <ul class="tags">
   
-    <li><a href="/tags/JavaScript.html">JavaScript</a></li>
+    <li><a href="/tags/javascript.html">JavaScript</a></li>
   
     <li><a href="/tags/event.html">event</a></li>
   
@@ -47,6 +63,7 @@
 <h1>jstudy #1 を開催しました</h1>
 
 <div class="body">
+
 <p>perlとかHTML/CSSとかの勉強会はよくでてるけどjavascriptの勉強会ってあんまないなーと思ったので開催してみました。本当はもっとゆるい感じでわいわい話しながら適当にプレゼンするみたいのをイメージしてたんですけど、予想より遙かにプレゼン希望者が多く（ありがたい限りです）内容も濃い勉強会になりました。</p>
 
 <p>twitterも割と盛り上がったのでtogetterにまとめました。</p>
@@ -55,7 +72,7 @@
 
 <p>まとめはtogetterで十分なので以下、個人的なメモです。</p>
 
-<h2 id="introducing-jquery-takazudo">Introducing jQuery @Takazudo</h2>
+<h2>Introducing jQuery @Takazudo</h2>
 
 <p>JQueryの入門講座を話していただきました。すでにホッテントリはいってました。さすがです。とりあえずjQuery入門してみたい方はこのスライド見るといいと思います。</p>
 
@@ -63,7 +80,7 @@
 
 <p>まとめると、jQuery使えばかめはめ波うてるようになるよ、ということ（違</p>
 
-<h2 id="jsdoit-maaash">jsdo.it @maaash</h2>
+<h2>jsdo.it @maaash</h2>
 
 <p>勉強会の前日に公開した<a href="http://jsdo.it/">jsdo.it</a>の作者であるmash先輩自らきてもらってjsdo.itの主な機能の説明とデモをやってもらいました。</p>
 
@@ -71,13 +88,13 @@
 
 <p>みんなjsdo.itやろうぜ！</p>
 
-<h2 id="dojo-rikat">Dojoについて @rika_t</h2>
+<h2>Dojoについて @rika_t</h2>
 
 <p>Dojo知ってるひと8割くらい。使ってるひと0割。デザインの自由がきかなくても大丈夫で大規模な案件とかには向いてるのかな（管理画面とか）</p>
 
 <p>意外にもこのセッションが一番質問が多かったｗ</p>
 
-<h2 id="javascriptlisp-taiju">JavaScriptとLisp @taiju</h2>
+<h2>JavaScriptとLisp @taiju</h2>
 
 <p>本人がエントリー書いてますのでそちらを参照のこと。</p>
 
@@ -85,7 +102,7 @@
 
 <p>とりあえず LiveScript =&gt; Lisp の発想はなかった。</p>
 
-<h2 id="js-kyoago">中規模向けJS設計 @kyo_ago</h2>
+<h2>中規模向けJS設計 @kyo_ago</h2>
 
 <p><a href="http://0-9.sakura.ne.jp/pub/lt/jstudy/start.html">中規模向けJS設計</a></p>
 
@@ -93,7 +110,7 @@
 
 <p>この後懇親会でも話しましたけどまだまだデファクトスタンダードな設計手法はないので模索中という感じ。</p>
 
-<h2 id="ecma-script-takueof">ECMA Scriptの仕様の話し @taku_eof</h2>
+<h2>ECMA Scriptの仕様の話し @taku_eof</h2>
 
 <p>こちらもTakazudoさんと同じく前々からプレゼンをお願いしてたんですが、仕事が忙しくて資料が準備できなかったそうなんですけど（忙しい時期に無理をいってすいません）おそらく一番内容の濃いプレゼンだったんじゃないかと。</p>
 
@@ -101,31 +118,31 @@
 
 <p>何を質問しても大体すぐ答えが帰ってくる辺り、さすが歩く仕様書と呼ばれるだけはあるなと思いました（僕が勝手に呼んでるだけ）。</p>
 
-<h2 id="javascript-songmu">Javascriptで昔を懐かしむ @songmu</h2>
+<h2>Javascriptで昔を懐かしむ @songmu</h2>
 
 <p>ブルボンのmarqueeを再現しようとしたよという話し。これが僕のプレゼンの伏線になろとうは。</p>
 
 <p>次回は愛生会を再現してくれるそうです。</p>
 
-<h2 id="jqeury-kyosuke">jQeuryベースのフレームワーク @kyosuke</h2>
+<h2>jQeuryベースのフレームワーク @kyosuke</h2>
 
 <p>今つくってるjQueryベースのフレームワークについて。そのうち公開する予定とのこと。</p>
 
 <p>個人的にagoさんの設計の話しに共通するものがあったなと。メソッド名とか何回も書き直してるっていってたので公開されたらソース呼んでみたい。</p>
 
-<h2 id="cimadai">若手ＩＴ勉強会の告知 @cimadai</h2>
+<h2>若手ＩＴ勉強会の告知 @cimadai</h2>
 
 <p>勉強会の告知です。面白そうかも。</p>
 
 <p><a href="http://atnd.org/events/5070">Secrets of the JavaScript Ninja 読書会</a></p>
 
-<h2 id="javascriptipad-yaakaito">JavascriptとiPad @yaakaito</h2>
+<h2>JavascriptとiPad @yaakaito</h2>
 
 <p>ライブラリを使うのは甘えだと。そういうことです。jQueryなんて甘えです。そういうことなんです。詳しい内容はエントリーがあがっているのでそちらを参照のこと。</p>
 
 <p><a href="http://d.hatena.ne.jp/yaakaito/20100621/1277147956">iPad/iPhoneとJavaScriptの話(その1) - yaakaito::Blog</a></p>
 
-<h2 id="javascript-hokaccha">Javascriptの高速化の話し @hokaccha</h2>
+<h2>Javascriptの高速化の話し @hokaccha</h2>
 
 <p>最後僕です。高速化の話しをデモ中心にしました。デモはほとんどjsdo.itにあがってます。</p>
 
@@ -133,15 +150,13 @@
 
 <p>遅延ロードの話しとか、JSでアニメーションするのはCPU食いまくるという話しなど。marquee速いんですよ、実は。</p>
 
-<h2 id="section">まとめ</h2>
+<h2>まとめ</h2>
 
 <p>初めての勉強会企画で色々と至らない点もありましたけど、そこそこ好評だったようで安心しました。また開催したいと思うので今回残念ながら参加できなかったかたはぜひ参加してみて下さい。次はustとかもやりたいなーと思いつつ。</p>
 
 <p>最後に、会場を貸していただきましたSINAPさん、本当にありがとうございました。</p>
 
-
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -151,7 +166,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -192,12 +207,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2010/06/14111405.html">クリックイベントの中で非同期処理したあとに別ウィンドウで開くときにポップアップブロックにひっかからない方法</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2010/07/01155948.html">HTML5の新要素をjQueryでappendとかするとIEでバグる件</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -212,8 +223,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -224,8 +236,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

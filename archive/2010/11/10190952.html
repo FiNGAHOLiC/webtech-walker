@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>郵便番号から住所を検索するJavaScriptの再々発明 - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,50 +22,64 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2010-11-10T00:00:00+09:00" pubdate>2010月11月10日</time>
-
+<time datetime="2010-11-10T00:00:00+09:00">2010年11月10日</time>
 <ul class="tags">
   
-    <li><a href="/tags/JavaScript.html">JavaScript</a></li>
+    <li><a href="/tags/javascript.html">JavaScript</a></li>
   
 </ul>
 
 <h1>郵便番号から住所を検索するJavaScriptの再々発明</h1>
 
 <div class="body">
+
 <p>先日勉強会で@kotarok先生が見せてくれた<a href="https://github.com/kotarok/jQuery.zip2addr">jQuery.zip2addr</a>を元に車輪の再々発明（kotarokさんのが再発明と言っていたので）してみました。</p>
 
 <p>jQuery.zip2addrはGoogle日本語入力APIを利用して郵便番号から住所を検索するという画期的アイデアのスクリプトなんですが、これのjQueryとかHTMLに依存してない版です。</p>
 
-<p><a href="/sample/2010-11-10-10190952/index.html">DEMO</a></p>
+<p><a href="/sample/2010-11-10-10190952/">DEMO</a></p>
 
 <p><a href="https://github.com/hokaccha/js-zip2address">hokaccha’s js-zip2address at master - GitHub</a></p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">zip2address</span><span class="p">(</span><span class="s1">&#39;150-0001&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">address</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">address</span><span class="p">.</span><span class="nx">all</span><span class="p">;</span>  <span class="c1">//=&gt; 東京都渋谷区神宮前</span>
-    <span class="nx">address</span><span class="p">.</span><span class="nx">pref</span><span class="p">;</span> <span class="c1">//=&gt; 東京都</span>
-    <span class="nx">address</span><span class="p">.</span><span class="nx">city</span><span class="p">;</span> <span class="c1">//=&gt; 渋谷区神宮前</span>
-<span class="p">});</span>
-</code></pre>
-</div>
-
+<pre class="highlight javascript"><span class="nx">zip2address</span><span class="p">(</span><span class="s1">&#39;150-0001&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">address</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">address</span><span class="p">.</span><span class="nx">all</span><span class="p">;</span>  <span class="c1">//=&gt; 東京都渋谷区神宮前
+</span>    <span class="nx">address</span><span class="p">.</span><span class="nx">pref</span><span class="p">;</span> <span class="c1">//=&gt; 東京都
+</span>    <span class="nx">address</span><span class="p">.</span><span class="nx">city</span><span class="p">;</span> <span class="c1">//=&gt; 渋谷区神宮前
+</span><span class="p">});</span>
+</pre>
 <p>ハイフンはあってもなくてもいいです。郵便番号が間違ってたりするとaddressにはundefinedが入ります。できるだけシンプルなインターフェースにしたかったので機能はこれだけです。</p>
 
 <p>Google日本語検索APIがJSONPが使えるということを発見したkotarokさんに一礼。（ただしJSONPはドキュメントに書いてないので仕様が変更になる可能性はあるかもとのこと）</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -76,7 +89,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -117,12 +130,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2010/11/08172406.html">Macで設定とかインストールいらずで静的コンテンツ用のサーバーを立ち上げる方法</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2010/11/22102742.html">jstudy#2を開催しました</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -137,8 +146,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -149,8 +159,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

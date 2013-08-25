@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>modern.IE でIEの検証環境をさくっとつくる - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,28 +22,46 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2013-04-11T00:00:00+09:00" pubdate>2013月04月11日</time>
-
+<time datetime="2013-04-11T00:00:00+09:00">2013年04月11日</time>
 <ul class="tags">
   
-    <li><a href="/tags/IE.html">IE</a></li>
+    <li><a href="/tags/ie.html">IE</a></li>
   
 </ul>
 
 <h1>modern.IE でIEの検証環境をさくっとつくる</h1>
 
 <div class="body">
+
 <p><a href="http://www.modern.ie/ja">modern.IE</a>というIEの検証のために色々できるサイトができて、ここでIEのVMのイメージを落とすことができる。Virtual Box、VMWare Fusion、Parallelsとメジャーなものは全部対応してる。すごい。</p>
 
 <p>とりあえずMacのVirtual BoxにIE10 Win8をいれてみた。まず以下からからMacとVirtual Boxを選んで「IE10 - Win8」の<code>.sfx</code>とかの<code>.rar</code>のファイルを全部ダウンロードする。</p>
@@ -52,21 +69,18 @@
 <p><a href="http://www.modern.ie/ja/virtualization-tools">http://www.modern.ie/ja/virtualization-tools</a></p>
 
 <p>「.sfx」というのがよくわからんかったけどなんか圧縮形式らしくて実行権限つけて実行すれば解凍されるらしい。</p>
-
-<pre><code>$ chmod +x IE10.Win8.For.MacVirtualBox.part1.sfx
+<pre class="highlight text">$ chmod +x IE10.Win8.For.MacVirtualBox.part1.sfx
 $ ./IE10.Win8.For.MacVirtualBox.part1.sfx
-</code></pre>
-
+</pre>
 <p>そうすると<code>.ova</code>のファイルができるのでこれをダブルクリックすればVirtual BoxでWin8とIE10が使えるようになる。</p>
 
-<p><img src="/img/posts/2013-04-11-modern_ie/ie10.png" alt="IE10" /></p>
+<p><img alt="IE10" src="/img/posts/2013-04-11-modern_ie/ie10.png" /></p>
 
 <p>これはすごい。</p>
 
 <p>あとGithubに<a href="https://github.com/xdissent/ievms">ievms</a>というのがあってこれはワンライナーでVMの環境つくれるみたいな感じらしい。IEの開発環境進化してる。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -76,7 +90,7 @@ $ ./IE10.Win8.For.MacVirtualBox.part1.sfx
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -117,12 +131,8 @@ $ ./IE10.Win8.For.MacVirtualBox.part1.sfx
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2013/04/node_await_flow.html">Node.jsのFiberを使って非同期処理を同期っぽく書く</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2013/05/javascript_refinements.html">JavaScriptでRuby 2.0のRefinements的なのを実装してみる</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -137,8 +147,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -149,8 +160,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>flipsnap.jsでIE10のPointer Eventsに対応した - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,28 +22,46 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2012-11-16T00:00:00+09:00" pubdate>2012月11月16日</time>
-
+<time datetime="2012-11-16T00:00:00+09:00">2012年11月16日</time>
 <ul class="tags">
   
-    <li><a href="/tags/JavaScript.html">JavaScript</a></li>
+    <li><a href="/tags/javascript.html">JavaScript</a></li>
   
 </ul>
 
 <h1>flipsnap.jsでIE10のPointer Eventsに対応した</h1>
 
 <div class="body">
+
 <p>flipsnap.jsをWindows8のIE10のタッチで動くようにしました。</p>
 
 <p><a href="http://pxgrid.github.com/js-flipsnap/">flipsnap.js</a></p>
@@ -56,66 +73,53 @@
 <p>IE10はiOSやAndroidのように<code>touchstart</code>や<code>touchmove</code>のようなタッチイベントが用意されておらず、代わりにタッチした際に、pointerイベントというイベントが発火します。</p>
 
 <ul>
-  <li><a href="http://www.w3.org/Submission/pointer-events/">Pointer Events Specification</a></li>
-  <li><a href="http://blogs.msdn.com/b/ie/archive/2011/09/20/touch-input-for-ie10-and-metro-style-apps.aspx">Touch Input for IE10 and Metro style Apps - IEBlog - Site Home - MSDN Blogs</a></li>
+<li><a href="http://www.w3.org/Submission/pointer-events/">Pointer Events Specification</a></li>
+<li><a href="http://blogs.msdn.com/b/ie/archive/2011/09/20/touch-input-for-ie10-and-metro-style-apps.aspx">Touch Input for IE10 and Metro style Apps - IEBlog - Site Home - MSDN Blogs</a></li>
 </ul>
 
 <p>まだ<code>MSPointerDown</code>のように<code>MS</code>というprefixがついています。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;MSPointerDown&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="c1">// タッチが始まった時の処理</span>
-<span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+<pre class="highlight javascript"><span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;MSPointerDown&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// タッチが始まった時の処理
+</span><span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
 
 <span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;MSPointerMove&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="c1">// タッチが動いている時の処理</span>
-<span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+  <span class="c1">// タッチが動いている時の処理
+</span><span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
 
 <span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;MSPointerUp&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="c1">// タッチが終わった時の処理</span>
-<span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
-</code></pre>
-</div>
-
+  <span class="c1">// タッチが終わった時の処理
+</span><span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+</pre>
 <p>基本的にはmouseイベントやtouchイベントと同じように使えるので、イベント名だけ変更すれば対応はできます。また、<code>window.navigator.msPointerEnabled</code>の値を見てpointerイベントが使用可能かどうかを判断することができます。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">support</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="nx">mspointer</span><span class="o">:</span> <span class="nb">window</span><span class="p">.</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">msPointerEnabled</span><span class="p">,</span>
-  <span class="nx">touch</span><span class="o">:</span> <span class="s1">&#39;ontouchstart&#39;</span> <span class="k">in</span> <span class="nb">window</span>
+<pre class="highlight javascript"><span class="kd">var</span> <span class="nx">support</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">mspointer</span><span class="p">:</span> <span class="nb">window</span><span class="p">.</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">msPointerEnabled</span><span class="p">,</span>
+  <span class="na">touch</span><span class="p">:</span> <span class="s1">&#39;ontouchstart&#39;</span> <span class="k">in</span> <span class="nb">window</span>
 <span class="p">};</span>
 
 <span class="kd">var</span> <span class="nx">touchStartEvent</span> <span class="o">=</span>
-    <span class="nx">support</span><span class="p">.</span><span class="nx">mspointer</span> <span class="o">?</span> <span class="s1">&#39;MSPointerDown&#39;</span> <span class="o">:</span>
-    <span class="nx">support</span><span class="p">.</span><span class="nx">touch</span> <span class="o">?</span> <span class="s1">&#39;touchstart&#39;</span> <span class="o">:</span>
+    <span class="nx">support</span><span class="p">.</span><span class="nx">mspointer</span> <span class="p">?</span> <span class="s1">&#39;MSPointerDown&#39;</span> <span class="p">:</span>
+    <span class="nx">support</span><span class="p">.</span><span class="nx">touch</span> <span class="p">?</span> <span class="s1">&#39;touchstart&#39;</span> <span class="p">:</span>
     <span class="s1">&#39;mousedown&#39;</span><span class="p">;</span>
 
 <span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="nx">touchStartEvent</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="c1">// タッチが始まった時の処理</span>
-<span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
-</code></pre>
-</div>
-
+  <span class="c1">// タッチが始まった時の処理
+</span><span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+</pre>
 <p>また、1点注意が必要で、CSSで<code>-ms-touch-action: none;</code>というのを指定しないとタッチしたときにネイティブのスクロールなどが優先されてpointerイベントがちゃんと発火しません。JavaScriptからこのプロパティを設定するには次のようにします。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="k">if</span> <span class="p">(</span><span class="nx">support</span><span class="p">.</span><span class="nx">mspointer</span><span class="p">)</span> <span class="p">{</span>
+<pre class="highlight javascript"><span class="k">if</span> <span class="p">(</span><span class="nx">support</span><span class="p">.</span><span class="nx">mspointer</span><span class="p">)</span> <span class="p">{</span>
   <span class="nx">element</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">msTouchAction</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>CSSでやるならこうです。</p>
-
-<div class="highlight"><pre><code class="css"><span class="nf">#element</span> <span class="p">{</span>
-  <span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">touch</span><span class="o">-</span><span class="n">action</span><span class="o">:</span> <span class="k">none</span><span class="p">;</span>
+<pre class="highlight css"><span class="nf">#element</span> <span class="p">{</span>
+  <span class="nl">-ms-touch-action</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>今回のflipsnap.jsでの対応は将来的にまだpointerイベントがどうなるかわからないので<code>MS</code>のプレフィックス限定で対応しています。将来的にプレフィックスが外れたり他のブラウザでも対応が始まった場合はその都度対応していく予定です。</p>
 
 <p>また、Windows8のタッチ対応端末で確認したところ、Chromeはtouchイベント、Firefoxはmouseイベントが発火していたのでそのままで使えてました。なかなかタッチイベントまわりカオスな状況ですね。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -125,7 +129,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -166,12 +170,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2012/11/adventar.html">Advent Calendarの登録サイトつくりました</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2012/12/less_extend.html">最近のLessのextendの進捗</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -186,8 +186,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -198,8 +199,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

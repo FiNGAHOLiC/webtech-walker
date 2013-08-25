@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>ウェブサイトを反転させるbookmarklet - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,37 +22,52 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2010-04-16T00:00:00+09:00" pubdate>2010月04月16日</time>
-
+<time datetime="2010-04-16T00:00:00+09:00">2010年04月16日</time>
 <ul class="tags">
   
-    <li><a href="/tags/CSS.html">CSS</a></li>
+    <li><a href="/tags/css.html">CSS</a></li>
   
 </ul>
 
 <h1>ウェブサイトを反転させるbookmarklet</h1>
 
 <div class="body">
+
 <p>既出なきもするけどCSS3の資料作ってたら思いついたので。</p>
-
-<pre><code>javascript:document.body.setAttribute('style', '-moz-transform: matrix(-1, 0, 0, 1, 0, 0);-webkit-transform: matrix(-1, 0, 0, 1, 0, 0);');
-</code></pre>
-
+<pre class="highlight text">javascript:document.body.setAttribute(&#39;style&#39;, &#39;-moz-transform: matrix(-1, 0, 0, 1, 0, 0);-webkit-transform: matrix(-1, 0, 0, 1, 0, 0);&#39;);
+</pre>
 <p>これをアドレスバーに打ち込めばウェブサイトが反転します。Firefoxとwebkit限定です。エイプリルの時GIZMODOがやってたやつです。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -63,7 +77,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -104,12 +118,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2010/04/14094735.html">symfonyのunitテストでちょっと楽する</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2010/04/20140839.html">prove.vim書いた</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -124,8 +134,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -136,8 +147,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

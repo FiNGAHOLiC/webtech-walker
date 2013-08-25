@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>CSSのデバッグ方法 - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,58 +22,73 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2007-10-10T00:00:00+09:00" pubdate>2007月10月10日</time>
-
+<time datetime="2007-10-10T00:00:00+09:00">2007年10月10日</time>
 <ul class="tags">
   
-    <li><a href="/tags/CSS.html">CSS</a></li>
+    <li><a href="/tags/css.html">CSS</a></li>
   
 </ul>
 
 <h1>CSSのデバッグ方法</h1>
 
 <div class="body">
+
 <p>CSSはプログラムみたいに、エラーがあるからといって、動作が止まったりしません。また、CSSのソースにエラーがなくても思うように動作しないことがあります。そういう場合にどうやって原因を突き止めて修正するか、僕なりのやり方を紹介します。</p>
 
 <p>要点はこんな感じ。</p>
 
 <ul>
-  <li>borderを指定してみる</li>
-  <li>display:noneを指定してみる</li>
-  <li>!importantを指定してみる</li>
-  <li>xml宣言を取ってみる（IE6で標準モードにする）</li>
-  <li>widthを指定してみる（hasLayoutをtrueにする）</li>
-  <li>ソースを削除してみる</li>
-  <li>ネットで調べてみる</li>
+<li>borderを指定してみる</li>
+<li>display:noneを指定してみる</li>
+<li>!importantを指定してみる</li>
+<li>xml宣言を取ってみる（IE6で標準モードにする）</li>
+<li>widthを指定してみる（hasLayoutをtrueにする）</li>
+<li>ソースを削除してみる</li>
+<li>ネットで調べてみる</li>
 </ul>
 
-<h2 id="border">borderを指定してみる</h2>
+<h2>borderを指定してみる</h2>
 
 <p>背景やborderをしなければ、基本的にボックスは無色透明なので、どこからどこまでが該当するボックスなのか、わからなく場合があります（僕だけ？）。</p>
 
 <p>ボックスの領域を確認するときは下記のようにborderを指定して確認します。僕の場合、目立つように赤線を表示するようにしています。</p>
-
-<div class="highlight"><pre><code class="css"><span class="nt">div</span><span class="nf">#box</span> <span class="p">{</span>
+<pre class="highlight css"><span class="nt">div</span><span class="nf">#box</span> <span class="p">{</span>
   <span class="c">/* スタイル色々 */</span>
-  <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="m">#F00</span><span class="p">;</span>
+  <span class="nl">border</span><span class="p">:</span> <span class="m">1px</span> <span class="nb">solid</span> <span class="m">#F00</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>元からborderがある場合は、そのborderで領域はわかります。</p>
 
-<h2 id="displaynone">display:noneを指定してみる</h2>
+<h2>display:noneを指定してみる</h2>
 
 <p>指定したスタイルが全く反映されない場合、考えられる原因として、指定したセレクタが間違っている可能性があります。わかりやすいプロパティを指定してみて、変化があるか確かめます。僕はよくdisplay:noneを指定します。（念のため「display:none !important」にすると尚良い）</p>
 
@@ -82,19 +96,16 @@
 
 <p>class名やid名の大文字小文字なども正確にあっているか確かめます。「#」や「.」がなかったりclassなのに「#」をつけてることも考えられます。</p>
 
-<h2 id="important">!importantを指定してみる</h2>
+<h2>!importantを指定してみる</h2>
 
 <p>一部のプロパティの値が反映されないという場合、他の部分で上書きされている場合があります。その場合は「!important」をつけてみましょう。</p>
-
-<div class="highlight"><pre><code class="css"><span class="nt">div</span><span class="nf">#box</span> <span class="p">{</span>
-  <span class="k">width</span><span class="o">:</span> <span class="m">300px</span> <span class="cp">!important</span><span class="p">;</span>
+<pre class="highlight css"><span class="nt">div</span><span class="nf">#box</span> <span class="p">{</span>
+  <span class="nl">width</span><span class="p">:</span> <span class="m">300px</span> <span class="cp">!important</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>これで表示されれば優先度を調整しましょう。</p>
 
-<h2 id="widthhaslayouttrue">widthを指定してみる（hasLayoutをtrueにする）</h2>
+<h2>widthを指定してみる（hasLayoutをtrueにする）</h2>
 
 <p>IEは独自拡張の「hasLayout」という読み取り専用のプロパティを持っています。どうやらこれが多くのバグの原因らしいです。hasLayoutプロパティはオブジェクトがレイアウトを持っているかどうかを示すもので、これがfalseだと様々なバグを引き起こすようです。</p>
 
@@ -139,7 +150,7 @@
 
 <p>これを知る前は、IEで崩れたらボックスにwidthを指定すれば直ることが多いなぁと思っていたんですが、よくよく考えるとこれが原因だったんです。その影響もあってか、今でもIEで崩れると、とりあえずwidthを指定してみることが多いです。</p>
 
-<h2 id="xmlie6">xml宣言を取ってみる（IE6で標準モードにする）</h2>
+<h2>xml宣言を取ってみる（IE6で標準モードにする）</h2>
 
 <p>IE6だけ表示がおかしい場合は互換モードのバグの可能性もあります。IE6はxml宣言をつけると互換モードでレンダリングします。互換モードのバグっぽいなぁと思ったら一度xml宣言を外してみて互換モードによるバグなのか、そうでないのか確かめてみます。</p>
 
@@ -147,18 +158,17 @@
 
 <p>対応としてはwidthやheightと同時にborderやpaddingを指定しないということです。</p>
 
-<h2 id="section">ソースを削除してみる</h2>
+<h2>ソースを削除してみる</h2>
 
 <p>他にもいろいろケースでどうしても思いどおりに表示されないことが多々あります。そういう時に僕がよくやるのはどこに原因があるか調べるために(X)HTMLやCSSの原因と思われるコードを削除していくという方法です。</p>
 
 <p>で、コードを削除して直ったら、削除した箇所に問題があるということです。該当箇所を修正してやりましょう。これは結構使えます。</p>
 
-<h2 id="section-1">ネットで調べてみる</h2>
+<h2>ネットで調べてみる</h2>
 
 <p>いろいろやってみたけど原因がわからない場合はgoogleなり何なりで検索してみましょう。結構対処方法が見つかったりします。また、コミュニティサイトなど質問して人に聞いてみるのもいいかもしれません。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -168,7 +178,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -209,12 +219,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2007/09/20143717.html">phpの$_FILESについてのメモ</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2007/10/31021209.html">WordPress移行＆リニューアル大体完了</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -229,8 +235,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -241,8 +248,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

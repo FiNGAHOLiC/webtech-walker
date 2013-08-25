@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>mochaとphantomJSとtravis-ciでフロントエンドJavaScriptのテスト - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,22 +22,39 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2012-10-23T00:00:00+09:00" pubdate>2012月10月23日</time>
-
+<time datetime="2012-10-23T00:00:00+09:00">2012年10月23日</time>
 <ul class="tags">
   
-    <li><a href="/tags/JavaScript.html">JavaScript</a></li>
+    <li><a href="/tags/javascript.html">JavaScript</a></li>
   
     <li><a href="/tags/test.html">test</a></li>
   
@@ -47,6 +63,7 @@
 <h1>mochaとphantomJSとtravis-ciでフロントエンドJavaScriptのテスト</h1>
 
 <div class="body">
+
 <p><a href="http://atnd.org/events/33022">東京Node学園祭2012 アドベントカレンダー</a>の9日目です。Node.jsとほとんど関係ないうえに内容がけっこう薄い感じなった気がするんですけど気にせずいこうと思います。</p>
 
 <p>フロントエンドのJavaScriptをテストするとき最近はいつもmochaを使ってるんですが、やはりJenkinsとかtravis-ciを使って自動テストもしたいと思って試してみました。</p>
@@ -54,8 +71,7 @@
 <p><a href="https://github.com/hokaccha/mocha-phantom-travis-test">hokaccha/mocha-phantom-travis-test</a></p>
 
 <p>ここではよくあるjQueryで画像のロールオーバーをするというプラグインを作ってそのライブラリに対してテストを書いています。ソースコードはこんな感じです。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">rollover</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<pre class="highlight javascript"><span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">rollover</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">$img</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
     <span class="kd">var</span> <span class="nx">src</span> <span class="o">=</span> <span class="nx">$img</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">);</span>
@@ -70,16 +86,13 @@
     <span class="p">});</span>
   <span class="p">});</span>
 <span class="p">};</span>
-</code></pre>
-</div>
-
+</pre>
 <p>画像名に<code>_off</code>という文字列がある場合にマウスオーバーで<code>_on</code>に切り替えるといういたって普通のロールオーバーのプラグインです。こんな感じで動きます。</p>
 
 <p><a href="http://hokaccha.github.com/mocha-phantom-travis-test/example/">rollover sample</a></p>
 
 <p>このプラグインに対してmochaでテストを書くとこのようになります。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;jquery.rollover&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<pre class="highlight javascript"><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;jquery.rollover&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="kd">var</span> <span class="nx">$img</span><span class="p">;</span>
   <span class="kd">var</span> <span class="nx">off</span> <span class="o">=</span> <span class="s1">&#39;../example/menu01_off.png&#39;</span><span class="p">;</span>
   <span class="kd">var</span> <span class="nx">on</span> <span class="o">=</span> <span class="s1">&#39;../example/menu01_on.png&#39;</span><span class="p">;</span>
@@ -102,9 +115,7 @@
     <span class="nx">expect</span><span class="p">(</span><span class="nx">$img</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">)).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">(</span><span class="nx">off</span><span class="p">);</span>
   <span class="p">});</span>
 <span class="p">});</span>
-</code></pre>
-</div>
-
+</pre>
 <p>ブラウザでテストを実行するとこんな感じになります。</p>
 
 <p><a href="http://hokaccha.github.com/mocha-phantom-travis-test/test/">Test | jquery.rollover</a></p>
@@ -114,8 +125,8 @@
 <p>mocha-phantomjsをnpmでインストールするようにしてもいいんですが、フロントエンドのコードしかないプロジェクトにnodeとかnpmの依存が入るのはどうかと思ったので必要なファイルだけもってきて設置しました。必要なのは以下の2ファイルです。</p>
 
 <ul>
-  <li><a href="https://github.com/metaskills/mocha-phantomjs/blob/master/lib/mocha-phantomjs.coffee">lib/mocha-phantomjs.coffee</a></li>
-  <li><a href="https://github.com/metaskills/mocha-phantomjs/blob/master/lib/mocha-phantomjs/core_extensions.js">lib/mocha-phantomjs/core_extensions.js</a></li>
+<li><a href="https://github.com/metaskills/mocha-phantomjs/blob/master/lib/mocha-phantomjs.coffee">lib/mocha-phantomjs.coffee</a></li>
+<li><a href="https://github.com/metaskills/mocha-phantomjs/blob/master/lib/mocha-phantomjs/core_extensions.js">lib/mocha-phantomjs/core_extensions.js</a></li>
 </ul>
 
 <p>どこに置いてもいいんですが、今回の例ではtest/libディレクトリに設置しています。</p>
@@ -123,22 +134,18 @@
 <p><a href="https://github.com/hokaccha/mocha-phantom-travis-test/tree/master/test/lib">mocha-phantom-travis-test/test/lib</a></p>
 
 <p>そして<code>mocha.run()</code>を実行するところを次のように書きます。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<pre class="highlight javascript"><span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">mochaPhantomJS</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">mochaPhantomJS</span><span class="p">.</span><span class="nx">run</span><span class="p">();</span>
   <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
     <span class="nx">mocha</span><span class="p">.</span><span class="nx">run</span><span class="p">();</span>
   <span class="p">}</span>
 <span class="p">};</span>
-</code></pre>
-</div>
-
+</pre>
 <p>phantomJSから呼ぶ場合は<code>mochaPhantomJS.run()</code>で実行、そうでない場合は通常の<code>mocha.run()</code>でテストを実行するようにしています。</p>
 
 <p>これで以下のようにするとmochaのテストをコマンドラインから実行できます。</p>
-
-<pre><code>$ phantomjs test/lib/mocha-phantomjs.coffee test/index.html
+<pre class="highlight text">$ phantomjs test/lib/mocha-phantomjs.coffee test/index.html
 
   jquery.rollover
     ✓ mouseenterで_offが_onになること 
@@ -146,15 +153,12 @@
 
 
   ✔ 2 tests complete (21 ms)
-</code></pre>
-
+</pre>
 <p>ファイル名の後にreporterを指定することもできるので結果を<code>tap</code>で出力することもできます。デフォルトは<code>spec</code>です。</p>
 
 <p>最後にtravis-ciの設定ですが、travis-ciはphantomJSをサポートしているので、.travis.ymlにその設定を以下のように書くだけです。</p>
-
-<pre><code>script: phantomjs test/lib/mocha-phantomjs.coffee test/index.html
-</code></pre>
-
+<pre class="highlight text">script: phantomjs test/lib/mocha-phantomjs.coffee test/index.html
+</pre>
 <p>これでtravis-ciのほうでこのリポジトリを追加してpushしたら自動でテストが走るようになります。簡単すぎワロタ。</p>
 
 <p>以下が結果です。</p>
@@ -169,8 +173,7 @@
 
 <p>便利な世の中になったものだと思いました。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -180,7 +183,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -221,12 +224,8 @@
 </div>
 
 <ul class="paginate">
-
-  <li class="prev"><span>Prev Entry:</span><a href="/archive/2012/10/jsippo.html">「ノンプログラマのための JavaScriptはじめの一歩」という本を書きました</a></li>
-
-
+  <li class="prev"><span>Prev Entry:</span><a href="/archive/2012/09/git_export_diff.html">gitで差分ファイルを抽出する</a></li>
   <li class="next"><span>Next Entry:</span><a href="/archive/2012/10/less_extend_experimental.html">lessのextendがexperimentalなブランチにマージされたようです</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -241,8 +240,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -253,8 +253,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

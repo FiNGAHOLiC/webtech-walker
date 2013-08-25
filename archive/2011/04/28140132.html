@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>Google Chrome11でサポートされた音声入力API - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,30 +22,48 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2011-04-28T00:00:00+09:00" pubdate>2011月04月28日</time>
-
+<time datetime="2011-04-28T00:00:00+09:00">2011年04月28日</time>
 <ul class="tags">
   
-    <li><a href="/tags/Chrome.html">Chrome</a></li>
+    <li><a href="/tags/chrome.html">Chrome</a></li>
   
-    <li><a href="/tags/HTML.html">HTML</a></li>
+    <li><a href="/tags/html.html">HTML</a></li>
   
 </ul>
 
 <h1>Google Chrome11でサポートされた音声入力API</h1>
 
 <div class="body">
+
 <p>Google Chrome11の正式版がリリースされたわけですが、音声入力APIに対応したようです。</p>
 
 <p>音声入力APIはフォームの入力を音声から取得してテキストに変換してくれるAPIです。</p>
@@ -54,28 +71,20 @@
 <p><a href="http://lists.w3.org/Archives/Public/public-xg-htmlspeech/2011Feb/att-0020/api-draft.html">HTML Speech Input API Specification</a></p>
 
 <p>使い方は超かんたん。speech属性をinput要素に指定するだけ。chrome11ではx-webkitっていうprefixつかないとダメっぽい。こんな感じ。</p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">speech</span> <span class="na">x-webkit-speech</span><span class="nt">&gt;</span>
-</code></pre>
-</div>
-
-<p><input type="text" speech="" x-webkit-speech="" /></p>
+<pre class="highlight html"><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">speech</span> <span class="na">x-webkit-speech</span><span class="nt">&gt;</span>
+</pre>
+<p><input type="text" speech x-webkit-speech></p>
 
 <p>対応してるブラウザだったらテキストボックスにマイクのアイコンがでてると思うのでクリックすると音声で入力できます。</p>
 
 <p>あと、言語をlang属性で指定できる模様。</p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">speech</span> <span class="na">x-webkit-speech</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
-</code></pre>
-</div>
-
-<p><input type="text" speech="" x-webkit-speech="" lang="en" /></p>
+<pre class="highlight html"><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">speech</span> <span class="na">x-webkit-speech</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+</pre>
+<p><input type="text" speech x-webkit-speech lang="en"></p>
 
 <p>ちなみにGoogle検索とかGoogle翻訳はすでに音声入力APIに対応している様子。</p>
 
-
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -85,7 +94,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -126,12 +135,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2011/04/20001022.html">CSS3のvim syntaxをちょっといじった</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2011/04/29180449.html">Chromeの等幅フォントがOsakaになってる件</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -146,8 +151,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -158,8 +164,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

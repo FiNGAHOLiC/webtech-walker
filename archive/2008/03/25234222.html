@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>IE6のmin-width、min-heightハックに関して - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,68 +22,79 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2008-03-25T00:00:00+09:00" pubdate>2008月03月25日</time>
-
+<time datetime="2008-03-25T00:00:00+09:00">2008年03月25日</time>
 <ul class="tags">
   
-    <li><a href="/tags/IE.html">IE</a></li>
+    <li><a href="/tags/ie.html">IE</a></li>
   
-    <li><a href="/tags/CSS.html">CSS</a></li>
+    <li><a href="/tags/css.html">CSS</a></li>
   
 </ul>
 
 <h1>IE6のmin-width、min-heightハックに関して</h1>
 
 <div class="body">
-<p><a href="http://blog.creamu.com/mt/2008/03/cssminheighteasiest_crossbrows.html">CSSでmin-heightをクロスブラウザにする最も簡単な方法『Easiest cross-browser CSS min-height』</a><br />
+
+<p><a href="http://blog.creamu.com/mt/2008/03/cssminheighteasiest_crossbrows.html">CSSでmin-heightをクロスブラウザにする最も簡単な方法『Easiest cross-browser CSS min-height』</a><br>
 という記事を見かけたんですが、min-widthってこれじゃダメな気がするんです・・・</p>
 
 <blockquote>
-  <p>IE6では min-height や min-width が効かないため、それを効かせるためにはいろいろなハックやブラウザごとのスタイルシートが必要だった。
+<p>IE6では min-height や min-width が効かないため、それを効かせるためにはいろいろなハックやブラウザごとのスタイルシートが必要だった。
 しかし以下のようにすればIE6にも対応したものが実現できる。</p>
 </blockquote>
 
 <p>min-widthのソースは以下のとおり</p>
-
-<div class="highlight"><pre><code class="css"><span class="nc">.bar</span> <span class="p">{</span>
-  <span class="k">min-width</span><span class="o">:</span> <span class="m">100px</span><span class="p">;</span>
-  <span class="k">width</span><span class="o">:</span> <span class="k">auto</span> <span class="cp">!important</span><span class="p">;</span>
-  <span class="k">width</span><span class="o">:</span> <span class="m">100px</span><span class="p">;</span>
+<pre class="highlight css"><span class="nc">.bar</span> <span class="p">{</span>
+  <span class="nl">min-width</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span>
+  <span class="nl">width</span><span class="p">:</span> <span class="nb">auto</span> <span class="cp">!important</span><span class="p">;</span>
+  <span class="nl">width</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>min-widthはIE6で実装されていないので、無視されます。そして、同一ブロック内では!importantが無視されるというIE6のバグを利用して「width:100px」をIE6のみに適用させてますが、これじゃただ幅100pxを指定しただけでは？と思うのです。min-widthの動作って最小幅が100pxになるってことですよね。これだと100pxで固定な気がします。</p>
 
 <p>ちなみにmin-heightの場合は大丈夫だと思います。</p>
-
-<div class="highlight"><pre><code class="css"><span class="nc">.foo</span> <span class="p">{</span>
-  <span class="k">min-height</span><span class="o">:</span> <span class="m">100px</span><span class="p">;</span>
-  <span class="k">height</span><span class="o">:</span> <span class="k">auto</span> <span class="cp">!important</span><span class="p">;</span>
-  <span class="k">height</span><span class="o">:</span> <span class="m">100px</span><span class="p">;</span>
+<pre class="highlight css"><span class="nc">.foo</span> <span class="p">{</span>
+  <span class="nl">min-height</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span>
+  <span class="nl">height</span><span class="p">:</span> <span class="nb">auto</span> <span class="cp">!important</span><span class="p">;</span>
+  <span class="nl">height</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>これはボックスサイズが内容物に合わせた大きさへ強制的に調整されるというIE6のバグを利用して、IE6のみ「height:100px」を適用することでコンテンツが100px以下のときは100pxになり、100px以上になると高さを拡張するためです。</p>
 
 <p>自分でもやってみたけどやっぱりmin-widthのほうは動かない気がする・・・でも元記事のトラバとか見ると、うまくいった！って書いてあるし、大元の英語の記事は読めないし、ちょっと自信なくなってきました。誰かわかる方、教えてくだせぇ。。。</p>
 
 <p>追記：<a href="/archive/2008/03/26142420.html">min-widthの実装方法についてまとめた記事</a>を書きました。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -94,7 +104,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -135,12 +145,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2008/03/19214614.html">Safari3.1の開発ツールがなかなかすごい</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2008/03/26142420.html">IE6でmin-widthを実装する方法のまとめ</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -155,8 +161,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -167,8 +174,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

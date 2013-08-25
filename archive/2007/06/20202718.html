@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>CSSの:checked擬似クラス - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,56 +22,67 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2007-06-20T00:00:00+09:00" pubdate>2007月06月20日</time>
-
+<time datetime="2007-06-20T00:00:00+09:00">2007年06月20日</time>
 <ul class="tags">
   
-    <li><a href="/tags/CSS.html">CSS</a></li>
+    <li><a href="/tags/css.html">CSS</a></li>
   
 </ul>
 
 <h1>CSSの:checked擬似クラス</h1>
 
 <div class="body">
+
 <p>ラジオボタンがチェックされたときにCSSプロパティを指定するための:checked擬似クラスがあります。</p>
 
 <p>実用的な使用方法は下記の例のように、ボタンがチェックされたら、対応するテキストが装飾される。といった感じです。FireFoxとOperaでは動作確認しましたが、IE6、IE7では動きません。</p>
 
-<p><a href="/sample/2007-06-20-20202718/index.html">サンプル</a></p>
+<p><a href="/sample/2007-06-20-20202718/">サンプル</a></p>
 
 <p>隣接セレクタを使って、:checkedの隣のlabelにスタイルを指定しています。ソースはこんな感じ。</p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;radioBox&quot;</span><span class="nt">&gt;</span>
+<pre class="highlight html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;radioBox&quot;</span><span class="nt">&gt;</span>
 <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;radio&quot;</span> <span class="na">name=</span><span class="s">&quot;text&quot;</span> <span class="na">value=</span><span class="s">&quot;1&quot;</span> <span class="na">id=</span><span class="s">&quot;radio1&quot;</span> <span class="nt">/&gt;&lt;label</span> <span class="na">for=</span><span class="s">&quot;radio1&quot;</span><span class="nt">&gt;</span>リスト1<span class="nt">&lt;/label&gt;&lt;br</span> <span class="nt">/&gt;</span>
 <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;radio&quot;</span> <span class="na">name=</span><span class="s">&quot;text&quot;</span> <span class="na">value=</span><span class="s">&quot;2&quot;</span> <span class="na">id=</span><span class="s">&quot;radio2&quot;</span> <span class="nt">/&gt;&lt;label</span> <span class="na">for=</span><span class="s">&quot;radio2&quot;</span><span class="nt">&gt;</span>リスト2<span class="nt">&lt;/label&gt;&lt;br</span> <span class="nt">/&gt;</span>
 <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;radio&quot;</span> <span class="na">name=</span><span class="s">&quot;text&quot;</span> <span class="na">value=</span><span class="s">&quot;3&quot;</span> <span class="na">id=</span><span class="s">&quot;radio3&quot;</span> <span class="nt">/&gt;&lt;label</span> <span class="na">for=</span><span class="s">&quot;radio3&quot;</span><span class="nt">&gt;</span>リスト3<span class="nt">&lt;/label&gt;&lt;br</span> <span class="nt">/&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
-</code></pre>
-</div>
-
-<div class="highlight"><pre><code class="css"><span class="nt">div</span><span class="nf">#radioBox</span> <span class="nt">input</span><span class="nd">:checked</span> <span class="o">+</span> <span class="nt">label</span> <span class="p">{</span>
-  <span class="k">background</span><span class="o">:</span><span class="m">#CCC</span><span class="p">;</span>
+</pre><pre class="highlight css"><span class="nt">div</span><span class="nf">#radioBox</span> <span class="nt">input</span><span class="nd">:checked</span> <span class="o">+</span> <span class="nt">label</span> <span class="p">{</span>
+  <span class="nl">background</span><span class="p">:</span><span class="m">#CCC</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>javascriptを使わないでCSSだけでここまでやれるのはなかなか感動です。他に:selected、:disabledなどもあるようです。</p>
 
 <p>まだIEなどのブラウザに実装されてないのが残念ですが、ブラウザの対応が進めばかなり使えるテクニックだと思います。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -82,7 +92,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -123,12 +133,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2007/06/15143606.html">PHPで出力ファイルをダウンロード形式にする</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2007/06/28201618.html">XHTMLの非推奨要素、非推奨属性のまとめ</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -143,8 +149,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -155,8 +162,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

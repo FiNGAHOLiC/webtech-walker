@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>zshの設定メモ - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,19 +22,36 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2008-12-15T00:00:00+09:00" pubdate>2008月12月15日</time>
-
+<time datetime="2008-12-15T00:00:00+09:00">2008年12月15日</time>
 <ul class="tags">
   
     <li><a href="/tags/zsh.html">zsh</a></li>
@@ -47,189 +63,149 @@
 <h1>zshの設定メモ</h1>
 
 <div class="body">
+
 <p>ずっとbashを使ってたんですが、この前ようやくzshにして色々設定したので覚え書き程度に。メインはMacで使いますが、一応Linuxとかでも同じになるようにしています。</p>
 
-<h2 id="section">補間</h2>
+<h2>補間</h2>
 
 <p>何はともあれzsh使うならこれだけは指定しておけということなので。</p>
-
-<pre><code>autoload -U compinit
+<pre class="highlight text">autoload -U compinit
 compinit
-</code></pre>
-
-<h2 id="section-1">文字コード</h2>
+</pre>
+<h2>文字コード</h2>
 
 <p>UTF-8に設定</p>
-
-<pre><code>export LANG=ja_JP.UTF-8
-</code></pre>
-
-<h2 id="section-2">プロンプト</h2>
+<pre class="highlight text">export LANG=ja_JP.UTF-8
+</pre>
+<h2>プロンプト</h2>
 
 <p>カレントディレクトリ、ユーザー名を2行で表示。見やすいように上に改行を入れて、カレントディレクトリは黄色にしました。エスケープ使うとコピペできないのでcolorsをロードしてます。</p>
-
-<pre><code>autoload colors
+<pre class="highlight text">autoload colors
 colors
 
-PROMPT="
+PROMPT=&quot;
  %{${fg[yellow]}%}%~%{${reset_color}%} 
-[%n]$ "
+[%n]$ &quot;
 
-PROMPT2='[%n]&gt; ' 
-</code></pre>
-
+PROMPT2=&#39;[%n]&gt; &#39; 
+</pre>
 <p>こんな感じ。</p>
 
-<p><img src="/img/posts/2008-12-15-15101251/zsh_prompt.png" alt="プロンプト" /></p>
+<p><img alt="プロンプト" src="/img/posts/2008-12-15-15101251/zsh_prompt.png" /></p>
 
-<h2 id="section-3">履歴</h2>
+<h2>履歴</h2>
 
-<h3 id="section-4">履歴を保存するファイル指定</h3>
-
-<pre><code>HISTFILE="$HOME/.zsh_history"
-</code></pre>
-
-<h3 id="section-5">履歴の件数</h3>
-
-<pre><code>HISTSIZE=100000
+<h3>履歴を保存するファイル指定</h3>
+<pre class="highlight text">HISTFILE=&quot;$HOME/.zsh_history&quot;
+</pre>
+<h3>履歴の件数</h3>
+<pre class="highlight text">HISTSIZE=100000
 SAVEHIST=100000
-</code></pre>
+</pre>
+<h3>重複した履歴を保存しない</h3>
+<pre class="highlight text">setopt hist_ignore_dups
+</pre>
+<h3>履歴を共有する</h3>
+<pre class="highlight text">setopt share_history
+</pre>
+<h3>先頭にスペースを入れると履歴に残さない</h3>
+<pre class="highlight text">setopt hist_ignore_space
+</pre>
+<h3>履歴の検索</h3>
 
-<h3 id="section-6">重複した履歴を保存しない</h3>
-
-<pre><code>setopt hist_ignore_dups
-</code></pre>
-
-<h3 id="section-7">履歴を共有する</h3>
-
-<pre><code>setopt share_history
-</code></pre>
-
-<h3 id="section-8">先頭にスペースを入れると履歴に残さない</h3>
-
-<pre><code>setopt hist_ignore_space
-</code></pre>
-
-<h3 id="section-9">履歴の検索</h3>
-
-<p>例えば”ls “とうってからC-pでlsから始まる履歴を検索できます。複数行のコマンドのときはカーソルキーで移動できるようにしています。これのおかげでC-rの使用頻度が極端に減りました。マジ便利。</p>
-
-<pre><code>autoload history-search-end
+<p>例えば&ldquo;ls &quot;とうってからC-pでlsから始まる履歴を検索できます。複数行のコマンドのときはカーソルキーで移動できるようにしています。これのおかげでC-rの使用頻度が極端に減りました。マジ便利。</p>
+<pre class="highlight text">autoload history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
-bindkey "^P" history-beginning-search-backward-end
-bindkey "^N" history-beginning-search-forward-end 
-</code></pre>
+bindkey &quot;^P&quot; history-beginning-search-backward-end
+bindkey &quot;^N&quot; history-beginning-search-forward-end 
+</pre>
+<h2>cdの設定</h2>
 
-<h2 id="cd">cdの設定</h2>
-
-<h3 id="section-10">ディレクトリ名だけで移動する。</h3>
-
-<pre><code>setopt auto_cd
-</code></pre>
-
-<h3 id="pushd">自動でpushdする</h3>
+<h3>ディレクトリ名だけで移動する。</h3>
+<pre class="highlight text">setopt auto_cd
+</pre>
+<h3>自動でpushdする</h3>
 
 <p>pushdの履歴は残さない。</p>
-
-<pre><code>setopt auto_pushd
+<pre class="highlight text">setopt auto_pushd
 setopt pushd_ignore_dups
-</code></pre>
-
-<h2 id="section-11">ターミナルのタイトル</h2>
+</pre>
+<h2>ターミナルのタイトル</h2>
 
 <p>「ユーザー名@ホスト名」をターミナルのタイトルにだす。</p>
-
-<pre><code>case "${TERM}" in
+<pre class="highlight text">case &quot;${TERM}&quot; in
 kterm*|xterm)
     precmd() {
-        echo -ne "\033]0;${USER}@${HOST}\007"
+        echo -ne &quot;\033]0;${USER}@${HOST}\007&quot;
     }
     ;;
 esac 
-</code></pre>
-
-<h2 id="section-12">色の設定</h2>
+</pre>
+<h2>色の設定</h2>
 
 <p>ディレクトリとシンボリックリンクと実行ファイルだけ色つけました。補間の一覧も同じ色に設定してます。</p>
-
-<pre><code>export LSCOLORS=gxfxxxxxcxxxxxxxxxgxgx
-export LS_COLORS='di=01;36:ln=01;35:ex=01;32'
-zstyle ':completion:*' list-colors 'di=36' 'ln=35' 'ex=32'
-</code></pre>
-
+<pre class="highlight text">export LSCOLORS=gxfxxxxxcxxxxxxxxxgxgx
+export LS_COLORS=&#39;di=01;36:ln=01;35:ex=01;32&#39;
+zstyle &#39;:completion:*&#39; list-colors &#39;di=36&#39; &#39;ln=35&#39; &#39;ex=32&#39;
+</pre>
 <p>こんな感じになります。</p>
 
-<p><img src="/img/posts/2008-12-15-15101251/zsh_ls.png" alt="lsの色" /></p>
+<p><img alt="lsの色" src="/img/posts/2008-12-15-15101251/zsh_ls.png" /></p>
 
-<h2 id="alias">alias</h2>
+<h2>alias</h2>
 
 <p>とりえあえずlsのaliasだけ設定しました。環境ごとに設定したり、必要に応じて追記したりします。</p>
-
-<pre><code>case "${OSTYPE}" in
+<pre class="highlight text">case &quot;${OSTYPE}&quot; in
 freebsd*|darwin*)
-  alias ls="ls -GF"
+  alias ls=&quot;ls -GF&quot;
   ;;
 linux*)
-  alias ls="ls -F --color"
+  alias ls=&quot;ls -F --color&quot;
   ;;
 esac
 
-alias la='ls -a'
-alias ll='ls -l'
-alias lla='ls -al'
-</code></pre>
-
-<h2 id="w3malc">w3mでALC検索</h2>
+alias la=&#39;ls -a&#39;
+alias ll=&#39;ls -l&#39;
+alias lla=&#39;ls -al&#39;
+</pre>
+<h2>w3mでALC検索</h2>
 
 <p>ふと思いついたので書いてみました。下記コマンドでALCの検索ページをw3mで開きます。便利かな？どうだろ。</p>
-
-<pre><code>$ alc 検索語
+<pre class="highlight text">$ alc 検索語
 function alc() {
   if [ $# != 0 ]; then
-    w3m "http://eow.alc.co.jp/$*/UTF-8/?ref=sa"
+    w3m &quot;http://eow.alc.co.jp/$*/UTF-8/?ref=sa&quot;
   else
-    w3m "http://www.alc.co.jp/"
+    w3m &quot;http://www.alc.co.jp/&quot;
   fi
 }
-</code></pre>
+</pre>
+<h2>その他</h2>
 
-<h2 id="section-13">その他</h2>
-
-<h3 id="section-14">キーバインド</h3>
+<h3>キーバインド</h3>
 
 <p>vim使いなのにシェルのキーバインドはEmacsという中途半端さ。</p>
-
-<pre><code>bindkey -e
-</code></pre>
-
-<h3 id="section-15">ビープ音ならなさない</h3>
-
-<pre><code>setopt nobeep
-</code></pre>
-
-<h3 id="section-16">エディタ</h3>
+<pre class="highlight text">bindkey -e
+</pre>
+<h3>ビープ音ならなさない</h3>
+<pre class="highlight text">setopt nobeep
+</pre>
+<h3>エディタ</h3>
 
 <p>svn propeditとかで使うエディタを指定。</p>
-
-<pre><code>export EDITOR=vi
-</code></pre>
-
-<h3 id="section-17">改行のない出力をプロンプトで上書きするのを防ぐ</h3>
-
-<pre><code>unsetopt promptcr
-</code></pre>
-
-<h2 id="section-18">個別設定を読み込む</h2>
+<pre class="highlight text">export EDITOR=vi
+</pre>
+<h3>改行のない出力をプロンプトで上書きするのを防ぐ</h3>
+<pre class="highlight text">unsetopt promptcr
+</pre>
+<h2>個別設定を読み込む</h2>
 
 <p>環境毎にパスとかaliasを設定します。</p>
-
-<pre><code>[ -f ~/.zshrc.mine ] &amp;&amp; source ~/.zshrc.mine
-</code></pre>
-
-<h2 id="section-19">コピペ用</h2>
-
-<pre><code>#補間
+<pre class="highlight text">[ -f ~/.zshrc.mine ] &amp;&amp; source ~/.zshrc.mine
+</pre>
+<h2>コピペ用</h2>
+<pre class="highlight text">#補間
 autoload -U compinit
 compinit
 
@@ -240,15 +216,15 @@ export LANG=ja_JP.UTF-8
 autoload colors
 colors
 
-PROMPT="
+PROMPT=&quot;
  %{${fg[yellow]}%}%~%{${reset_color}%} 
-[%n]$ "
+[%n]$ &quot;
 
-PROMPT2='[%n]&gt; ' 
+PROMPT2=&#39;[%n]&gt; &#39; 
 
 #履歴
 #履歴を保存するファイル指定
-HISTFILE="$HOME/.zsh_history"
+HISTFILE=&quot;$HOME/.zsh_history&quot;
 
 #履歴の件数
 HISTSIZE=100000
@@ -267,8 +243,8 @@ setopt hist_ignore_space
 autoload history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
-bindkey "^P" history-beginning-search-backward-end
-bindkey "^N" history-beginning-search-forward-end 
+bindkey &quot;^P&quot; history-beginning-search-backward-end
+bindkey &quot;^N&quot; history-beginning-search-forward-end 
 
 #cdの設定
 #ディレクトリ名だけで移動する。
@@ -281,39 +257,39 @@ setopt auto_pushd
 setopt pushd_ignore_dups
 
 #ターミナルのタイトル
-case "${TERM}" in
+case &quot;${TERM}&quot; in
 kterm*|xterm)
     precmd() {
-        echo -ne "\033]0;${USER}@${HOST}\007"
+        echo -ne &quot;\033]0;${USER}@${HOST}\007&quot;
     }
     ;;
 esac 
 
 #色の設定
 export LSCOLORS=gxfxxxxxcxxxxxxxxxgxgx
-export LS_COLORS='di=01;36:ln=01;35:ex=01;32'
-zstyle ':completion:*' list-colors 'di=36' 'ln=35' 'ex=32'
+export LS_COLORS=&#39;di=01;36:ln=01;35:ex=01;32&#39;
+zstyle &#39;:completion:*&#39; list-colors &#39;di=36&#39; &#39;ln=35&#39; &#39;ex=32&#39;
 
 #alias
-case "${OSTYPE}" in
+case &quot;${OSTYPE}&quot; in
 freebsd*|darwin*)
-  alias ls="ls -GF"
+  alias ls=&quot;ls -GF&quot;
   ;;
 linux*)
-  alias ls="ls -F --color"
+  alias ls=&quot;ls -F --color&quot;
   ;;
 esac
 
-alias la='ls -a'
-alias ll='ls -l'
-alias lla='ls -al'
+alias la=&#39;ls -a&#39;
+alias ll=&#39;ls -l&#39;
+alias lla=&#39;ls -al&#39;
 
 #w3mでALC検索
 function alc() {
   if [ $# != 0 ]; then
-    w3m "http://eow.alc.co.jp/$*/UTF-8/?ref=sa"
+    w3m &quot;http://eow.alc.co.jp/$*/UTF-8/?ref=sa&quot;
   else
-    w3m "http://www.alc.co.jp/"
+    w3m &quot;http://www.alc.co.jp/&quot;
   fi
 }
 
@@ -332,10 +308,8 @@ unsetopt promptcr
 
 #個別設定を読み込む
 [ -f ~/.zshrc.mine ] &amp;&amp; source ~/.zshrc.mine
-</code></pre>
-
-
-<div class="mod-ads">
+</pre>
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -345,7 +319,7 @@ unsetopt promptcr
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -386,12 +360,8 @@ unsetopt promptcr
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2008/11/24020619.html">svnコマンドの覚え書き</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2008/12/18230720.html">FlexSDKをインストールしてみた</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -406,8 +376,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -418,8 +389,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

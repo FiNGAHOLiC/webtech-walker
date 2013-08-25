@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>group byはorder byより先に処理される。これ重要。 - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,35 +22,52 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2009-09-28T00:00:00+09:00" pubdate>2009月09月28日</time>
-
+<time datetime="2009-09-28T00:00:00+09:00">2009年09月28日</time>
 <ul class="tags">
   
-    <li><a href="/tags/MySQL.html">MySQL</a></li>
+    <li><a href="/tags/mysql.html">MySQL</a></li>
   
-    <li><a href="/tags/SQL.html">SQL</a></li>
+    <li><a href="/tags/sql.html">SQL</a></li>
   
 </ul>
 
 <h1>group byはorder byより先に処理される。これ重要。</h1>
 
 <div class="body">
+
 <p>今日はちょっとだけはまったSQLの話し。例えばブログのエントリーについたコメントが新しい順にエントリーをソートしたいときを考えてみます。</p>
 
 <p>テーブル構成はこんな感じ。</p>
-
-<pre><code>CREATE TABLE `entry` (
+<pre class="highlight text">CREATE TABLE `entry` (
   `id` int(11) NOT NULL auto_increment,
   `title` text,
   `body` text,
@@ -66,11 +82,9 @@ CREATE TABLE `comment` (
   `created_at` datetime default NULL,
   PRIMARY KEY  (`id`)
 );
-</code></pre>
-
+</pre>
 <p>で、入ってるデータはこんなん。</p>
-
-<pre><code>mysql&gt; select * from entry;
+<pre class="highlight text">mysql&gt; select * from entry;
 +----+--------+-------+---------------------+
 | id | title  | body  | created_at          |
 +----+--------+-------+---------------------+
@@ -90,13 +104,11 @@ mysql&gt; select * from comment;
 |  5 |        2 | comment5 | 2009-01-08 12:00:00 | 
 |  6 |        1 | comment6 | 2009-01-09 12:00:00 | 
 +----+----------+----------+---------------------+
-</code></pre>
-
+</pre>
 <p>これを、新しいコメントがついた順にエントリーをソートしようとすると、entry_idは1,2,3の順にならないといけないですよね。</p>
 
 <p>で、下記のようなSQLを書いてみたら全然期待しない結果になりました。</p>
-
-<pre><code>mysql&gt; select * from comment group by entry_id order by created_at desc; 
+<pre class="highlight text">mysql&gt; select * from comment group by entry_id order by created_at desc; 
 +----+----------+----------+---------------------+
 | id | entry_id | body     | created_at          |
 +----+----------+----------+---------------------+
@@ -104,11 +116,9 @@ mysql&gt; select * from comment;
 |  2 |        2 | comment2 | 2009-01-05 12:00:00 | 
 |  1 |        1 | comment1 | 2009-01-04 12:00:00 | 
 +----+----------+----------+---------------------+
-</code></pre>
-
+</pre>
 <p>これはorder byよりgroup byが先に処理されるからです。以下の様に書けばよさげ。</p>
-
-<pre><code>mysql&gt; select id,entry_id,body,created_at,max(created_at) as max_date from comment group by entry_id order by max_date desc;
+<pre class="highlight text">mysql&gt; select id,entry_id,body,created_at,max(created_at) as max_date from comment group by entry_id order by max_date desc;
 +----+----------+----------+---------------------+---------------------+
 | id | entry_id | body     | created_at          | max_date            |
 +----+----------+----------+---------------------+---------------------+
@@ -116,14 +126,12 @@ mysql&gt; select * from comment;
 |  2 |        2 | comment2 | 2009-01-05 12:00:00 | 2009-01-08 12:00:00 | 
 |  3 |        3 | comment3 | 2009-01-06 12:00:00 | 2009-01-07 12:00:00 | 
 +----+----------+----------+---------------------+---------------------+
-</code></pre>
-
+</pre>
 <p>selectするときにソートするカラムの最大値を取得しておいて、その値でソートします。こういうのってデータによっては間違ったSQLでも期待通りの値が返ってくることがあるから要注意。</p>
 
 <p>ORMで育ったゆとり世代でホントすいません。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -133,7 +141,7 @@ mysql&gt; select * from comment;
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -174,12 +182,8 @@ mysql&gt; select * from comment;
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2009/08/26000539.html">Vimで同じインデントの部分を選択する</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2009/09/29213156.html">vimでquickfixを自動で開く</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -194,8 +198,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -206,8 +211,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

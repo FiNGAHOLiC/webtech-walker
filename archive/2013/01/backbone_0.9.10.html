@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>Backbone.js 0.9.10 の変更点 - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,30 +22,48 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2013-01-20T00:00:00+09:00" pubdate>2013月01月20日</time>
-
+<time datetime="2013-01-20T00:00:00+09:00">2013年01月20日</time>
 <ul class="tags">
   
-    <li><a href="/tags/JavaScript.html">JavaScript</a></li>
+    <li><a href="/tags/javascript.html">JavaScript</a></li>
   
-    <li><a href="/tags/Backbone.js.html">Backbone.js</a></li>
+    <li><a href="/tags/backbone-js.html">Backbone.js</a></li>
   
 </ul>
 
 <h1>Backbone.js 0.9.10 の変更点</h1>
 
 <div class="body">
+
 <p>Backbone.jsの0.9.10がリリースされました。</p>
 
 <p><a href="http://backbonejs.org/#changelog">Backbone.js - Change Log</a></p>
@@ -54,14 +71,14 @@
 <p>変更点は次のような感じです。</p>
 
 <ul>
-  <li><code>route</code>イベントはこれまではBackbone.historyで発火してたんですが、routerでも発火されるようになりました。</li>
-  <li>バリデーションが走るのが<code>save</code>メソッドのみになりました。<code>set</code>メソッドやnewしたときには走りません。<code>save</code>以外でもバリデーションを実行するにはオプションに<code>{validate:true}</code>を指定します。</li>
-  <li>バリデーションが失敗したときのイベントが<code>error</code>から<code>invalid</code>になりました。（本家のChange Logには未掲載）</li>
-  <li><code>View#make</code>が削除されました。代わりに<code>$</code>を直接使ってDOM要素を初期化しましょう。</li>
-  <li><code>Model#change</code>メソッドが削除されました。
-Passing {silent:true} on change will no longer delay individual “change:attr” events, instead they are silenced entirely.</li>
-  <li>これまでは<code>{silent:true}</code>を指定してsetした属性は<code>change</code>メソッドを呼ぶことで<code>change:xxx</code>イベントが発火していましたが、その機能はなくなりました。<code>{silent:true}</code>は単純にイベントが呼ばれないだけです。</li>
-  <li>その他バグFixいくつか。</li>
+<li><code>route</code>イベントはこれまではBackbone.historyで発火してたんですが、routerでも発火されるようになりました。</li>
+<li>バリデーションが走るのが<code>save</code>メソッドのみになりました。<code>set</code>メソッドやnewしたときには走りません。<code>save</code>以外でもバリデーションを実行するにはオプションに<code>{validate:true}</code>を指定します。</li>
+<li>バリデーションが失敗したときのイベントが<code>error</code>から<code>invalid</code>になりました。（本家のChange Logには未掲載）</li>
+<li><code>View#make</code>が削除されました。代わりに<code>$</code>を直接使ってDOM要素を初期化しましょう。</li>
+<li><code>Model#change</code>メソッドが削除されました。
+Passing {silent:true} on change will no longer delay individual &ldquo;change:attr&rdquo; events, instead they are silenced entirely.</li>
+<li>これまでは<code>{silent:true}</code>を指定してsetした属性は<code>change</code>メソッドを呼ぶことで<code>change:xxx</code>イベントが発火していましたが、その機能はなくなりました。<code>{silent:true}</code>は単純にイベントが呼ばれないだけです。</li>
+<li>その他バグFixいくつか。</li>
 </ul>
 
 <p>バリデーションの挙動はここ最近でよく変わってるので注意が必要そうです。</p>
@@ -69,13 +86,12 @@ Passing {silent:true} on change will no longer delay individual “change:attr�
 <p>ちなみにドキュメントの冒頭に以下のようにあります。</p>
 
 <blockquote>
-  <p>Backbone 0.9.10 should be considered as a release candidate for an upcoming 1.0.</p>
+<p>Backbone 0.9.10 should be considered as a release candidate for an upcoming 1.0.</p>
 </blockquote>
 
 <p>0.9.10は1.0のRC版（リリース候補）ってことみたいですね。1.0が出るのは近そうだけどまだけっこう変わる可能性はありそうです。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -85,7 +101,7 @@ Passing {silent:true} on change will no longer delay individual “change:attr�
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -126,12 +142,8 @@ Passing {silent:true} on change will no longer delay individual “change:attr�
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2012/12/backbone_0.9.9.html">Backbone.js 0.9.9 の変更点</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2013/03/win8_chrome_touch_event.html">Windows8のChromeやFirefoxはタッチイベントとマウスイベント両方考慮すべし</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -146,8 +158,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -158,8 +171,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

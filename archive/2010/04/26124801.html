@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>最近はword-breakするのにJSは使わないほうがいいみたい - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,48 +22,60 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2010-04-26T00:00:00+09:00" pubdate>2010月04月26日</time>
-
+<time datetime="2010-04-26T00:00:00+09:00">2010年04月26日</time>
 <ul class="tags">
   
-    <li><a href="/tags/HTML.html">HTML</a></li>
+    <li><a href="/tags/html.html">HTML</a></li>
   
-    <li><a href="/tags/CSS.html">CSS</a></li>
+    <li><a href="/tags/css.html">CSS</a></li>
   
 </ul>
 
 <h1>最近はword-breakするのにJSは使わないほうがいいみたい</h1>
 
 <div class="body">
-<p><a href="https://twitter.com/tacamy/status/12859745917">Twitter / tacamy: { word-wrap: break-word; } …</a></p>
+
+<p><a href="https://twitter.com/tacamy/status/12859745917">Twitter / tacamy: { word-wrap: break-word; } &hellip;</a></p>
 
 <p>ということなのでJSを使わずにCSSだけでやれるみたいです。しかもこれだけ。</p>
-
-<div class="highlight"><pre><code class="css"><span class="nc">.word_wrap</span> <span class="p">{</span>
-    <span class="n">word</span><span class="o">-</span><span class="n">wrap</span><span class="o">:</span> <span class="n">break</span><span class="o">-</span><span class="n">word</span><span class="p">;</span>
+<pre class="highlight css"><span class="nc">.word_wrap</span> <span class="p">{</span>
+    <span class="nl">word-wrap</span><span class="p">:</span> <span class="n">break-word</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>IE6、7、8、Firefox3.6、Safari4、Chrome、Opera10.52で確認しましたけどこれだけで全部いけます。ブラボー。</p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;word_wrap&quot;</span><span class="nt">&gt;</span>http://ja.wikipedia.org/wiki/%E3%82%A4%E3%83%B3%E3%82%BF%E3%83%BC%E3%83%8D%E3%83%83%E3%83%88%E3%82%B3%E3%83%9F%E3%83%A5%E3%83%8B%E3%83%86%E3%82%A3<span class="nt">&lt;/div&gt;</span>
+<pre class="highlight html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;word_wrap&quot;</span><span class="nt">&gt;</span>http://ja.wikipedia.org/wiki/%E3%82%A4%E3%83%B3%E3%82%BF%E3%83%BC%E3%83%8D%E3%83%83%E3%83%88%E3%82%B3%E3%83%9F%E3%83%A5%E3%83%8B%E3%83%86%E3%82%A3<span class="nt">&lt;/div&gt;</span>
 <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;word_wrap&quot;</span><span class="nt">&gt;</span>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa<span class="nt">&lt;/div&gt;</span>
-</code></pre>
-</div>
-
-<p><img src="/img/posts/2010-04-26-26124801/1.png" alt="word-wrapの結果" /></p>
+</pre>
+<p><img alt="word-wrapの結果" src="/img/posts/2010-04-26-26124801/1.png" /></p>
 
 <p>meca.jsとかsisso.jsとか、その他のJSでword-breakしてる方はもう使わない方がいいです。あれは副作用がありますので。</p>
 
@@ -72,26 +83,21 @@
 
 <p>例えば、以下の様になります。</p>
 
-<h3 id="js">JSでやった場合</h3>
+<h3>JSでやった場合</h3>
+<pre class="highlight text">&lt;div class=&quot;wordBreak&quot;&gt;hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello&lt;/div&gt;
+</pre>
+<p><img alt="JSでやると単語の途中で改行される" src="/img/posts/2010-04-26-26124801/2.png" /></p>
 
-<pre><code>&lt;div class="wordBreak"&gt;hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello&lt;/div&gt;
-</code></pre>
-
-<p><img src="/img/posts/2010-04-26-26124801/2.png" alt="JSでやると単語の途中で改行される" /></p>
-
-<h3 id="css">CSSのみでやった場合</h3>
-
-<pre><code>&lt;div class="word_wrap"&gt;hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello&lt;/div&gt;
-</code></pre>
-
-<p><img src="/img/posts/2010-04-26-26124801/3.png" alt="CSSでやると単語の途中で改行されない" /></p>
+<h3>CSSのみでやった場合</h3>
+<pre class="highlight text">&lt;div class=&quot;word_wrap&quot;&gt;hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello&lt;/div&gt;
+</pre>
+<p><img alt="CSSでやると単語の途中で改行されない" src="/img/posts/2010-04-26-26124801/3.png" /></p>
 
 <p>ということなので、古いバージョンのFirefoxにも対応しないといけないということがなければ今後はCSSのみでやったほうがいいようです。</p>
 
 <p>tacamy++</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -101,7 +107,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -142,12 +148,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2010/04/22173415.html">perlbrew + cpanminus + local::lib で環境構築</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2010/04/27173007.html">vimでコマンドの出力をキャプチャする</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -162,8 +164,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -174,8 +177,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

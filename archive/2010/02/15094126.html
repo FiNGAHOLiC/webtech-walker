@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>javascriptのreplaceにfunctionを渡す - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,51 +22,64 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2010-02-15T00:00:00+09:00" pubdate>2010月02月15日</time>
-
+<time datetime="2010-02-15T00:00:00+09:00">2010年02月15日</time>
 <ul class="tags">
   
-    <li><a href="/tags/JavaScript.html">JavaScript</a></li>
+    <li><a href="/tags/javascript.html">JavaScript</a></li>
   
 </ul>
 
 <h1>javascriptのreplaceにfunctionを渡す</h1>
 
 <div class="body">
+
 <p>この前URLをリンクにして、リンクテキストだけURLデコードするっていう置換を<a href="/archive/2010/01/26091559.html">Perlでやった</a>けど、それのJS版。</p>
 
 <p>replaceの第二引数にfunctionを渡せるらしい。知らんかった。</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">text</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/(https?:\/\/[\x21-\x7e]+)/gi</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<pre class="highlight javascript"><span class="nx">text</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/(https?:\/\/[\x21-\x7e]+)/gi</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">uri</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
     <span class="k">return</span> <span class="s1">&#39;&lt;a href=&quot;&#39;</span> <span class="o">+</span> <span class="nx">uri</span> <span class="o">+</span> <span class="s1">&#39;&quot;&gt;&#39;</span> <span class="o">+</span> <span class="nb">decodeURI</span><span class="p">(</span><span class="nx">uri</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&lt;/a&gt;&#39;</span><span class="p">;</span>
 <span class="p">});</span>
-</code></pre>
-</div>
-
+</pre>
 <p>functionの引数には以下のようになる。</p>
 
 <ul>
-  <li>arguments[0] =&gt; マッチした文字列全体</li>
-  <li>arguments[1] ~ arguments[arguments.length - 3] =&gt; ()でグルーピングした文字列が順番に</li>
-  <li>arguments[arguments.length - 2] =&gt; マッチした文字が先頭から何文字目か</li>
-  <li>arguments[arguments.length - 1] =&gt; 検索対象の全体の文字列</li>
+<li>arguments[0] =&gt; マッチした文字列全体</li>
+<li>arguments[1] ~ arguments[arguments.length - 3] =&gt; ()でグルーピングした文字列が順番に</li>
+<li>arguments[arguments.length - 2] =&gt; マッチした文字が先頭から何文字目か</li>
+<li>arguments[arguments.length - 1] =&gt; 検索対象の全体の文字列</li>
 </ul>
 
-
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -77,7 +89,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -118,12 +130,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2010/02/01090136.html">irssiをインストールしてからやったことのまとめ</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2010/02/17194501.html">vimのsyntax/perl.vimをちょっと直す</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -138,8 +146,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -150,8 +159,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

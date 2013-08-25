@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>CSSセレクタの高速化の話し - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,22 +22,39 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2010-05-18T00:00:00+09:00" pubdate>2010月05月18日</time>
-
+<time datetime="2010-05-18T00:00:00+09:00">2010年05月18日</time>
 <ul class="tags">
   
-    <li><a href="/tags/CSS.html">CSS</a></li>
+    <li><a href="/tags/css.html">CSS</a></li>
   
     <li><a href="/tags/performance.html">performance</a></li>
   
@@ -47,77 +63,51 @@
 <h1>CSSセレクタの高速化の話し</h1>
 
 <div class="body">
+
 <p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4873114462/ref=nosim/webtech00-22">続・ハイパフォーマンスWebサイト</a>を読んでCSSセレクタの高速化の話しが面白かった（というか全然知らなくてちょっとびびった）ので紹介します。</p>
 
-<h2 id="section">セレクタは右から左に解釈される</h2>
+<h2>セレクタは右から左に解釈される</h2>
 
 <p>これは正直知らなくて、結構衝撃でした。</p>
-
-<div class="highlight"><pre><code class="css"><span class="nf">#foo</span> <span class="nc">.bar</span> <span class="p">{}</span>
-</code></pre>
-</div>
-
+<pre class="highlight css"><span class="nf">#foo</span> <span class="nc">.bar</span> <span class="p">{}</span>
+</pre>
 <p>これはなんとなく#fooを探して、その中の.barを探している気がしてたんですけど、実は.barを探して、その親要素に#fooがあるかを探すそうです。なので特に#fooが必要なければ</p>
-
-<div class="highlight"><pre><code class="css"><span class="nc">.bar</span> <span class="p">{}</span>
-</code></pre>
-</div>
-
+<pre class="highlight css"><span class="nc">.bar</span> <span class="p">{}</span>
+</pre>
 <p>と書いたほうが高速だということ。</p>
 
 <p>また、以下の様に要素名で指定すると、その要素を全て探します。</p>
-
-<div class="highlight"><pre><code class="css"><span class="nf">#foo</span> <span class="nt">a</span> <span class="p">{}</span>
-</code></pre>
-</div>
-
+<pre class="highlight css"><span class="nf">#foo</span> <span class="nt">a</span> <span class="p">{}</span>
+</pre>
 <p>これは一度a要素を全て探すので、できればaにclassをふって</p>
-
-<div class="highlight"><pre><code class="css"><span class="nf">#foo</span> <span class="nc">.anchor</span> <span class="p">{}</span>
-</code></pre>
-</div>
-
+<pre class="highlight css"><span class="nf">#foo</span> <span class="nc">.anchor</span> <span class="p">{}</span>
+</pre>
 <p>とするほうが高速のようです。（#fooをとるとより高速）</p>
 
 <p>特にユニバーサルセレクタなどは、</p>
-
-<div class="highlight"><pre><code class="css"><span class="nf">#foo</span> <span class="o">*</span> <span class="p">{}</span>
-</code></pre>
-</div>
-
+<pre class="highlight css"><span class="nf">#foo</span> <span class="o">*</span> <span class="p">{}</span>
+</pre>
 <p>とすると、全ての要素の親要素に対して#fooがあるかどうかを調べるので遅くなるようです。</p>
 
-<h2 id="section-1">子孫セレクタは遅い</h2>
+<h2>子孫セレクタは遅い</h2>
 
 <p>子孫セレクタの処理が一番コストがかかるということらしいので、</p>
-
-<div class="highlight"><pre><code class="css"><span class="nt">div</span><span class="nf">#wrapper</span> <span class="nt">div</span><span class="nf">#main</span> <span class="nt">ul</span><span class="nc">.list</span> <span class="nt">li</span> <span class="p">{}</span>
-</code></pre>
-</div>
-
+<pre class="highlight css"><span class="nt">div</span><span class="nf">#wrapper</span> <span class="nt">div</span><span class="nf">#main</span> <span class="nt">ul</span><span class="nc">.list</span> <span class="nt">li</span> <span class="p">{}</span>
+</pre>
 <p>などとしないでliにclassをふって</p>
-
-<div class="highlight"><pre><code class="css"><span class="nc">.list-item</span> <span class="p">{}</span>
-</code></pre>
-</div>
-
-<h2 id="idclass">idやclassには要素名をつけないほうが高速</h2>
+<pre class="highlight css"><span class="nc">.list-item</span> <span class="p">{}</span>
+</pre>
+<h2>idやclassには要素名をつけないほうが高速</h2>
 
 <p>以下の様にidやclassに要素名を書くよりも書かない方が高速らしいです。</p>
-
-<div class="highlight"><pre><code class="css"><span class="nt">div</span><span class="nf">#foo</span> <span class="p">{}</span>
+<pre class="highlight css"><span class="nt">div</span><span class="nf">#foo</span> <span class="p">{}</span>
 <span class="nt">li</span><span class="nc">.item</span> <span class="p">{}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>これは、以下の様に書いた方がいいとのこと。</p>
-
-<div class="highlight"><pre><code class="css"><span class="nf">#foo</span> <span class="p">{}</span>
+<pre class="highlight css"><span class="nf">#foo</span> <span class="p">{}</span>
 <span class="nc">.item</span> <span class="p">{}</span>
-</code></pre>
-</div>
-
-<h2 id="section-2">まとめ</h2>
+</pre>
+<h2>まとめ</h2>
 
 <p>DOM要素の数がすごく多くなるとCSSのセレクタの書き方がネックになることもあるとのことですが、普通のWebサイトつくっててCSSのセレクタが速度のネックになることはほとんどないと思います。</p>
 
@@ -125,8 +115,7 @@
 
 <p>とするのがよいとされています。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -136,7 +125,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -177,12 +166,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2010/05/17110416.html">wedataでMicroformatsのデータを共有する</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2010/05/27100603.html">jQueryの.load()でちょっとはまったメモ</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -197,8 +182,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -209,8 +195,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

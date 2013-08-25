@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>URI::Find - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,44 +22,58 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2010-01-27T00:00:00+09:00" pubdate>2010月01月27日</time>
-
+<time datetime="2010-01-27T00:00:00+09:00">2010年01月27日</time>
 <ul class="tags">
   
-    <li><a href="/tags/Perl.html">Perl</a></li>
+    <li><a href="/tags/perl.html">Perl</a></li>
   
 </ul>
 
 <h1>URI::Find</h1>
 
 <div class="body">
+
 <p><a href="/archive/2010/01/26091559.html">昨日のエントリー</a>のコメントでそれURI::Findでできるよと言われたのでやってみた。</p>
+<pre class="highlight perl"><span class="k">use</span> <span class="nn">URI::</span><span class="nv">Escape</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">URI::</span><span class="nv">Find</span><span class="p">;</span>
 
-<div class="highlight"><pre><code class="perl"><span class="k">use</span> <span class="nn">URI::</span><span class="n">Escape</span><span class="p">;</span>
-<span class="k">use</span> <span class="nn">URI::</span><span class="n">Find</span><span class="p">;</span>
-
-<span class="nn">URI::</span><span class="n">Find</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="k">sub </span><span class="p">{</span>
+<span class="nn">URI::</span><span class="nv">Find</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="k">sub </span><span class="p">{</span>
     <span class="k">my</span> <span class="p">(</span><span class="nv">$uri</span><span class="p">,</span> <span class="nv">$orig_uri</span><span class="p">)</span> <span class="o">=</span> <span class="nv">@_</span><span class="p">;</span>
-    <span class="k">return</span> <span class="sx">qq[&lt;a href=&quot;$uri&quot;&gt;]</span> <span class="o">.</span> <span class="n">uri_unescape</span><span class="p">(</span><span class="nv">$orig_uri</span><span class="p">)</span> <span class="o">.</span> <span class="sx">qq[&lt;/a&gt;]</span><span class="p">;</span>
-<span class="p">})</span><span class="o">-&gt;</span><span class="n">find</span><span class="p">(</span><span class="o">\</span><span class="nv">$text</span><span class="p">);</span>
-</code></pre>
-</div>
-
+    <span class="k">return</span> <span class="sx">qq[&lt;a href=&quot;$uri&quot;&gt;]</span> <span class="o">.</span> <span class="nv">uri_unescape</span><span class="p">(</span><span class="nv">$orig_uri</span><span class="p">)</span> <span class="o">.</span> <span class="sx">qq[&lt;/a&gt;]</span><span class="p">;</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nv">find</span><span class="p">(</span><span class="o">\</span><span class="nv">$text</span><span class="p">);</span>
+</pre>
 <p>こんなかんじかな。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -70,7 +83,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -111,12 +124,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2010/01/26091559.html">perlの置換でeオプション</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2010/01/28100748.html">sambaにmacから接続してsvnを使うときの注意点</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -131,8 +140,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -143,8 +153,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

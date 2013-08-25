@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>smartyでマルチバイトに対応したtruncate修飾子 - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,62 +22,77 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2007-04-26T00:00:00+09:00" pubdate>2007月04月26日</time>
-
+<time datetime="2007-04-26T00:00:00+09:00">2007年04月26日</time>
 <ul class="tags">
   
-    <li><a href="/tags/PHP.html">PHP</a></li>
+    <li><a href="/tags/php.html">PHP</a></li>
   
 </ul>
 
 <h1>smartyでマルチバイトに対応したtruncate修飾子</h1>
 
 <div class="body">
+
 <p>smartyのtruncate修飾子は指定した文字数で文章を切って、切ったらその後に”･･･”など任意の文字を追加してくれる便利な修飾子です。</p>
 
 <p>しかしそのtruncateもマルチバイトに対応していないようで、日本語に適用すると切ったところが微妙に文字化けしたりする場合があるんですよね。そういうわけでマルチバイト対応のtruncateを作ってみました。</p>
 
-<div class="highlight"><pre><code class="php"><span class="k">function</span> <span class="nf">smarty_modifier_mb_truncate</span><span class="p">(</span><span class="nv">$string</span><span class="p">,</span> <span class="nv">$length</span> <span class="o">=</span> <span class="mi">80</span><span class="p">,</span> <span class="nv">$etc</span> <span class="o">=</span> <span class="s1">&#39;...&#39;</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nv">$length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nb">mb_strlen</span><span class="p">(</span><span class="nv">$string</span><span class="p">,</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nv">$length</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nv">$string</span> <span class="o">=</span> <span class="nb">mb_substr</span><span class="p">(</span><span class="nv">$string</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">$length</span><span class="p">,</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nv">$string</span><span class="o">.</span><span class="nv">$etc</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nv">$string</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre>
-</div>
+<p>{% highlight php startinline %}
+function smarty<em>modifier</em>mb<em>truncate($string, $length = 80, $etc = &lsquo;&hellip;&rsquo;)
+{
+  if ($length == 0)
+    return &ldquo;;
+  if (mb</em>strlen($string,&quot;UTF-8&rdquo;) &gt; $length) {
+    $string = mb_substr($string, 0, $length,&ldquo;UTF-8&rdquo;);
+    return $string.$etc;
+  } else {
+    return $string;
+  }
+}
+&ldquo;`</p>
 
 <p>下記ソースをmodifier.mb_truncate.phpと名前をつけて保存して、smartyのpluginsフォルダに置けばオッケーです。文字コードはUTF-8に指定しているので文字コードが異なる場合には変更が必要です。使い方は以下の通り。</p>
-
-<pre><code>[PHP]
-$smarty-&gt;assign('text','広島カープにはぜひ頑張っていただきたいと思っている今日この頃です。');
+<pre class="highlight text">[PHP]
+$smarty-&gt;assign(&#39;text&#39;,&#39;広島カープにはぜひ頑張っていただきたいと思っている今日この頃です。&#39;);
 
 [smarty]
 {$text|mb_truncate:20}
 
 [出力]
 広島カープにはぜひ頑張っていただきたいと…
-</code></pre>
-
+</pre>
 <p>ちなみに単語の境界で切り取りを行うかどうかの、第3引数には対応していません。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -88,7 +102,7 @@ $smarty-&gt;assign('text','広島カープにはぜひ頑張っていただき�
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -129,12 +143,8 @@ $smarty-&gt;assign('text','広島カープにはぜひ頑張っていただき�
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2007/04/24211027.html">CSSの隣接セレクタを使ってMacのDock風インターフェースを作成する</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2007/05/08223419.html">PHPのユーザーエージェントを変更する方法</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -149,8 +159,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -161,8 +172,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

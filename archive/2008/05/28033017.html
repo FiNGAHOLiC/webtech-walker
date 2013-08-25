@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>DreamweaverCS4のベータ版でLiveView機能を試してみた - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,33 +22,50 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2008-05-28T00:00:00+09:00" pubdate>2008月05月28日</time>
-
+<time datetime="2008-05-28T00:00:00+09:00">2008年05月28日</time>
 <ul class="tags">
   
-    <li><a href="/tags/Dreamweaver.html">Dreamweaver</a></li>
+    <li><a href="/tags/dreamweaver.html">Dreamweaver</a></li>
   
 </ul>
 
 <h1>DreamweaverCS4のベータ版でLiveView機能を試してみた</h1>
 
 <div class="body">
+
 <p>DreamweaverCS4のベータ版が出たので、一番気になっていたLiveViewの機能を早速試してみました。LiveViewというは、CS4の新機能で、safariにも搭載されているレンダリングエンジン、webkitでレンダリングしてプレビューできる機能です。</p>
 
 <p>今回はLiveViewを有効にしたときに「clearfixが有効になるか」と「javascriptが動くか」というのを見てみました。ソースは下記のとおり。</p>
-
-<div class="highlight"><pre><code class="html"><span class="cp">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;</span>
+<pre class="highlight html"><span class="cp">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;</span>
 <span class="nt">&lt;html</span> <span class="na">xmlns=</span><span class="s">&quot;http://www.w3.org/1999/xhtml&quot;</span><span class="nt">&gt;</span>
 <span class="nt">&lt;head&gt;</span>
 <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span> <span class="nt">/&gt;</span>
@@ -70,55 +86,42 @@
 <span class="nt">&lt;/ul&gt;</span>
 <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span>
-</code></pre>
-</div>
-
-<div class="highlight"><pre><code class="css"><span class="nt">p</span> <span class="nt">img</span> <span class="p">{</span>
-    <span class="k">float</span><span class="o">:</span> <span class="k">left</span><span class="p">;</span>
+</pre><pre class="highlight css"><span class="nt">p</span> <span class="nt">img</span> <span class="p">{</span>
+    <span class="nl">float</span><span class="p">:</span> <span class="nb">left</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="nc">.clearfix</span><span class="nd">:after</span> <span class="p">{</span>
-    <span class="k">content</span><span class="o">:</span> <span class="s2">&quot;.&quot;</span><span class="p">;</span>
-    <span class="k">visibility</span><span class="o">:</span> <span class="k">hidden</span><span class="p">;</span>
-    <span class="k">display</span><span class="o">:</span> <span class="k">block</span><span class="p">;</span>
-    <span class="k">height</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span>
-    <span class="k">clear</span><span class="o">:</span> <span class="k">both</span><span class="p">;</span>
+    <span class="nl">content</span><span class="p">:</span> <span class="s1">&quot;.&quot;</span><span class="p">;</span>
+    <span class="nl">visibility</span><span class="p">:</span> <span class="nb">hidden</span><span class="p">;</span>
+    <span class="nl">display</span><span class="p">:</span> <span class="nb">block</span><span class="p">;</span>
+    <span class="nl">height</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span>
+    <span class="nl">clear</span><span class="p">:</span> <span class="nb">both</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
-<div class="highlight"><pre><code class="javascript"><span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</pre><pre class="highlight javascript"><span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
     <span class="kd">var</span> <span class="nx">h</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;head&quot;</span><span class="p">);</span>
     <span class="nx">h</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">color</span> <span class="o">=</span> <span class="s2">&quot;#F00&quot;</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>まず、以下は通常のデザインビューです。</p>
 
-<p><img src="/img/posts/2008-05-28-28033017/screen_01.jpg" alt="通常のデザインビュー" /></p>
+<p><img alt="通常のデザインビュー" src="/img/posts/2008-05-28-28033017/screen_01.jpg" /></p>
 
 <p>で、以下がLiveViewを有効にしたときのプレビューです。</p>
 
-<p><img src="/img/posts/2008-05-28-28033017/screen_02.jpg" alt="LiveViewで見たプレビュー画面" /></p>
+<p><img alt="LiveViewで見たプレビュー画面" src="/img/posts/2008-05-28-28033017/screen_02.jpg" /></p>
 
 <p>clearfixとjavascriptによるスタイルの変更が効いているのがわかります。本当はclearfixはLiveViewで見なくてもレンダリングしてくれるとありがいんですけどね。</p>
 
 <p>また、LiveCodeというのもあって、javascriptでDOM操作した後のHTMLのコードの変化がわかるという機能です。</p>
 
-<p><img src="/img/posts/2008-05-28-28033017/screen_03.jpg" alt="LiveCodeの表示画面" /></p>
+<p><img alt="LiveCodeの表示画面" src="/img/posts/2008-05-28-28033017/screen_03.jpg" /></p>
 
 <p>h1のところが以下のように変化しています。</p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;h1</span> <span class="na">id=</span><span class="s">&quot;head&quot;</span> <span class="na">style=</span><span class="s">&quot;color: rgb(255, 0, 0); &quot;</span><span class="nt">&gt;</span>test.com<span class="nt">&lt;/h1&gt;</span>
-</code></pre>
-</div>
-
+<pre class="highlight html"><span class="nt">&lt;h1</span> <span class="na">id=</span><span class="s">&quot;head&quot;</span> <span class="na">style=</span><span class="s">&quot;color: rgb(255, 0, 0); &quot;</span><span class="nt">&gt;</span>test.com<span class="nt">&lt;/h1&gt;</span>
+</pre>
 <p>この例ではonloadでstyleを変更しただけでしたが、例えばドラッグしてボックスを移動した際などはそれに合わせてコードも変わっていくのが見れるようです。</p>
 
-
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -128,7 +131,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -169,12 +172,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2008/05/24232248.html">第18回WebSig会議にいってきた</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2008/06/03010036.html">font-familyの憂鬱</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -189,8 +188,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -201,8 +201,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

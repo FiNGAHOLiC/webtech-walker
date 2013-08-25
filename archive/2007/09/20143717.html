@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>phpの$_FILESについてのメモ - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,48 +22,66 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2007-09-20T00:00:00+09:00" pubdate>2007月09月20日</time>
-
+<time datetime="2007-09-20T00:00:00+09:00">2007年09月20日</time>
 <ul class="tags">
   
-    <li><a href="/tags/PHP.html">PHP</a></li>
+    <li><a href="/tags/php.html">PHP</a></li>
   
 </ul>
 
 <h1>phpの$_FILESについてのメモ</h1>
 
 <div class="body">
+
 <p>PHPでフォームでファイルをアップロードしたときにデータを受け取る$_FILESについて調べたのでメモっときます。</p>
 
-<h2 id="files">$_FILES変数の中身</h2>
+<h2>$_FILES変数の中身</h2>
 
 <dl>
-<dt>$_FILES['image_file']['name']</dt>
+<dt>$_FILES[&lsquo;image_file&rsquo;][&lsquo;name&rsquo;]</dt>
 <dd>アップしたファイルの元のファイル名。</dd>
-<dt>$_FILES['image_file']['type']</dt>
+<dt>$_FILES[&lsquo;image_file&rsquo;][&lsquo;type&rsquo;]</dt>
 <dd>アップロードされたファイルファイルのMIME型。jpgだと「image/jpeg」テキストファイルだと「text/plain」などになります。</dd>
-<dt>$_FILES['image_file']['size']</dt>
+<dt>$_FILES[&lsquo;image_file&rsquo;][&lsquo;size&rsquo;]</dt>
 <dd>アップロードされたファイルのバイトサイズ。</dd>
-<dt>$_FILES['image_file']['tmp_name']</dt>
+<dt>$_FILES[&lsquo;image_file&rsquo;][&lsquo;tmp_name&rsquo;]</dt>
 <dd>サーバーにアップ後のテンポラリファイルの名前。基本的にこのファイルをコピーして保存したりする。</dd>
-<dt>$_FILES['image_file']['error']</dt>
+<dt>$_FILES[&lsquo;image_file&rsquo;][&lsquo;error&rsquo;]</dt>
 <dd>ファイルアップロードに関するエラーコード。</dd>
 </dl>
 
-<h2 id="section">エラーコード</h2>
+<h2>エラーコード</h2>
 
-<p>$_FILES[‘image_file’][‘error’]で得られるエラーコード</p>
+<p>$_FILES[&lsquo;image_file&rsquo;][&lsquo;error&rsquo;]で得られるエラーコード</p>
 
 <table summary="$_FILES['image_file']['error']で得られるエラーコード表">
   <tr>
@@ -105,8 +122,7 @@
   </tr>
 </table>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -116,7 +132,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -157,12 +173,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2007/09/19142740.html">横並びのフォームのマークアップ</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2007/10/10190934.html">CSSのデバッグ方法</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -177,8 +189,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -189,8 +202,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

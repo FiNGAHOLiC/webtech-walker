@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>font-familyの憂鬱 - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,82 +22,90 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2008-06-03T00:00:00+09:00" pubdate>2008月06月03日</time>
-
+<time datetime="2008-06-03T00:00:00+09:00">2008年06月03日</time>
 <ul class="tags">
   
-    <li><a href="/tags/CSS.html">CSS</a></li>
+    <li><a href="/tags/css.html">CSS</a></li>
   
 </ul>
 
 <h1>font-familyの憂鬱</h1>
 
 <div class="body">
+
 <p>最近font-familyの指定で悩んでます。少し前までは、下記エントリーのような理由で、ヒラギノ→メイリオ→MS P ゴシックみたいな感じで指定していました。</p>
 
 <p><a href="http://loconet.web2.jp/blog/archives/2007/02/cssfontfamily.html">CSSのfont-family：ヒラギノとＭＳ Ｐゴシックとメイリオの悩ましい関係</a></p>
 
-<h2 id="section">ヒラギノを指定しなくなった理由</h2>
+<h2>ヒラギノを指定しなくなった理由</h2>
 
 <p>わけあってヒラギノをwindowsにインストールする必要がありまして、しばらくインストールしたまま使っていたのですが、windowsでヒラギノの表示は少々汚くて見づらいものがありました。</p>
 
 <p>しかも、ヒラギノで表示されるサイトがかなり多いんです。それに耐えられなくなり、ヒラギノは使うときだけインストールするようにして、いったんアンインストールしました。いくらwindowsにヒラギノを入れているユーザーが少ないといっても、自分でそういう経験をしたので、ヒラギノの指定はしづらくなりました。あと、自分の周りのデザイナーさんとか結構ヒラギノ入れてる人いますしね。</p>
 
-<h2 id="section-1">欧文フォントのみ指定することに</h2>
+<h2>欧文フォントのみ指定することに</h2>
 
 <p>それで悩んだ結果、日本語フォントは指定せずに、欧文フォントのみ指定するようにしました。ちなみに個人的にはverdanaが一番見やすいです。</p>
-
-<div class="highlight"><pre><code class="css"><span class="nt">body</span> <span class="p">{</span>
-    <span class="k">font-family</span><span class="o">:</span> <span class="n">Verdana</span><span class="o">,</span><span class="n">Arial</span><span class="o">,</span><span class="k">sans-serif</span><span class="p">;</span>
+<pre class="highlight css"><span class="nt">body</span> <span class="p">{</span>
+    <span class="nl">font-family</span><span class="p">:</span> <span class="n">Verdana</span><span class="p">,</span><span class="n">Arial</span><span class="p">,</span><span class="nb">sans-serif</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
-<h2 id="ie">IEで問題</h2>
+</pre>
+<h2>IEで問題</h2>
 
 <p>しかし・・・これだとIEで問題がありました。文字コードがUTF-8で、日本語フォントを指定しないと、IEはフォントサイズ11px相当の文字を12px相当の大きさで表示させてしまします。先にverdanaしておけばいいんじゃね？と思って下記のように指定してみましたがダメでした。（11pxが12pxで表示させる）</p>
-
-<div class="highlight"><pre><code class="css"><span class="o">*</span> <span class="nt">html</span> <span class="nt">body</span> <span class="p">{</span>
-    <span class="k">font-family</span><span class="o">:</span> <span class="n">Verdana</span><span class="o">,</span><span class="s1">&#39;ＭＳ Ｐゴシック&#39;</span><span class="o">,</span><span class="k">sans-serif</span><span class="p">;</span>
+<pre class="highlight css"><span class="o">*</span> <span class="nt">html</span> <span class="nt">body</span> <span class="p">{</span>
+    <span class="nl">font-family</span><span class="p">:</span> <span class="n">Verdana</span><span class="p">,</span><span class="s2">&#39;ＭＳ Ｐゴシック&#39;</span><span class="p">,</span><span class="nb">sans-serif</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>どうやら日本語フォントを先に指定しないとダメっぽいです。ホントにIEってば手間がかかる子だこと・・・</p>
 
-<h2 id="section-2">解決策</h2>
+<h2>解決策</h2>
 
 <p>個人で作るサイトの場合は11px相当のフォントサイズの使用を避けるか、UTF-8以外の文字コードにすればいいんですが、仕事でコーディングしていると、そうも言ってられません。なので、文字コードがUTF-8で11px相当のフォントサイズがある場合は、IEのみ日本語フォントを指定してみます。</p>
-
-<div class="highlight"><pre><code class="css"><span class="nt">body</span> <span class="p">{</span>
-    <span class="k">font-family</span><span class="o">:</span> <span class="n">Verdana</span><span class="o">,</span><span class="n">Arial</span><span class="o">,</span><span class="k">sans-serif</span><span class="p">;</span>
+<pre class="highlight css"><span class="nt">body</span> <span class="p">{</span>
+    <span class="nl">font-family</span><span class="p">:</span> <span class="n">Verdana</span><span class="p">,</span><span class="n">Arial</span><span class="p">,</span><span class="nb">sans-serif</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="o">*</span> <span class="nt">html</span> <span class="nt">body</span> <span class="p">{</span>
-    <span class="k">font-family</span><span class="o">:</span> <span class="s1">&#39;ＭＳ Ｐゴシック&#39;</span><span class="o">,</span><span class="k">sans-serif</span><span class="p">;</span>
+    <span class="nl">font-family</span><span class="p">:</span> <span class="s2">&#39;ＭＳ Ｐゴシック&#39;</span><span class="p">,</span><span class="nb">sans-serif</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="o">*</span><span class="nd">:first-child</span><span class="o">+</span><span class="nt">html</span> <span class="nt">body</span> <span class="p">{</span>
-    <span class="k">font-family</span><span class="o">:</span> <span class="s1">&#39;メイリオ&#39;</span><span class="o">,</span><span class="s1">&#39;ＭＳ Ｐゴシック&#39;</span><span class="o">,</span><span class="k">sans-serif</span><span class="p">;</span>
+    <span class="nl">font-family</span><span class="p">:</span> <span class="s2">&#39;メイリオ&#39;</span><span class="p">,</span><span class="s2">&#39;ＭＳ Ｐゴシック&#39;</span><span class="p">,</span><span class="nb">sans-serif</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>もしくはbodyに指定するのでなく、11px相当のフォントサイズのところだけ日本語フォント指定するとか。どちらにせよ微妙に気持ち悪いですけど。もうこうなったらjavascriptでWinとMac分けて指定するのも悪くない気がしてきた。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -108,7 +115,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -149,12 +156,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2008/05/28033017.html">DreamweaverCS4のベータ版でLiveView機能を試してみた</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2008/11/02151611.html">word-break:break-allをFirefox等でも実現するjavascript</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -169,8 +172,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -181,8 +185,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

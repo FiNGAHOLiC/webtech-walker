@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>sub { my $arg = shift; } のshift - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,52 +22,63 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2010-03-23T00:00:00+09:00" pubdate>2010月03月23日</time>
-
+<time datetime="2010-03-23T00:00:00+09:00">2010年03月23日</time>
 <ul class="tags">
   
-    <li><a href="/tags/Perl.html">Perl</a></li>
+    <li><a href="/tags/perl.html">Perl</a></li>
   
 </ul>
 
 <h1>sub { my $arg = shift; } のshift</h1>
 
 <div class="body">
-<p><a href="http://www.songmu.jp/riji/archives/2010/03/perl_1_1.html">songmuさんのエントリー</a>見て僕がperlを始めた頃、以下のコードでなんで引数をとれるか超絶意味不明だったのを思い出した。</p>
 
-<div class="highlight"><pre><code class="perl"><span class="k">sub </span><span class="nf">foo</span> <span class="p">{</span>
+<p><a href="http://www.songmu.jp/riji/archives/2010/03/perl_1_1.html">songmuさんのエントリー</a>見て僕がperlを始めた頃、以下のコードでなんで引数をとれるか超絶意味不明だったのを思い出した。</p>
+<pre class="highlight perl"><span class="k">sub </span><span class="nf">foo</span> <span class="p">{</span>
     <span class="k">my</span> <span class="nv">$arg</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
     <span class="k">print</span> <span class="s">&quot;Hello $arg&quot;</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="n">foo</span><span class="p">(</span><span class="s">&#39;hokaccha&#39;</span><span class="p">);</span> <span class="c1">#=&gt; Hello hokaccha</span>
-</code></pre>
-</div>
-
-<p>shiftというのは配列の最初の要素を一個だけとりだして元の配列をひとつシフトさせるperlの組み込み関数です。perlで引数は@_という配列に格納されていて、shift関数の引数を省略すると@_が引数として処理されるので上記のように書けるわけです。つまり上記の例と以下は等価になります。</p>
-
-<div class="highlight"><pre><code class="perl"><span class="k">sub </span><span class="nf">foo</span> <span class="p">{</span>
+<span class="nv">foo</span><span class="p">(</span><span class="s">&#39;hokaccha&#39;</span><span class="p">);</span> <span class="c1">#=&gt; Hello hokaccha</span>
+</pre>
+<p>shiftというのは配列の最初の要素を一個だけとりだして元の配列をひとつシフトさせるperlの組み込み関数です。perlで引数は@<em>という配列に格納されていて、shift関数の引数を省略すると@</em>が引数として処理されるので上記のように書けるわけです。つまり上記の例と以下は等価になります。</p>
+<pre class="highlight perl"><span class="k">sub </span><span class="nf">foo</span> <span class="p">{</span>
     <span class="k">my</span> <span class="nv">$arg</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">(</span><span class="nv">@_</span><span class="p">);</span>
     <span class="k">print</span> <span class="s">&quot;Hello $arg&quot;</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</pre>
 <p>まず引数を配列で受け取るというのがわからなかったし、@_とか()を省略できるというのも知らなかったので本当に意味不明だったなあ。shiftってなんだよ！って思ってた。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -78,7 +88,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -119,12 +129,8 @@
 </div>
 
 <ul class="paginate">
-
-  <li class="prev"><span>Prev Entry:</span><a href="/archive/2010/03/23124458.html">javascriptでArray.prototype.push.applyとかを使う理由</a></li>
-
-
+  <li class="prev"><span>Prev Entry:</span><a href="/archive/2010/03/18165353.html">gitで削除したファイルをまとめてインデックスに記録する</a></li>
   <li class="next"><span>Next Entry:</span><a href="/archive/2010/03/24155825.html">perlのワンライナーで使えそうなのをいくつか</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -139,8 +145,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -151,8 +158,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

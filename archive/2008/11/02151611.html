@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>word-break:break-allをFirefox等でも実現するjavascript - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,30 +22,48 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2008-11-02T00:00:00+09:00" pubdate>2008月11月02日</time>
-
+<time datetime="2008-11-02T00:00:00+09:00">2008年11月02日</time>
 <ul class="tags">
   
-    <li><a href="/tags/JavaScript.html">JavaScript</a></li>
+    <li><a href="/tags/javascript.html">JavaScript</a></li>
   
-    <li><a href="/tags/CSS.html">CSS</a></li>
+    <li><a href="/tags/css.html">CSS</a></li>
   
 </ul>
 
 <h1>word-break:break-allをFirefox等でも実現するjavascript</h1>
 
 <div class="body">
+
 <p>最近やたらとURLなどの文字列が折り返されない現象で頭を悩まされます。IEとSafari3以降はCSSでword-break:break-allを指定すれば折り返してくれます。Firefox3はハイフン(-)やスラッシュ(/）があればそこで折り返すのですが、半角英数のみだと折り返してくれません。word-break:break-allと少し挙動が違うようです。Firefox2はハイフン等の記号があっても折り返さず、突き抜けてしまします。</p>
 
 <p>to-Rさんが<a href="http://blog.webcreativepark.net/2008/09/14-211341.html">FirefoxとOperaでword-break:break-allを実現する「wordBreak.js」</a>を公開していますが、tableだけにしか適用されずFirefox2をサポートしていないので、自分で書いてみました。（追記：ソースをgistにあげました）</p>
@@ -55,49 +72,45 @@
 
 <p>IEとFirefox2以外はゼロ幅スペースを各文字の間に入れ込むことで半角英数のみでも改行されます。IEはそれで動かなかったのでword-break:break-allをCSSで指定しました。Firefox2はゼロ幅スペースで調子が悪かったので仕方なく<code>&lt;wbr /&gt;</code>を埋め込んでます。</p>
 
-<h2 id="section">対応ブラウザ</h2>
+<h2>対応ブラウザ</h2>
 
 <p>動作確認したブラウザは以下になります。</p>
 
-<h3 id="windows">Windows</h3>
+<h3>Windows</h3>
 
 <ul>
-  <li>IE6</li>
-  <li>IE7</li>
-  <li>Firefox2</li>
-  <li>Firefox3</li>
-  <li>Opera9.5</li>
-  <li>Safari3.1</li>
-  <li>Google Chrome</li>
+<li>IE6</li>
+<li>IE7</li>
+<li>Firefox2</li>
+<li>Firefox3</li>
+<li>Opera9.5</li>
+<li>Safari3.1</li>
+<li>Google Chrome</li>
 </ul>
 
-<h3 id="mac">Mac</h3>
+<h3>Mac</h3>
 
 <ul>
-  <li>Firefox3</li>
-  <li>Firefox2</li>
-  <li>Opera9.5</li>
-  <li>Safari3.1</li>
+<li>Firefox3</li>
+<li>Firefox2</li>
+<li>Opera9.5</li>
+<li>Safari3.1</li>
 </ul>
 
-<h2 id="section-1">使い方とか注意点とか</h2>
+<h2>使い方とか注意点とか</h2>
 
 <p>$targetElementにはCSS形式で指定できるので「div.example li.url」とか自由に指定できます。あと、当然ですけどjQuery読まないと使えません。</p>
 
 <p>注意点としては指定したDOM要素の子要素にHTMLのタグがあったとき、IE以外ではそのタグが消えてしまいます。具体的にどういうことかというと</p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">&quot;wordBreak&quot;</span><span class="nt">&gt;</span>test<span class="nt">&lt;em&gt;</span>emtext<span class="nt">&lt;/em&gt;</span>test<span class="nt">&lt;/p&gt;</span>
-</code></pre>
-</div>
-
+<pre class="highlight html"><span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">&quot;wordBreak&quot;</span><span class="nt">&gt;</span>test<span class="nt">&lt;em&gt;</span>emtext<span class="nt">&lt;/em&gt;</span>test<span class="nt">&lt;/p&gt;</span>
+</pre>
 <p>としたときに、emタグが消えてしまいます（em内の「emtext」というテキストノードは残るためここではあえて「要素」でなく「タグ」と表現しています）。再帰的にテキストノードだけ取得して処理すれば解消されるんだろうけど、とりあえず自分で使う分には今のところ問題ないので、必要になったらそのとき考えます。</p>
 
-<h2 id="word-break">word-breakの今後</h2>
+<h2>word-breakの今後</h2>
 
 <p>word-breakはCSS3以降では正式に採用が検討されているようなので、将来的にはCSSだけで制御できるようになると思います。しかしIEの独自拡張もたまにはいいのがあるなーと思った今日この頃です。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -107,7 +120,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -148,12 +161,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2008/06/03010036.html">font-familyの憂鬱</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2008/11/24020619.html">svnコマンドの覚え書き</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -168,8 +177,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -180,8 +190,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>zshのbindkeyが子プロセスのzshに反映されない現象 - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,19 +22,36 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2009-01-24T00:00:00+09:00" pubdate>2009月01月24日</time>
-
+<time datetime="2009-01-24T00:00:00+09:00">2009年01月24日</time>
 <ul class="tags">
   
     <li><a href="/tags/zsh.html">zsh</a></li>
@@ -45,31 +61,25 @@
 <h1>zshのbindkeyが子プロセスのzshに反映されない現象</h1>
 
 <div class="body">
+
 <p>.zshrcで設定しているbindkeyの設定が子プロセスのzsh立ち上げたときに反映されないという現象ではまったのメモ。</p>
-
-<pre><code>$ bindkey "^p"
-"^P" history-beginning-search-backward-end
+<pre class="highlight text">$ bindkey &quot;^p&quot;
+&quot;^P&quot; history-beginning-search-backward-end
 $ zsh
-$ bindkey "^p"
-"^P" up-line-or-history
-</code></pre>
-
+$ bindkey &quot;^p&quot;
+&quot;^P&quot; up-line-or-history
+</pre>
 <p>こういう現象。で、このあとsourceで.zshrc再読み込みすると直ります。謎。bindkey以外の設定は正常に読まれてるのに、なぜかbindkeyだけダメなんですよね。しかもこれscreen起動したときも再現するので、すごく困ってました。</p>
 
 <p>全然わからなくてしばらく放置してたんだけど、どうやら.zshrcに</p>
-
-<pre><code>export EDITOR=vi
-</code></pre>
-
+<pre class="highlight text">export EDITOR=vi
+</pre>
 <p>と書いてたのが原因だったみたい。viじゃなくてemacsにしたら直った。</p>
-
-<pre><code>export EDITOR=emacs
-</code></pre>
-
+<pre class="highlight text">export EDITOR=emacs
+</pre>
 <p>うーん謎。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -79,7 +89,7 @@ $ bindkey "^p"
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -120,12 +130,8 @@ $ bindkey "^p"
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2009/01/22160435.html">vimの正規表現で最短マッチ</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2009/01/27083258.html">symfonyでsvn:ignoreの設定</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -140,8 +146,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -152,8 +159,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

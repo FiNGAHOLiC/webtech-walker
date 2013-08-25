@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>dl要素の仕様についての疑問 - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,75 +22,82 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2009-01-30T00:00:00+09:00" pubdate>2009月01月30日</time>
-
+<time datetime="2009-01-30T00:00:00+09:00">2009年01月30日</time>
 <ul class="tags">
   
-    <li><a href="/tags/HTML.html">HTML</a></li>
+    <li><a href="/tags/html.html">HTML</a></li>
   
 </ul>
 
 <h1>dl要素の仕様についての疑問</h1>
 
 <div class="body">
+
 <p><a href="http://p2b.jp/200901-blockquote-cite">BLOCKQUOTE要素とCITE要素をめぐる考察</a></p>
 
 <p>という記事をみて、元記事の内容とはまったく関係ないところに疑問をもってしまったんですが、定義リストの定義って微妙に手抜きがするなー気してきました。気になったのは以下の部分。</p>
 
 <blockquote>
-  <p>定義型リストは、通常は、項目と内容の2つの部分から成り立ち、DT要素に定義する語句を、DD要素にはその語句の説明を記述します。しかしながら、DL 要素は、使い方が柔軟で、DD要素あるいはDT要素のいずれか１つ以上を含めばよく、DDとDTの順番は問いません。また、DD要素ひとつに対して、複数のDT要素を含めても良いです。DT要素はインラインレベルの要素のみを含むことが出来て、DD要素は子要素として、ブロックレベルの要素のみを許可します。</p>
+<p>定義型リストは、通常は、項目と内容の2つの部分から成り立ち、DT要素に定義する語句を、DD要素にはその語句の説明を記述します。しかしながら、DL 要素は、使い方が柔軟で、DD要素あるいはDT要素のいずれか１つ以上を含めばよく、DDとDTの順番は問いません。また、DD要素ひとつに対して、複数のDT要素を含めても良いです。DT要素はインラインレベルの要素のみを含むことが出来て、DD要素は子要素として、ブロックレベルの要素のみを許可します。</p>
 </blockquote>
 
 <p>確かにその通りですね。<a href="http://www.w3.org/TR/xhtml1/dtds.html#a_dtd_XHTML-1.0-Strict">XHTML1.0StricのDTD</a>を見ると、dl要素の定義は以下のようになっています。</p>
-
-<pre><code>&lt;!ELEMENT dl (dt|dd)+&gt;
-</code></pre>
-
+<pre class="highlight text">&lt;!ELEMENT dl (dt|dd)+&gt;
+</pre>
 <p>これはdlの中にはdtとddのどちらかが最低一つ以上含まれるという意味です。柔軟と言えば柔軟ですけど、ちょっと緩すぎな気がします。この仕様だと以下のようなHTMLも許可されます。</p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;dl&gt;</span>
+<pre class="highlight html"><span class="nt">&lt;dl&gt;</span>
     <span class="nt">&lt;dt&gt;</span>項目１<span class="nt">&lt;/dt&gt;</span>
     <span class="nt">&lt;dt&gt;</span>項目２<span class="nt">&lt;/dt&gt;</span>
 <span class="nt">&lt;dl&gt;</span>
-</code></pre>
-</div>
-
+</pre>
 <p>これだとdtしかなくて定義リストとしての意味がまったくありません。</p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;dl&gt;</span>
+<pre class="highlight html"><span class="nt">&lt;dl&gt;</span>
     <span class="nt">&lt;dt&gt;</span>項目１<span class="nt">&lt;/dt&gt;</span>
     <span class="nt">&lt;dd&gt;</span>項目１の説明<span class="nt">&lt;/dd&gt;</span>
     <span class="nt">&lt;dd&gt;</span>項目２の説明<span class="nt">&lt;/dd&gt;</span>
     <span class="nt">&lt;dd&gt;</span>項目２の説明<span class="nt">&lt;/dd&gt;</span>
     <span class="nt">&lt;dt&gt;</span>項目２<span class="nt">&lt;/dd&gt;</span>
 <span class="nt">&lt;/dl&gt;</span>
-</code></pre>
-</div>
-
+</pre>
 <p>これはどのdtがどのddを説明しているかわかりませんよね。こんなわかりにくい書き方する人はいないと思いますけど、DTDでは許可されてるわけです。</p>
 
 <p>で、これはできればこんな感じにしてほしかったという希望。</p>
-
-<pre><code>&lt;!ELEMENT dl (di)+&gt;
+<pre class="highlight text">&lt;!ELEMENT dl (di)+&gt;
 &lt;!ELEMENT di (dt&amp;dd)+&gt;
-</code></pre>
-
+</pre>
 <p>di（Definition Item）という要素でグルーピングできるようにして、その要素にはdlとddがどちらも最低一つ以上ふくまれていなければならない。みたいな。</p>
 
 <p>つまりさっきのソースはこんな感じなります。</p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;dl&gt;</span>
+<pre class="highlight html"><span class="nt">&lt;dl&gt;</span>
     <span class="nt">&lt;di&gt;</span>
         <span class="nt">&lt;dt&gt;</span>項目１<span class="nt">&lt;/dt&gt;</span>
         <span class="nt">&lt;dd&gt;</span>項目１の説明<span class="nt">&lt;/dd&gt;</span>
@@ -102,16 +108,14 @@
         <span class="nt">&lt;dt&gt;</span>項目２<span class="nt">&lt;/dd&gt;</span>
     <span class="nt">&lt;/di&gt;</span>
 <span class="nt">&lt;/dl&gt;</span>
-</code></pre>
-</div>
-
+</pre>
 <p>これだとどのdtがどのddを対象にしてるか明確になりますよね。リストの中にdtだけとかddだけということも許可されません。</p>
 
 <p>dtとddがグルーピングされてるとコーディングもやりやすいしなー。よくdlがずらっとならんでるの見るけど、もしこの仕様だったらそれも必要なかったのに、と思いました。</p>
 
 <p>こんなこと言っても何にもならないはわかってます。ただの愚痴です。</p>
 
-<h2 id="section">追記</h2>
+<h2>追記</h2>
 
 <p>ブクマコメントでxhtml2にdi要素があるというのがあったので調べたら確かにあった。</p>
 
@@ -119,8 +123,7 @@
 
 <p>これは知らんかった。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -130,7 +133,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -171,12 +174,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2009/01/27083258.html">symfonyでsvn:ignoreの設定</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2009/02/01210025.html">iPhone用のCSSを読み込ませる方法</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -191,8 +190,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -203,8 +203,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

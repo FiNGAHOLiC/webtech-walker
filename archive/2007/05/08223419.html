@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>PHPのユーザーエージェントを変更する方法 - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,50 +22,64 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2007-05-08T00:00:00+09:00" pubdate>2007月05月08日</time>
-
+<time datetime="2007-05-08T00:00:00+09:00">2007年05月08日</time>
 <ul class="tags">
   
-    <li><a href="/tags/PHP.html">PHP</a></li>
+    <li><a href="/tags/php.html">PHP</a></li>
   
 </ul>
 
 <h1>PHPのユーザーエージェントを変更する方法</h1>
 
 <div class="body">
-<p>PHPでfile_get_contents()などを使用する際、PHPは指定したURLのデータを取りに行きます。そのときのユーザーエージェントはphp.iniで設定できるみたいです。</p>
 
-<div class="highlight"><pre><code class="ini"><span class="na">user_agent</span><span class="o">=</span><span class="s">&#39;PHP&#39;</span>
-</code></pre>
-</div>
-
+<p>PHPでfile<em>get</em>contents()などを使用する際、PHPは指定したURLのデータを取りに行きます。そのときのユーザーエージェントはphp.iniで設定できるみたいです。</p>
+<pre class="highlight ini"><span class="py">user_agent</span><span class="p">=</span><span class="s">&#39;PHP&#39;</span>
+</pre>
 <p>上記のようにphp.iniを編集するとユーザーエージェントは「PHP」になります。初期の状態だとユーザーエージェント無しということになります。ちなみにファイル毎に設定したいならini_set()で下記のように書きます。</p>
 
-<div class="highlight"><pre><code class="php"><span class="nb">ini_set</span><span class="p">(</span><span class="s1">&#39;user_agent&#39;</span><span class="p">,</span><span class="s1">&#39;PHP&#39;</span><span class="p">);</span>
-</code></pre>
-</div>
+<p>{% highlight php startinline %}
+ini<em>set(&lsquo;user</em>agent&rsquo;,&lsquo;PHP&rsquo;);
+&ldquo;`</p>
 
 <p>ユーザーエージェントが反映されるのは下記関数など。</p>
 
 <ul>
-  <li>file_get_contents()</li>
-  <li>file()</li>
-  <li>fopen()</li>
+<li>file<em>get</em>contents()</li>
+<li>file()</li>
+<li>fopen()</li>
 </ul>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -76,7 +89,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -117,12 +130,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2007/04/26154112.html">smartyでマルチバイトに対応したtruncate修飾子</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2007/05/17130450.html">MySQLの小技メモ</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -137,8 +146,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -149,8 +159,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>

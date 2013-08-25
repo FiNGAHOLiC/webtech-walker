@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>sfFormで画像アップロード - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="http://webtech-walker.com/img/common/icon.png">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:image" content="{{ site.url }}/img/common/icon.png">
+<link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link href="/atom.xml" rel="alternate" title="Webtech Walker" type="application/atom+xml">
 
 <script type="text/javascript">
@@ -23,22 +22,39 @@
 </head>
 
 <body>
-<div class="mod-all">
+
+<div class="mod-search"><div><div>
+<script>
+  (function() {
+    var cx = '009998432291159805000:ynkvdx8xlie';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search linkTarget="_self"></gcse:search>
+</div></div></div>
+
+<div class="mod-content">
 
 <header class="mod-header">
 <h1><a href="/"><img src="/img/mod-header/logo.png" alt="Webtech Walker"></a></h1>
-</header>
+<!-- /header.mod-header --></header>
 
 <div class="mod-main">
+
 <div class="mod-entry">
  
 <article>
 
-<time datetime="2009-05-03T00:00:00+09:00" pubdate>2009月05月03日</time>
-
+<time datetime="2009-05-03T00:00:00+09:00">2009年05月03日</time>
 <ul class="tags">
   
-    <li><a href="/tags/PHP.html">PHP</a></li>
+    <li><a href="/tags/php.html">PHP</a></li>
   
     <li><a href="/tags/symfony.html">symfony</a></li>
   
@@ -47,91 +63,91 @@
 <h1>sfFormで画像アップロード</h1>
 
 <div class="body">
+
 <p>最近やっとsfFormはソース読まないとダメだということがわかってきました。だってドキュメント全部できてないんだもん。5章で説明します、って書いてあるのに5章がまだないってどういうことだよ。頼むよファビアン・・・。</p>
 
 <p>まあそんなことを愚痴ってもしょうがないので、最近実装してる画像のアップロードについてわかってきたことをメモ程度に。</p>
 
-<h2 id="postvalidator">postValidatorで画像保存するのがよさげ</h2>
+<h2>postValidatorで画像保存するのがよさげ</h2>
 
-<p>$form-&gt;getValues()はバリデーションが全てのフィールドで通らないと値を返さないので、画像以外のバリデーションが失敗したときも画像は保存したいときに、bindした後$form-&gt;getValues()から画像のデータを取得して保存というのはできないっぽい。</p>
+<p>$form->getValues()はバリデーションが全てのフィールドで通らないと値を返さないので、画像以外のバリデーションが失敗したときも画像は保存したいときに、bindした後$form->getValues()から画像のデータを取得して保存というのはできないっぽい。</p>
 
-<p>なのでpostValidatorのcallbackで画像を保存することにしました。$valuesとは別のところに保存した画像の情報をもっておきたいので$form-&gt;savedNameに保存したファイル名を持たせてます。</p>
+<p>なのでpostValidatorのcallbackで画像を保存することにしました。$valuesとは別のところに保存した画像の情報をもっておきたいので$form->savedNameに保存したファイル名を持たせてます。</p>
 
-<div class="highlight"><pre><code class="php"><span class="k">public</span> <span class="k">function</span> <span class="nf">configure</span><span class="p">()</span> <span class="p">{</span>
-    <span class="o">...</span>
-    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getValidatorSchema</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">setPostValidator</span><span class="p">(</span><span class="k">new</span> <span class="nx">sfValidatorCallback</span><span class="p">(</span>
-        <span class="k">array</span><span class="p">(</span><span class="s1">&#39;callback&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="nv">$this</span><span class="p">,</span> <span class="s1">&#39;postValidator&#39;</span><span class="p">))</span>
-    <span class="p">));</span>
-<span class="p">}</span>
+<p>{% highlight php startinline %}
+public function configure() {
+    &hellip;
+    $this->getValidatorSchema()->setPostValidator(new sfValidatorCallback(
+        array(&lsquo;callback&rsquo; =&gt; array($this, &lsquo;postValidator&rsquo;))
+    ));
+}</p>
 
-<span class="k">public</span> <span class="k">function</span> <span class="nf">postValidator</span><span class="p">(</span><span class="nv">$validator</span><span class="p">,</span> <span class="nv">$values</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// 画像保存</span>
-    <span class="nv">$file</span>      <span class="o">=</span> <span class="nv">$values</span><span class="p">[</span><span class="s1">&#39;image_file&#39;</span><span class="p">];</span>
-    <span class="nv">$filename</span>  <span class="o">=</span> <span class="s1">&#39;uploaded_&#39;</span><span class="o">.</span><span class="nb">sha1</span><span class="p">(</span><span class="nv">$file</span><span class="o">-&gt;</span><span class="na">getOriginalName</span><span class="p">());</span>
-    <span class="nv">$extension</span> <span class="o">=</span> <span class="nv">$file</span><span class="o">-&gt;</span><span class="na">getExtension</span><span class="p">(</span><span class="nv">$file</span><span class="o">-&gt;</span><span class="na">getOriginalExtension</span><span class="p">());</span>
-    <span class="nv">$file</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="nx">sfConfig</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;sf_upload_dir&#39;</span><span class="p">)</span><span class="o">.</span><span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="nv">$filename</span><span class="o">.</span><span class="nv">$extension</span><span class="p">);</span>
+<p>public function postValidator($validator, $values) {
+    // 画像保存
+    $file      = $values[&lsquo;image<em>file&rsquo;];
+    $filename  = &lsquo;uploaded</em>&rsquo;.sha1($file->getOriginalName());
+    $extension = $file->getExtension($file->getOriginalExtension());
+    $file->save(sfConfig::get(&lsquo;sf<em>upload</em>dir&rsquo;).&lsquo;/&rsquo;.$filename.$extension);</p>
+<pre class="highlight text">// 保存した画像名を保存
+$this-&gt;savedName = $file-&gt;getSavedName();
 
-    <span class="c1">// 保存した画像名を保存</span>
-    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">savedName</span> <span class="o">=</span> <span class="nv">$file</span><span class="o">-&gt;</span><span class="na">getSavedName</span><span class="p">();</span>
+// もとの値はセッションにつっこむとエラーになるので削除しておく
+unset($values[&#39;image_file&#39;]);
 
-    <span class="c1">// もとの値はセッションにつっこむとエラーになるので削除しておく</span>
-    <span class="nb">unset</span><span class="p">(</span><span class="nv">$values</span><span class="p">[</span><span class="s1">&#39;image_file&#39;</span><span class="p">]);</span>
-
-    <span class="k">return</span> <span class="nv">$values</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre>
-</div>
+return $values;
+</pre>
+<p>}
+&ldquo;`</p>
 
 <p>sfValidatorFileでcleanされたデータはsfValidatedFileのインスタンスで$valuesに格納されるんですが、値のもち回しにセッションを使っている場合、sfValidatedFileをセッションに保存するとunserializeするときにautoloadで失敗してエラーがでたので、どうせ使わないしunsetしました。</p>
 
-<h2 id="sfvalidatedfile">sfValidatedFileのメソッド</h2>
+<h2>sfValidatedFileのメソッド</h2>
 
-<h3 id="savefile--null-filemode--0666-create--true-dirmode--0777">save($file = null, $fileMode = 0666, $create = true, $dirMode = 0777)</h3>
+<h3>save($file = null, $fileMode = 0666, $create = true, $dirMode = 0777)</h3>
 
 <p>ファイルを保存する。$fileには保存するパスを渡す。$fileがなければgenerateFilename()でファイル名つくる（その場合はバリデータのオプションでpathを設定しておく必要あり）。</p>
 
-<h3 id="generatefilename">generateFilename()</h3>
+<h3>generateFilename()</h3>
 
 <p>ハッシュ化したランダムなファイル名を返す。</p>
 
-<h3 id="getpath">getPath()</h3>
+<h3>getPath()</h3>
 
 <p>保存するパスを返す。</p>
 
-<h3 id="getextensiondefault--">getExtension($default = ”)</h3>
+<h3>getExtension($default = ”)</h3>
 
 <p>ファイルの拡張子を返す。連想配列にmime typeと拡張子のリストがあるのでそこから。リストになければdefaultを返す。</p>
 
-<h3 id="getoriginalextensiondefault--">getOriginalExtension($default = ”)</h3>
+<h3>getOriginalExtension($default = ”)</h3>
 
 <p>ファイルの拡張子をファイル名の文字列切って抽出</p>
 
-<h3 id="issaved">isSaved()</h3>
+<h3>isSaved()</h3>
 
 <p>保存されたか。$savedNameがあるかどうかを見てる。</p>
 
-<h3 id="getsavedname">getSavedName()</h3>
+<h3>getSavedName()</h3>
 
 <p>保存されたファイル名（フルパス）。</p>
 
-<h3 id="getoriginalname">getOriginalName()</h3>
+<h3>getOriginalName()</h3>
 
 <p>元ファイル名。</p>
 
-<h3 id="gettempname">getTempName()</h3>
+<h3>getTempName()</h3>
 
 <p>tempファイルのパス。</p>
 
-<h3 id="gettype">getType()</h3>
+<h3>getType()</h3>
 
 <p>mime type。</p>
 
-<h3 id="getsize">getSize()</h3>
+<h3>getSize()</h3>
 
 <p>ファイルサイズ。</p>
 
-
-<div class="mod-ads">
+<aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- WebtechWalker -->
   <ins class="adsbygoogle"
@@ -141,7 +157,7 @@
   <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-</div>
+</aside>
 
 </article>
 
@@ -182,12 +198,8 @@
 </div>
 
 <ul class="paginate">
-
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2009/05/01075712.html">meca.jsにposition:fixedを追加した</a></li>
-
-
   <li class="next"><span>Next Entry:</span><a href="/archive/2009/05/04022049.html">sfFormのformtterで出力結果のHTMLを変更する</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -202,8 +214,9 @@ var disqus_shortname = 'webtech-walker';
 </script>
 
 </div>
+<!-- /div.mod-main --></div>
 
-</div>
+<!-- /div.mod-content --></div>
 
 <footer class="mod-footer"><div>
 <ul class="icons">
@@ -214,8 +227,6 @@ var disqus_shortname = 'webtech-walker';
   <li><a href="/atom.xml"><img src="/img/mod-footer/icon-rss.png"></a></li>
 </ul>
 <div class="name">Created by Kazuhito Hokamura (k.hokamura@gmail.com)</div>
-</div></footer>
-
-</div>
+<!-- /footer.mod-footer --></div></footer>
 </body>
 </html>
