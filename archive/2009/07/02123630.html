@@ -65,99 +65,78 @@
 <p>いつのまにかPHP5.3がリリースされていたので無名関数とクロージャをちょこっと使ってみた。</p>
 
 <p>まずは簡単な例から。</p>
+<pre class="highlight php"><span class="nv">$foo</span> <span class="o">=</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s1">&#39;hoge&#39;</span><span class="p">;</span>
+<span class="p">};</span>
 
-<p>{% highlight php startinline %}
-$foo = function() {
-    echo &lsquo;hoge&rsquo;;
-};</p>
-
-<p>$foo(); // hoge
-&ldquo;`</p>
-
+<span class="nv">$foo</span><span class="p">();</span> <span class="c1">// hoge
+</span></pre>
 <p>変数に代入しないで実行はできないみたい。</p>
-
-<p>{% highlight php startinline %}
-function() {
-     echo &lsquo;hoge&rsquo;;
-}(); // syntax error</p>
-
-<p>(function() {
-     echo &lsquo;hoge&rsquo;;
-})(); // syntax error
-&rdquo;`</p>
-
+<pre class="highlight php"><span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+     <span class="k">echo</span> <span class="s1">&#39;hoge&#39;</span><span class="p">;</span>
+<span class="p">}();</span> <span class="c1">// syntax error
+</span>
+<span class="p">(</span><span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+     <span class="k">echo</span> <span class="s1">&#39;hoge&#39;</span><span class="p">;</span>
+<span class="p">})();</span> <span class="c1">// syntax error
+</span></pre>
 <p>次のコードは動きません（何も出力されない）。$hogeが$fooの中で参照できないからです。</p>
+<pre class="highlight php"><span class="nv">$hoge</span> <span class="o">=</span> <span class="s1">&#39;hoge&#39;</span><span class="p">;</span>
+<span class="nv">$foo</span> <span class="o">=</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+     <span class="k">echo</span> <span class="nv">$hoge</span><span class="p">;</span>
+<span class="p">};</span>
 
-<p>{% highlight php startinline %}
-$hoge = &lsquo;hoge&rsquo;;
-$foo = function() {
-     echo $hoge;
-};</p>
-
-<p>$foo(); //
-&ldquo;`</p>
-
+<span class="nv">$foo</span><span class="p">();</span> <span class="c1">//
+</span></pre>
 <p>外部の変数を参照するにはuseで渡します。</p>
+<pre class="highlight php"><span class="nv">$hoge</span> <span class="o">=</span> <span class="s1">&#39;hoge&#39;</span><span class="p">;</span>
+<span class="nv">$foo</span> <span class="o">=</span> <span class="k">function</span><span class="p">()</span> <span class="k">use</span><span class="p">(</span><span class="nv">$hoge</span><span class="p">)</span> <span class="p">{</span>
+     <span class="k">echo</span> <span class="nv">$hoge</span><span class="p">;</span>
+<span class="p">};</span>
 
-<p>{% highlight php startinline %}
-$hoge = &lsquo;hoge&rsquo;;
-$foo = function() use($hoge) {
-     echo $hoge;
-};</p>
-
-<p>$foo(); // hoge
-&rdquo;`</p>
-
+<span class="nv">$foo</span><span class="p">();</span> <span class="c1">// hoge
+</span></pre>
 <p>こんなかんじのクロージャもちゃんと動きます。</p>
+<pre class="highlight php"><span class="nv">$foo</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="nv">$a</span><span class="p">)</span> <span class="p">{</span>
+     <span class="k">return</span> <span class="k">function</span><span class="p">(</span><span class="nv">$b</span><span class="p">)</span> <span class="k">use</span><span class="p">(</span><span class="nv">$a</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">return</span> <span class="nv">$a</span> <span class="o">+</span> <span class="nv">$b</span><span class="p">;</span>
+     <span class="p">};</span>
+<span class="p">};</span>
 
-<p>{% highlight php startinline %}
-$foo = function($a) {
-     return function($b) use($a) {
-          return $a + $b;
-     };
-};</p>
-
-<p>$f = $foo(10);
-echo $f(5); // 15
-echo $f(100); // 110
-&ldquo;`</p>
-
+<span class="nv">$f</span> <span class="o">=</span> <span class="nv">$foo</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="k">echo</span> <span class="nv">$f</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span> <span class="c1">// 15
+</span><span class="k">echo</span> <span class="nv">$f</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span> <span class="c1">// 110
+</span></pre>
 <p>次のコードはうまく動きません。これだとクロージャ内で外部の変数が変更できません。</p>
+<pre class="highlight php"><span class="nv">$foo</span> <span class="o">=</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">return</span> <span class="k">function</span><span class="p">()</span> <span class="k">use</span><span class="p">(</span><span class="nv">$i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$i</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">};</span>
+<span class="p">};</span>
 
-<p>{% highlight php startinline %}
-$foo = function() {
-    $i = 0;
-    return function() use($i) {
-        return $i++;
-    };
-};</p>
-
-<p>$f = $foo();
-echo $f(); // 0
-echo $f(); // 0
-echo $f(); // 0
-echo $f(); // 0
-echo $f(); // 0
-&rdquo;`</p>
-
+<span class="nv">$f</span> <span class="o">=</span> <span class="nv">$foo</span><span class="p">();</span>
+<span class="k">echo</span> <span class="nv">$f</span><span class="p">();</span> <span class="c1">// 0
+</span><span class="k">echo</span> <span class="nv">$f</span><span class="p">();</span> <span class="c1">// 0
+</span><span class="k">echo</span> <span class="nv">$f</span><span class="p">();</span> <span class="c1">// 0
+</span><span class="k">echo</span> <span class="nv">$f</span><span class="p">();</span> <span class="c1">// 0
+</span><span class="k">echo</span> <span class="nv">$f</span><span class="p">();</span> <span class="c1">// 0
+</span></pre>
 <p>外部の変数をクロージャ内で変更するには参照で渡します。</p>
+<pre class="highlight php"><span class="nv">$foo</span> <span class="o">=</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">return</span> <span class="k">function</span><span class="p">()</span> <span class="k">use</span><span class="p">(</span><span class="o">&amp;</span><span class="nv">$i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$i</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">};</span>
+<span class="p">};</span>
 
-<p>{% highlight php startinline %}
-$foo = function() {
-    $i = 0;
-    return function() use(&amp;$i) {
-        return $i++;
-    };
-};</p>
-
-<p>$f = $foo();
-echo $f(); // 0
-echo $f(); // 1
-echo $f(); // 2
-echo $f(); // 3
-echo $f(); // 4
-&ldquo;`</p>
-
+<span class="nv">$f</span> <span class="o">=</span> <span class="nv">$foo</span><span class="p">();</span>
+<span class="k">echo</span> <span class="nv">$f</span><span class="p">();</span> <span class="c1">// 0
+</span><span class="k">echo</span> <span class="nv">$f</span><span class="p">();</span> <span class="c1">// 1
+</span><span class="k">echo</span> <span class="nv">$f</span><span class="p">();</span> <span class="c1">// 2
+</span><span class="k">echo</span> <span class="nv">$f</span><span class="p">();</span> <span class="c1">// 3
+</span><span class="k">echo</span> <span class="nv">$f</span><span class="p">();</span> <span class="c1">// 4
+</span></pre>
 <p>無名関数の便利ー。</p>
 
 <aside class="mod-ads">

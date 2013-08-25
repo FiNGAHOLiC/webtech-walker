@@ -248,13 +248,10 @@
 <h3>forループ</h3>
 
 <p>PHPでいう以下のような表記はPythonではできません。</p>
-
-<p>{% highlight php startinline %}
-for ($i = 0; $i &lt; 10; $i++) {
-    echo $i;
-}
-&ldquo;`</p>
-
+<pre class="highlight php"><span class="k">for</span> <span class="p">(</span><span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nv">$i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$i</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
 <p>こういう場合はrange関数やxrange関数を使います。range関数はリストをつくり、xrangeはオブジェクトをつくります。xrangeのほうが省メモリになるようです。</p>
 <pre class="highlight python"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
     <span class="k">print</span> <span class="n">i</span> <span class="c">#=&gt; 0 1 2 3 4 5 6 7 8 9 (実際は改行される)</span>

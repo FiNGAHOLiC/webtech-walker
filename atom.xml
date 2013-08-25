@@ -500,7 +500,7 @@ ok 2 - Chrome document.body.tagName should be BODY
 &lt;li&gt;バリデーションが失敗したときのイベントが&lt;code&gt;error&lt;/code&gt;から&lt;code&gt;invalid&lt;/code&gt;になりました。（本家のChange Logには未掲載）&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;View#make&lt;/code&gt;が削除されました。代わりに&lt;code&gt;$&lt;/code&gt;を直接使ってDOM要素を初期化しましょう。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;Model#change&lt;/code&gt;メソッドが削除されました。
-Passing {silent:true} on change will no longer delay individual &amp;ldquo;change:attr&amp;rdquo; events, instead they are silenced entirely.&lt;/li&gt;
+Passing {silent:true} on change will no longer delay individual &amp;quot;change:attr&amp;quot; events, instead they are silenced entirely.&lt;/li&gt;
 &lt;li&gt;これまでは&lt;code&gt;{silent:true}&lt;/code&gt;を指定してsetした属性は&lt;code&gt;change&lt;/code&gt;メソッドを呼ぶことで&lt;code&gt;change:xxx&lt;/code&gt;イベントが発火していましたが、その機能はなくなりました。&lt;code&gt;{silent:true}&lt;/code&gt;は単純にイベントが呼ばれないだけです。&lt;/li&gt;
 &lt;li&gt;その他バグFixいくつか。&lt;/li&gt;
 &lt;/ul&gt;

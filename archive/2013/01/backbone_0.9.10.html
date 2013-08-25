@@ -76,7 +76,7 @@
 <li>バリデーションが失敗したときのイベントが<code>error</code>から<code>invalid</code>になりました。（本家のChange Logには未掲載）</li>
 <li><code>View#make</code>が削除されました。代わりに<code>$</code>を直接使ってDOM要素を初期化しましょう。</li>
 <li><code>Model#change</code>メソッドが削除されました。
-Passing {silent:true} on change will no longer delay individual &ldquo;change:attr&rdquo; events, instead they are silenced entirely.</li>
+Passing {silent:true} on change will no longer delay individual &quot;change:attr&quot; events, instead they are silenced entirely.</li>
 <li>これまでは<code>{silent:true}</code>を指定してsetした属性は<code>change</code>メソッドを呼ぶことで<code>change:xxx</code>イベントが発火していましたが、その機能はなくなりました。<code>{silent:true}</code>は単純にイベントが呼ばれないだけです。</li>
 <li>その他バグFixいくつか。</li>
 </ul>

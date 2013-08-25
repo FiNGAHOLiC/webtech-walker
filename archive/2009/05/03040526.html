@@ -73,32 +73,29 @@
 <p>$form->getValues()はバリデーションが全てのフィールドで通らないと値を返さないので、画像以外のバリデーションが失敗したときも画像は保存したいときに、bindした後$form->getValues()から画像のデータを取得して保存というのはできないっぽい。</p>
 
 <p>なのでpostValidatorのcallbackで画像を保存することにしました。$valuesとは別のところに保存した画像の情報をもっておきたいので$form->savedNameに保存したファイル名を持たせてます。</p>
+<pre class="highlight php"><span class="k">public</span> <span class="k">function</span> <span class="nf">configure</span><span class="p">()</span> <span class="p">{</span>
+    <span class="o">...</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getValidatorSchema</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">setPostValidator</span><span class="p">(</span><span class="k">new</span> <span class="nx">sfValidatorCallback</span><span class="p">(</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">&#39;callback&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="nv">$this</span><span class="p">,</span> <span class="s1">&#39;postValidator&#39;</span><span class="p">))</span>
+    <span class="p">));</span>
+<span class="p">}</span>
 
-<p>{% highlight php startinline %}
-public function configure() {
-    &hellip;
-    $this->getValidatorSchema()->setPostValidator(new sfValidatorCallback(
-        array(&lsquo;callback&rsquo; =&gt; array($this, &lsquo;postValidator&rsquo;))
-    ));
-}</p>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">postValidator</span><span class="p">(</span><span class="nv">$validator</span><span class="p">,</span> <span class="nv">$values</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 画像保存
+</span>    <span class="nv">$file</span>      <span class="o">=</span> <span class="nv">$values</span><span class="p">[</span><span class="s1">&#39;image_file&#39;</span><span class="p">];</span>
+    <span class="nv">$filename</span>  <span class="o">=</span> <span class="s1">&#39;uploaded_&#39;</span><span class="o">.</span><span class="nb">sha1</span><span class="p">(</span><span class="nv">$file</span><span class="o">-&gt;</span><span class="na">getOriginalName</span><span class="p">());</span>
+    <span class="nv">$extension</span> <span class="o">=</span> <span class="nv">$file</span><span class="o">-&gt;</span><span class="na">getExtension</span><span class="p">(</span><span class="nv">$file</span><span class="o">-&gt;</span><span class="na">getOriginalExtension</span><span class="p">());</span>
+    <span class="nv">$file</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="nx">sfConfig</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;sf_upload_dir&#39;</span><span class="p">)</span><span class="o">.</span><span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="nv">$filename</span><span class="o">.</span><span class="nv">$extension</span><span class="p">);</span>
 
-<p>public function postValidator($validator, $values) {
-    // 画像保存
-    $file      = $values[&lsquo;image<em>file&rsquo;];
-    $filename  = &lsquo;uploaded</em>&rsquo;.sha1($file->getOriginalName());
-    $extension = $file->getExtension($file->getOriginalExtension());
-    $file->save(sfConfig::get(&lsquo;sf<em>upload</em>dir&rsquo;).&lsquo;/&rsquo;.$filename.$extension);</p>
-<pre class="highlight text">// 保存した画像名を保存
-$this-&gt;savedName = $file-&gt;getSavedName();
+    <span class="c1">// 保存した画像名を保存
+</span>    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">savedName</span> <span class="o">=</span> <span class="nv">$file</span><span class="o">-&gt;</span><span class="na">getSavedName</span><span class="p">();</span>
 
-// もとの値はセッションにつっこむとエラーになるので削除しておく
-unset($values[&#39;image_file&#39;]);
+    <span class="c1">// もとの値はセッションにつっこむとエラーになるので削除しておく
+</span>    <span class="nb">unset</span><span class="p">(</span><span class="nv">$values</span><span class="p">[</span><span class="s1">&#39;image_file&#39;</span><span class="p">]);</span>
 
-return $values;
+    <span class="k">return</span> <span class="nv">$values</span><span class="p">;</span>
+<span class="p">}</span>
 </pre>
-<p>}
-&ldquo;`</p>
-
 <p>sfValidatorFileでcleanされたデータはsfValidatedFileのインスタンスで$valuesに格納されるんですが、値のもち回しにセッションを使っている場合、sfValidatedFileをセッションに保存するとunserializeするときにautoloadで失敗してエラーがでたので、どうせ使わないしunsetしました。</p>
 
 <h2>sfValidatedFileのメソッド</h2>

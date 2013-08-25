@@ -69,18 +69,15 @@
 <h2>Doctrineを有効にする</h2>
 
 <p>初期状態ではPropelが有効になっているので、Doctrineを使うように設定します。</p>
-
-<p>{% highlight php startinline %}
-// config/ProjectConfiguration.class.php</p>
-
-<p>public function setup()
-{
-     // for compatibility / remove and enable only the plugins you want
-     //$this->enableAllPluginsExcept(array(&lsquo;sfDoctrinePlugin&rsquo;, &lsquo;sfCompat10Plugin&rsquo;));
-     $this->enableAllPluginsExcept(array(&lsquo;sfPropelPlugin&rsquo;, &lsquo;sfCompat10Plugin&rsquo;));
-}
-&ldquo;`</p>
-
+<pre class="highlight php"><span class="c1">// config/ProjectConfiguration.class.php
+</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">setup</span><span class="p">()</span>
+<span class="p">{</span>
+     <span class="c1">// for compatibility / remove and enable only the plugins you want
+</span>     <span class="c1">//$this-&gt;enableAllPluginsExcept(array(&#39;sfDoctrinePlugin&#39;, &#39;sfCompat10Plugin&#39;));
+</span>     <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">enableAllPluginsExcept</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;sfPropelPlugin&#39;</span><span class="p">,</span> <span class="s1">&#39;sfCompat10Plugin&#39;</span><span class="p">));</span>
+<span class="p">}</span>
+</pre>
 <p>これでDoctrineが有効になりました。有効になっていれば、以下のコマンドでDoctrineのコマンド一覧が出るはずです。</p>
 <pre class="highlight text">$ ./symfony list doctrine
 </pre>
@@ -211,16 +208,13 @@ found 2 results
 <p>では準備ができたところで実際にsymfonyの中で使ってみます。</p>
 
 <h3>全データ取得</h3>
+<pre class="highlight php"><span class="nv">$q</span> <span class="o">=</span> <span class="nx">Doctrine_Query</span><span class="o">::</span><span class="na">create</span><span class="p">()</span>
+  <span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;u.*&#39;</span><span class="p">)</span>
+  <span class="o">-&gt;</span><span class="na">from</span><span class="p">(</span><span class="s1">&#39;User u&#39;</span><span class="p">);</span>
 
-<p>{% highlight php startinline %}
-$q = Doctrine_Query::create()
-  ->select(&lsquo;u.*&rsquo;)
-  ->from(&lsquo;User u&rsquo;);</p>
-
-<p>$users = $q->fetchArray();
-print_r($users);
-&rdquo;`</p>
-<pre class="highlight text">[出力]
+<span class="nv">$users</span> <span class="o">=</span> <span class="nv">$q</span><span class="o">-&gt;</span><span class="na">fetchArray</span><span class="p">();</span>
+<span class="nb">print_r</span><span class="p">(</span><span class="nv">$users</span><span class="p">);</span>
+</pre><pre class="highlight text">[出力]
 Array
 (
     [0] =&gt; Array
@@ -239,16 +233,13 @@ Array
 )
 </pre>
 <h3>whereで検索</h3>
+<pre class="highlight php"><span class="nv">$q</span> <span class="o">=</span> <span class="nx">Doctrine_Query</span><span class="o">::</span><span class="na">create</span><span class="p">()</span>
+  <span class="o">-&gt;</span><span class="na">from</span><span class="p">(</span><span class="s1">&#39;User u&#39;</span><span class="p">)</span>
+  <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;u.username = ?&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">);</span>
 
-<p>{% highlight php startinline %}
-$q = Doctrine_Query::create()
-  ->from(&lsquo;User u&rsquo;)
-  ->where(&lsquo;u.username = ?&rsquo;, &lsquo;foo&rsquo;);</p>
-
-<p>$users = $q->fetchArray();
-print_r($users);
-&ldquo;`</p>
-<pre class="highlight text">[出力]
+<span class="nv">$users</span> <span class="o">=</span> <span class="nv">$q</span><span class="o">-&gt;</span><span class="na">fetchArray</span><span class="p">();</span>
+<span class="nb">print_r</span><span class="p">(</span><span class="nv">$users</span><span class="p">);</span>
+</pre><pre class="highlight text">[出力]
 Array
 (
     [0] =&gt; Array
@@ -261,15 +252,12 @@ Array
 )
 </pre>
 <h3>一件だけ取得</h3>
-
-<p>{% highlight php startinline %}
-$q = Doctrine<em>Query::create()
-  ->from(&lsquo;User u&rsquo;)
-  ->where(&lsquo;u.username = ?&rsquo;, &lsquo;foo&rsquo;);
-$user = $q->fetchOne(array(), Doctrine::HYDRATE</em>ARRAY);
-print_r($user);
-&rdquo;`</p>
-<pre class="highlight text">[出力]
+<pre class="highlight php"><span class="nv">$q</span> <span class="o">=</span> <span class="nx">Doctrine_Query</span><span class="o">::</span><span class="na">create</span><span class="p">()</span>
+  <span class="o">-&gt;</span><span class="na">from</span><span class="p">(</span><span class="s1">&#39;User u&#39;</span><span class="p">)</span>
+  <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;u.username = ?&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">);</span>
+<span class="nv">$user</span> <span class="o">=</span> <span class="nv">$q</span><span class="o">-&gt;</span><span class="na">fetchOne</span><span class="p">(</span><span class="k">array</span><span class="p">(),</span> <span class="nx">Doctrine</span><span class="o">::</span><span class="na">HYDRATE_ARRAY</span><span class="p">);</span>
+<span class="nb">print_r</span><span class="p">(</span><span class="nv">$user</span><span class="p">);</span>
+</pre><pre class="highlight text">[出力]
 Array
 (
     [id] =&gt; 1

@@ -242,7 +242,7 @@
 <span class="k">sub </span><span class="nf">user_profile</span> <span class="p">:Chained(&#39;user&#39;) :PathPart(&#39;profile&#39;) {</span>
 <span class="p">}</span>
 </pre>
-<p>最初のChainedは(’/&lsquo;)になって、そこから派生するメソッド（ここではuser<em>blogとuser</em>profile）をつくって、元になるメソッド（user）をChainedで指定、PathPartでそれに続くパスを指定する。PathPartの指定がない場合はメソッド名がPathPartに値になる。</p>
+<p>最初のChainedは(’/&#39;)になって、そこから派生するメソッド（ここではuser<em>blogとuser</em>profile）をつくって、元になるメソッド（user）をChainedで指定、PathPartでそれに続くパスを指定する。PathPartの指定がない場合はメソッド名がPathPartに値になる。</p>
 
 <p>ただし/user/{username}というURLにuserメソッドがマッチするわけではない。</p>
 

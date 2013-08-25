@@ -71,31 +71,25 @@
 <h2>widgetは設定してるのにvalidatorをセットしてない場合</h2>
 
 <p>widgetをセットしたフィールドは何かしらバリデータを設定しないと値がとれなくなるので、バリデートしないフィールドにはsfValidatorPass()を設定する。</p>
-
-<p>{% highlight php startinline %}
-$this->setValidators(array(
-    &lsquo;name&rsquo; =&gt; new sfValidatorPass(), 
-));
-&ldquo;`</p>
-
+<pre class="highlight php"><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">setValidators</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="k">new</span> <span class="nx">sfValidatorPass</span><span class="p">(),</span> 
+<span class="p">));</span>
+</pre>
 <p>バリデータしなくていいフィールドにわざわざ何か設定しないといけないのは不毛な気もするけどそれがsfFormの仕様です。</p>
 
 <h2>callbackで値を返してない場合</h2>
 
 <p>callbackも同じようにフィルタを兼ねるので、何かしら値を返さないと$valuesに値が入りません。</p>
+<pre class="highlight php"><span class="k">function</span> <span class="nf">constant_validator_callback</span><span class="p">(</span><span class="nv">$validator</span><span class="p">,</span> <span class="nv">$value</span><span class="p">,</span> <span class="nv">$arguments</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$value</span> <span class="o">!=</span> <span class="nv">$arguments</span><span class="p">[</span><span class="s1">&#39;constant&#39;</span><span class="p">])</span>
+    <span class="p">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nx">sfValidatorError</span><span class="p">(</span><span class="nv">$validator</span><span class="p">,</span> <span class="s1">&#39;invalid&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
 
-<p>{% highlight php startinline %}
-function constant<em>validator</em>callback($validator, $value, $arguments)
-{
-    if ($value != $arguments[&lsquo;constant&rsquo;])
-    {
-      throw new sfValidatorError($validator, &lsquo;invalid&rsquo;);
-    }</p>
-<pre class="highlight text">return $value; //←これを忘れない
+    <span class="k">return</span> <span class="nv">$value</span><span class="p">;</span> <span class="c1">//←これを忘れない
+</span><span class="p">}</span>
 </pre>
-<p>}
-&rdquo;`</p>
-
 <p>ここで$valueの値をごにょごにょして返すことも可能。</p>
 
 <p>僕の場合は$valueを返すのを忘れたていたというか、$valueを返さないといけないというのをわかっていなくて、これがわかったときにsfFormがちょっとだけ理解できた気がしました。</p>

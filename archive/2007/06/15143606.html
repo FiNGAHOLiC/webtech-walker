@@ -65,14 +65,11 @@
 <p>ブラウザで開くんじゃなくてファイルとしてダウンロードしたい場合のはなし。</p>
 
 <p>PHPの出力をダウンロード形式にするにはheader()でContent-Typeを指定してreadfile()で出力します。コードは下記のような感じ。</p>
-
-<p>{% highlight php startinline %}
-$file = &ldquo;test.txt&rdquo;;
-header(&ldquo;Content-type: text/plain&rdquo;);
-header(&ldquo;Content-Disposition: attachment; filename=$file&rdquo;);
-readfile($file);
-&ldquo;`</p>
-
+<pre class="highlight php"><span class="nv">$file</span> <span class="o">=</span> <span class="s2">&quot;test.txt&quot;</span><span class="p">;</span>
+<span class="nb">header</span><span class="p">(</span><span class="s2">&quot;Content-type: text/plain&quot;</span><span class="p">);</span>
+<span class="nb">header</span><span class="p">(</span><span class="s2">&quot;Content-Disposition: attachment; filename=</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="p">);</span>
+<span class="nb">readfile</span><span class="p">(</span><span class="nv">$file</span><span class="p">);</span>
+</pre>
 <p>このコードを実行すると「ダウンロードしますか？」のダイアログが開きます。この例ではテキストファイルなのでContent-Typeは「text/plain」になっていますが、ファイルの種類によってContent-Typeは様々です。</p>
 
 <aside class="mod-ads">

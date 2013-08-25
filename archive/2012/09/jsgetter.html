@@ -81,30 +81,27 @@
 
 <p><a href="https://developer.mozilla.org/ja/docs/JavaScript/Reference/Global_Objects/Object/defineGetter">defineGetter | MDN</a></p>
 
-<p>Object.definePropertyを使えって書いてある。Object.definePropertyを使うとこんな感じ。
-&ldquo;`javascript
-var obj = {};</p>
+<p>Object.definePropertyを使えって書いてある。Object.definePropertyを使うとこんな感じ。</p>
+<pre class="highlight javascript"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
 
-<p>Object.defineProperty(obj, &lsquo;hoge&rsquo;, {<br>
-  get: function() {
-    console.log(&lsquo;hoge!!&rsquo;);
-  }
-});</p>
+<span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s1">&#39;hoge&#39;</span><span class="p">,</span> <span class="p">{</span>  
+  <span class="na">get</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;hoge!!&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
 
-<p>obj.hoge; //=&gt; hoge!!
-&rdquo;`</p>
+<span class="nx">obj</span><span class="p">.</span><span class="nx">hoge</span><span class="p">;</span> <span class="c1">//=&gt; hoge!!
+</span></pre>
+<p>もしくはこれでもいける。</p>
+<pre class="highlight javascript"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">get</span> <span class="nx">hoge</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;hoge!!&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">};</span>
 
-<p>もしくはこれでもいける。
-&ldquo;`javascript
-var obj = {
-  get hoge() {
-    console.log(&lsquo;hoge!!&rsquo;);
-  }
-};</p>
-
-<p>obj.hoge; //=&gt; hoge!!
-&rdquo;`
-どれが一番いいかはよくわからん。</p>
+<span class="nx">obj</span><span class="p">.</span><span class="nx">hoge</span><span class="p">;</span> <span class="c1">//=&gt; hoge!!
+</span></pre>
+<p>どれが一番いいかはよくわからん。</p>
 
 <aside class="mod-ads">
   <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -158,7 +155,7 @@ var obj = {
 
 <ul class="paginate">
   <li class="prev"><span>Prev Entry:</span><a href="/archive/2012/08/renewal.html">github pages + jekyllにした</a></li>
-  <li class="next"><span>Next Entry:</span><a href="/archive/2012/09/fired-myblog.html">俺の最強ブログシステムも火を噴いてたぜ</a></li>
+  <li class="next"><span>Next Entry:</span><a href="/archive/2012/09/event_handler_return_false.html">jQueryのイベントハンドラでreturn falseするとイベントのバブリングが止まる</a></li>
 </ul>
 
 <div id="disqus_thread"></div>

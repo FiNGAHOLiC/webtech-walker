@@ -71,29 +71,20 @@
 <p>GDかImagickのどちらかが入ってないと動きません。</p>
 
 <p>一番簡単な使い方はこんな感じ</p>
-
-<p>{% highlight php startinline %}
-$thumbnail = new sfThumbnail($width, $height);
-$thumbnail->loadFile($loadFilePath);
-$thumbnail->save($saveFilePath);
-&ldquo;`</p>
-
+<pre class="highlight php"><span class="nv">$thumbnail</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">sfThumbnail</span><span class="p">(</span><span class="nv">$width</span><span class="p">,</span> <span class="nv">$height</span><span class="p">);</span>
+<span class="nv">$thumbnail</span><span class="o">-&gt;</span><span class="na">loadFile</span><span class="p">(</span><span class="nv">$loadFilePath</span><span class="p">);</span>
+<span class="nv">$thumbnail</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="nv">$saveFilePath</span><span class="p">);</span>
+</pre>
 <p>これで指定の大きさにリサイズされます。</p>
 
 <p>sfThumbnailのコンストラクタがこんな感じで、$scaleが縦横比を保つかどうか、$inflateが拡大するかどうかの設定です。</p>
-
-<p>{% highlight php startinline %}
-__construct($maxWidth = null, $maxHeight = null, $scale = true, $inflate = true, $quality = 75, $adapterClass = null, $adapterOptions = array())
-&rdquo;`</p>
-
+<pre class="highlight php"><span class="nx">__construct</span><span class="p">(</span><span class="nv">$maxWidth</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span> <span class="nv">$maxHeight</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span> <span class="nv">$scale</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">$inflate</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">$quality</span> <span class="o">=</span> <span class="mi">75</span><span class="p">,</span> <span class="nv">$adapterClass</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span> <span class="nv">$adapterOptions</span> <span class="o">=</span> <span class="k">array</span><span class="p">())</span>
+</pre>
 <p>拡大はしたくないという場合が多いような気がするので$inflateはデフォルトfalseでもいい気もする。人によるか。</p>
 
 <p>画像のフォーマットを変えたいときはsaveの第二引数にmime typeを渡します。</p>
-
-<p>{% highlight php startinline %}
-$thumbnail->save($saveFilePath, &lsquo;image/png&rsquo;);
-&ldquo;`</p>
-
+<pre class="highlight php"><span class="nv">$thumbnail</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="nv">$saveFilePath</span><span class="p">,</span> <span class="s1">&#39;image/png&#39;</span><span class="p">);</span>
+</pre>
 <p>GDよりImagickのほうが高機能っぽいけど使ってない。</p>
 
 <aside class="mod-ads">

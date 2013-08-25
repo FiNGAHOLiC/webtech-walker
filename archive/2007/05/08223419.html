@@ -66,11 +66,8 @@
 <pre class="highlight ini"><span class="py">user_agent</span><span class="p">=</span><span class="s">&#39;PHP&#39;</span>
 </pre>
 <p>上記のようにphp.iniを編集するとユーザーエージェントは「PHP」になります。初期の状態だとユーザーエージェント無しということになります。ちなみにファイル毎に設定したいならini_set()で下記のように書きます。</p>
-
-<p>{% highlight php startinline %}
-ini<em>set(&lsquo;user</em>agent&rsquo;,&lsquo;PHP&rsquo;);
-&ldquo;`</p>
-
+<pre class="highlight php"><span class="nb">ini_set</span><span class="p">(</span><span class="s1">&#39;user_agent&#39;</span><span class="p">,</span><span class="s1">&#39;PHP&#39;</span><span class="p">);</span>
+</pre>
 <p>ユーザーエージェントが反映されるのは下記関数など。</p>
 
 <ul>

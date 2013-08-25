@@ -74,57 +74,51 @@
 </ul>
 
 <p>なので自分でsfFormを直接継承したクラスをつくって、それをモジュール毎に継承して使ってます。</p>
-
-<p>{% highlight php startinline %}
-class myFormBase extends sfForm
-{
-    // 共通のメソッドとかsfFormのメソッド上書きしたりとか
-}
-&ldquo;`</p>
-
+<pre class="highlight php"><span class="k">class</span> <span class="nc">myFormBase</span> <span class="k">extends</span> <span class="nx">sfForm</span>
+<span class="p">{</span>
+    <span class="c1">// 共通のメソッドとかsfFormのメソッド上書きしたりとか
+</span><span class="p">}</span>
+</pre>
 <p>ここに共通で使うcallbackのメソッドとか書いたりしてます。まだこのベースクラスをつくってる途中なので試行錯誤中です。</p>
 
-<p>あると便利だナーと思ったのは、確認画面用に値を出力するメソッド。基本的に確認画面があるなんてことを想定されてないので$form->getValue(&lsquo;filed&rsquo;)とかの値ってescaping_strategyを有効にしててもエスケープされないんですよね。</p>
+<p>あると便利だナーと思ったのは、確認画面用に値を出力するメソッド。基本的に確認画面があるなんてことを想定されてないので$form->getValue(&#39;filed&#39;)とかの値ってescaping_strategyを有効にしててもエスケープされないんですよね。</p>
 
 <p>あと、ラジオボタンで選択したラベルを表示とか、時間表示のメソッドもつくっておくと便利。</p>
-
-<p>{% highlight php startinline %}
-/**
+<pre class="highlight php"><span class="sd">/**
  * エスケープしたフィールドの値を返す
  *
  * @param  string $filed
  * @return string
- */
-public function getEscValue($field) {
-    return sfWidget::escapeOnce($this->getValue($field));
-}</p>
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">getEscValue</span><span class="p">(</span><span class="nv">$field</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">sfWidget</span><span class="o">::</span><span class="na">escapeOnce</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getValue</span><span class="p">(</span><span class="nv">$field</span><span class="p">));</span>
+<span class="p">}</span>
 
-<p>/**
+<span class="sd">/**
  * ラジオボタンとかセレクトボックスのラベルの値を返す
  *
  * @param  string $filed
  * @return string
- */
-public function getLabelValue($field) {
-    $choices = $this[$field]->getWidget()->getOption(&lsquo;choices&rsquo;);
-    $value   = $this->getValue($field);
-    if (array<em>key</em>exists($value, $choices)) {
-        return $choices[$value];
-    }
-}</p>
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">getLabelValue</span><span class="p">(</span><span class="nv">$field</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$choices</span> <span class="o">=</span> <span class="nv">$this</span><span class="p">[</span><span class="nv">$field</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">getWidget</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getOption</span><span class="p">(</span><span class="s1">&#39;choices&#39;</span><span class="p">);</span>
+    <span class="nv">$value</span>   <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getValue</span><span class="p">(</span><span class="nv">$field</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">array_key_exists</span><span class="p">(</span><span class="nv">$value</span><span class="p">,</span> <span class="nv">$choices</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$choices</span><span class="p">[</span><span class="nv">$value</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
-<p>/**
+<span class="sd">/**
  * 日付の配列を日付フォーマットに変換した値を返す
  *
  * @param  string $filed
  * @param  string $format
  * @return string
- */
-public function getDateValue($field, $format = &lsquo;Y年m月d日&rsquo;) {
-    return myUtil::dateTimeArrayToString($this->getValue($field), $format);
-}
-&rdquo;`</p>
-
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">getDateValue</span><span class="p">(</span><span class="nv">$field</span><span class="p">,</span> <span class="nv">$format</span> <span class="o">=</span> <span class="s1">&#39;Y年m月d日&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">myUtil</span><span class="o">::</span><span class="na">dateTimeArrayToString</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getValue</span><span class="p">(</span><span class="nv">$field</span><span class="p">),</span> <span class="nv">$format</span><span class="p">);</span>
+<span class="p">}</span>
+</pre>
 <p>ベースができてしまえば後はフォーム量産するのみなのでベースができるまでももう少しがんばる。</p>
 
 <aside class="mod-ads">
