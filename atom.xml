@@ -1219,55 +1219,11 @@ $ ./node_modules/.bin/lessc test.less
 </content>
   </entry>
   <entry>
-    <title>「ノンプログラマのための JavaScriptはじめの一歩」という本を書きました</title>
-    <link rel="alternate" href="http://webtech-walker.com/archive/2012/10/jsippo.html"/>
-    <id>http://webtech-walker.com/archive/2012/10/jsippo.html</id>
-    <published>2012-10-22T15:00:00Z</published>
-    <updated>2012-10-22T15:00:00Z</updated>
-    <content type="html">&lt;figure&gt;
-  &lt;a href="http://amazon.jp/dp/4774153761"&gt;
-  &lt;img src="/img/posts/2012-10-23-jsippo/cover.png" alt="ノンプログラマのための JavaScriptはじめの一歩" width="400" height="568"&gt;
-  &lt;figcaption&gt;Amazon.co.jp： ノンプログラマのための JavaScriptはじめの一歩&lt;/figcaption&gt;
-  &lt;/a&gt;
-&lt;/figure&gt;
-
-&lt;p&gt;2012/11/7に発売予定です。ハッシュタグは&lt;a href="https://twitter.com/search/realtime?q=%23jsippo"&gt;#jsippo&lt;/a&gt;なのでみなさんどうぞふるってツイートしてください。&lt;/p&gt;
-
-&lt;h2&gt;想定している対象&lt;/h2&gt;
-
-&lt;p&gt;タイトルからもわかるように、デザイナやマークアップエンジニアなどをやっていてプログラムはほとんどわからないというくらいの読者を想定しています。&lt;/p&gt;
-
-&lt;p&gt;なので普段JavaScriptを書いている人や、他の言語をやっていて、JavaScriptを学んでみようと思っているような方にはもの足りない内容だと思います。そういう人は&lt;a href="http://www.amazon.co.jp/gp/product/4873115736?ie=UTF8&amp;amp;camp=1207&amp;amp;creative=8411&amp;amp;creativeASIN=4873115736&amp;amp;linkCode=shr&amp;amp;tag=webtech00-22"&gt;サイ本&lt;/a&gt;とか&lt;a href="http://www.amazon.co.jp/gp/product/477414813X?ie=UTF8&amp;amp;camp=1207&amp;amp;creative=8411&amp;amp;creativeASIN=477414813X&amp;amp;linkCode=shr&amp;amp;tag=webtech00-22&amp;amp;=books&amp;amp;qid=1350202385&amp;amp;sr=1-1"&gt;パーフェクトJavaScript&lt;/a&gt;を読みましょう。&lt;/p&gt;
-
-&lt;p&gt;何を書いて何を書かないかというところの線引に苦労しました。たとえば変数のスコープやprototypeなどはJavaScriptを学ぶ上では避けて通れませんが、そこは敢えて説明を省いています。初めてプログラムを学ぶときにスコープがどうとか言われてもわからないので、そこを学ぶのは二歩目、三歩目からで十分だと思ったからです。でもこれを説明しないとアレが説明できないし・・みたいな葛藤もけっこうありました。&lt;/p&gt;
-
-&lt;h2&gt;特徴&lt;/h2&gt;
-
-&lt;p&gt;この書籍でおそらく一番特徴的なのは一つのサンプルプログラムを、一冊を通して解説するということです。そのプログラムは簡単なものでボタンを押すと予め用意しといた数枚の画像が切り替わる、簡易的なスライドショーのプログラムです。&lt;/p&gt;
-
-&lt;p&gt;なぜこのような構成にしたかというと、ある機能を解説したとき、実際のプログラムでどのようにそれが使われるかがわかると、より深く理解ができると思ったからです。&lt;/p&gt;
-
-&lt;p&gt;例えば「配列」というものを学んだ時に、配列がどういうものかなんとなくわかっても、それを使うと何がいいのか、実際のプログラムではどのように利用すればいいのかというところまで理解してほしいと思いました。なので、「配列」というものの解説をした後、実際にスライドショーのどこでどのように使われているかを解説しています。&lt;/p&gt;
-
-&lt;p&gt;初学者向けなので、配列をつくるときに「どう書くか」はもちろん解説しますが、「どう使うか」というのをできるだけ感じてもらう配慮をしたつもりです。&lt;/p&gt;
-
-&lt;p&gt;これまでこのような構成の本は見たことがないので（知らないだけかもしれないけど）、もしかしたら逆にわかりにくくなっているのではないかという不安もありますが、他にあまりない構成にできたし、うまくまとめられたと思うのでよかったと思っています。&lt;/p&gt;
-
-&lt;p&gt;スライドショーのプログラムはjQueryを使わず書いていますが、実務で使うときにjQueryは避けて通れないので最後にjQueryについて解説し、スライドショーのプログラムをjQueryで書きなおしてブラッシュアップするという構成になっています。&lt;/p&gt;
-
-&lt;h2&gt;イベント告知&lt;/h2&gt;
-
-&lt;p&gt;出版記念イベントとしてジュンク堂さんで&lt;a href="http://twitter.com/takazudo"&gt;@takazudo&lt;/a&gt;さんと「ノンプログラマがJavaScriptを 学んでいくにはどうすればいいのか」というテーマでトークセッションします。興味があるかたはぜひご参加ください。&lt;/p&gt;
-
-&lt;p&gt;&lt;a href="http://www.junkudo.co.jp/tenpo/evtalk.html#20121122_talk"&gt;http://www.junkudo.co.jp/tenpo/evtalk.html#20121122_talk&lt;/a&gt;&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
     <title>mochaとphantomJSとtravis-ciでフロントエンドJavaScriptのテスト</title>
     <link rel="alternate" href="http://webtech-walker.com/archive/2012/10/mocha_phantomjs_travisci.html"/>
     <id>http://webtech-walker.com/archive/2012/10/mocha_phantomjs_travisci.html</id>
-    <published>2012-10-22T15:00:00Z</published>
-    <updated>2012-10-22T15:00:00Z</updated>
+    <published>2012-10-22T15:00:01Z</published>
+    <updated>2012-10-22T15:00:01Z</updated>
     <content type="html">&lt;p&gt;&lt;a href="http://atnd.org/events/33022"&gt;東京Node学園祭2012 アドベントカレンダー&lt;/a&gt;の9日目です。Node.jsとほとんど関係ないうえに内容がけっこう薄い感じなった気がするんですけど気にせずいこうと思います。&lt;/p&gt;
 
 &lt;p&gt;フロントエンドのJavaScriptをテストするとき最近はいつもmochaを使ってるんですが、やはりJenkinsとかtravis-ciを使って自動テストもしたいと思って試してみました。&lt;/p&gt;
@@ -1376,6 +1332,50 @@ $ ./node_modules/.bin/lessc test.less
 &lt;p&gt;このようにtravis-ciを使うと簡単に自動テストできますが、phantomJSでテストできるところまでいけばあとはJenkinsでも同じようにできるはずです。&lt;/p&gt;
 
 &lt;p&gt;便利な世の中になったものだと思いました。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>「ノンプログラマのための JavaScriptはじめの一歩」という本を書きました</title>
+    <link rel="alternate" href="http://webtech-walker.com/archive/2012/10/jsippo.html"/>
+    <id>http://webtech-walker.com/archive/2012/10/jsippo.html</id>
+    <published>2012-10-22T15:00:00Z</published>
+    <updated>2012-10-22T15:00:00Z</updated>
+    <content type="html">&lt;figure&gt;
+  &lt;a href="http://amazon.jp/dp/4774153761"&gt;
+  &lt;img src="/img/posts/2012-10-23-jsippo/cover.png" alt="ノンプログラマのための JavaScriptはじめの一歩" width="400" height="568"&gt;
+  &lt;figcaption&gt;Amazon.co.jp： ノンプログラマのための JavaScriptはじめの一歩&lt;/figcaption&gt;
+  &lt;/a&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;2012/11/7に発売予定です。ハッシュタグは&lt;a href="https://twitter.com/search/realtime?q=%23jsippo"&gt;#jsippo&lt;/a&gt;なのでみなさんどうぞふるってツイートしてください。&lt;/p&gt;
+
+&lt;h2&gt;想定している対象&lt;/h2&gt;
+
+&lt;p&gt;タイトルからもわかるように、デザイナやマークアップエンジニアなどをやっていてプログラムはほとんどわからないというくらいの読者を想定しています。&lt;/p&gt;
+
+&lt;p&gt;なので普段JavaScriptを書いている人や、他の言語をやっていて、JavaScriptを学んでみようと思っているような方にはもの足りない内容だと思います。そういう人は&lt;a href="http://www.amazon.co.jp/gp/product/4873115736?ie=UTF8&amp;amp;camp=1207&amp;amp;creative=8411&amp;amp;creativeASIN=4873115736&amp;amp;linkCode=shr&amp;amp;tag=webtech00-22"&gt;サイ本&lt;/a&gt;とか&lt;a href="http://www.amazon.co.jp/gp/product/477414813X?ie=UTF8&amp;amp;camp=1207&amp;amp;creative=8411&amp;amp;creativeASIN=477414813X&amp;amp;linkCode=shr&amp;amp;tag=webtech00-22&amp;amp;=books&amp;amp;qid=1350202385&amp;amp;sr=1-1"&gt;パーフェクトJavaScript&lt;/a&gt;を読みましょう。&lt;/p&gt;
+
+&lt;p&gt;何を書いて何を書かないかというところの線引に苦労しました。たとえば変数のスコープやprototypeなどはJavaScriptを学ぶ上では避けて通れませんが、そこは敢えて説明を省いています。初めてプログラムを学ぶときにスコープがどうとか言われてもわからないので、そこを学ぶのは二歩目、三歩目からで十分だと思ったからです。でもこれを説明しないとアレが説明できないし・・みたいな葛藤もけっこうありました。&lt;/p&gt;
+
+&lt;h2&gt;特徴&lt;/h2&gt;
+
+&lt;p&gt;この書籍でおそらく一番特徴的なのは一つのサンプルプログラムを、一冊を通して解説するということです。そのプログラムは簡単なものでボタンを押すと予め用意しといた数枚の画像が切り替わる、簡易的なスライドショーのプログラムです。&lt;/p&gt;
+
+&lt;p&gt;なぜこのような構成にしたかというと、ある機能を解説したとき、実際のプログラムでどのようにそれが使われるかがわかると、より深く理解ができると思ったからです。&lt;/p&gt;
+
+&lt;p&gt;例えば「配列」というものを学んだ時に、配列がどういうものかなんとなくわかっても、それを使うと何がいいのか、実際のプログラムではどのように利用すればいいのかというところまで理解してほしいと思いました。なので、「配列」というものの解説をした後、実際にスライドショーのどこでどのように使われているかを解説しています。&lt;/p&gt;
+
+&lt;p&gt;初学者向けなので、配列をつくるときに「どう書くか」はもちろん解説しますが、「どう使うか」というのをできるだけ感じてもらう配慮をしたつもりです。&lt;/p&gt;
+
+&lt;p&gt;これまでこのような構成の本は見たことがないので（知らないだけかもしれないけど）、もしかしたら逆にわかりにくくなっているのではないかという不安もありますが、他にあまりない構成にできたし、うまくまとめられたと思うのでよかったと思っています。&lt;/p&gt;
+
+&lt;p&gt;スライドショーのプログラムはjQueryを使わず書いていますが、実務で使うときにjQueryは避けて通れないので最後にjQueryについて解説し、スライドショーのプログラムをjQueryで書きなおしてブラッシュアップするという構成になっています。&lt;/p&gt;
+
+&lt;h2&gt;イベント告知&lt;/h2&gt;
+
+&lt;p&gt;出版記念イベントとしてジュンク堂さんで&lt;a href="http://twitter.com/takazudo"&gt;@takazudo&lt;/a&gt;さんと「ノンプログラマがJavaScriptを 学んでいくにはどうすればいいのか」というテーマでトークセッションします。興味があるかたはぜひご参加ください。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://www.junkudo.co.jp/tenpo/evtalk.html#20121122_talk"&gt;http://www.junkudo.co.jp/tenpo/evtalk.html#20121122_talk&lt;/a&gt;&lt;/p&gt;
 </content>
   </entry>
   <entry>
