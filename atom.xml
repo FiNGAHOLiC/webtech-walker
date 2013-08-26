@@ -9,7 +9,7 @@
     <name>Kazuhito Hokamura</name>
   </author>
   <entry>
-    <title>ブログをJekyllからmiddlemanに移行してTravis CIでデプロイするようにした</title>
+    <title>ブログをJekyllからmiddlemanに移行してTravis CIでGitHub Pagesにデプロイするようにした</title>
     <link rel="alternate" href="http://webtech-walker.com/archive/2013/08/jekyll_to_middleman.html"/>
     <id>http://webtech-walker.com/archive/2013/08/jekyll_to_middleman.html</id>
     <published>2013-08-25T15:00:00Z</published>
@@ -34,11 +34,13 @@
 
 &lt;h2&gt;Travis CI でデプロイ&lt;/h2&gt;
 
-&lt;p&gt;あと今回、gitでソースをmasterにpushしたらTravis CIがビルドしてビルド結果をgithub pagesにデプロイしてくれるという仕組みにしてみた。masterにpushするとこんな感じでビルドが走る。&lt;/p&gt;
+&lt;p&gt;あと今回、gitでソースをmasterにpushしたらTravis CIがビルドしてビルド結果をGitHub Pagesにデプロイしてくれるという仕組みにしてみた。masterにpushするとこんな感じでビルドが走る。&lt;/p&gt;
 
 &lt;p&gt;&lt;a href="https://travis-ci.org/hokaccha/webtech-walker/builds/10609434"&gt;hokaccha/webtech-walker - Travis CI&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;Jekyllのときはビルドしてデプロイするrakeのタスクを書いて手元でやってたんだけど（プラグイン使ってたのでgithub pages側でビルドできなかったので）、こういうのをCIサーバーにやってもらうのはやはり楽。&lt;/p&gt;
+&lt;p&gt;Jekyllのときはビルドしてデプロイするrakeのタスクを書いて手元でやってたんだけど（プラグイン使ってたのでGitHub Pages側でビルドできなかったので）、こういうのをCIサーバーにやってもらうのはやはり楽。&lt;/p&gt;
+
+&lt;p&gt;ただ、pushしてから反映されるまでに少し時間がかかる（数十秒から数分くらい）ので頻繁に更新とか修正がない個人ブログ程度でないとけっこうつらい感じはする。&lt;/p&gt;
 
 &lt;p&gt;ちなみにこれはtricknotes先生の手法の丸パクリで、&lt;code&gt;Rakefile&lt;/code&gt;とか&lt;code&gt;.travis.yml&lt;/code&gt;もほぼそのまま使わせていただきました。詳しくは以下を参考のこと。&lt;/p&gt;
 

@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<title>ブログをJekyllからmiddlemanに移行してTravis CIでデプロイするようにした - Webtech Walker</title>
+<title>ブログをJekyllからmiddlemanに移行してTravis CIでGitHub Pagesにデプロイするようにした - Webtech Walker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta property="og:image" content="{{ site.url }}/img/common/icon.png">
 <link href="/css/app.css" media="screen" rel="stylesheet" type="text/css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
@@ -62,7 +62,7 @@
   
 </ul>
 
-<h1>ブログをJekyllからmiddlemanに移行してTravis CIでデプロイするようにした</h1>
+<h1>ブログをJekyllからmiddlemanに移行してTravis CIでGitHub Pagesにデプロイするようにした</h1>
 
 <div class="body">
 
@@ -86,11 +86,13 @@
 
 <h2>Travis CI でデプロイ</h2>
 
-<p>あと今回、gitでソースをmasterにpushしたらTravis CIがビルドしてビルド結果をgithub pagesにデプロイしてくれるという仕組みにしてみた。masterにpushするとこんな感じでビルドが走る。</p>
+<p>あと今回、gitでソースをmasterにpushしたらTravis CIがビルドしてビルド結果をGitHub Pagesにデプロイしてくれるという仕組みにしてみた。masterにpushするとこんな感じでビルドが走る。</p>
 
 <p><a href="https://travis-ci.org/hokaccha/webtech-walker/builds/10609434">hokaccha/webtech-walker - Travis CI</a></p>
 
-<p>Jekyllのときはビルドしてデプロイするrakeのタスクを書いて手元でやってたんだけど（プラグイン使ってたのでgithub pages側でビルドできなかったので）、こういうのをCIサーバーにやってもらうのはやはり楽。</p>
+<p>Jekyllのときはビルドしてデプロイするrakeのタスクを書いて手元でやってたんだけど（プラグイン使ってたのでGitHub Pages側でビルドできなかったので）、こういうのをCIサーバーにやってもらうのはやはり楽。</p>
+
+<p>ただ、pushしてから反映されるまでに少し時間がかかる（数十秒から数分くらい）ので頻繁に更新とか修正がない個人ブログ程度でないとけっこうつらい感じはする。</p>
 
 <p>ちなみにこれはtricknotes先生の手法の丸パクリで、<code>Rakefile</code>とか<code>.travis.yml</code>もほぼそのまま使わせていただきました。詳しくは以下を参考のこと。</p>
 
