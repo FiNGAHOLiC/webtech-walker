@@ -4,10 +4,49 @@
   <id>http://webtech-walker.com/</id>
   <link href="http://webtech-walker.com/"/>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
-  <updated>2013-08-19T15:00:00Z</updated>
+  <updated>2013-08-25T15:00:00Z</updated>
   <author>
     <name>Kazuhito Hokamura</name>
   </author>
+  <entry>
+    <title>ブログをJekyllからmiddlemanに移行してTravis CIでデプロイするようにした</title>
+    <link rel="alternate" href="http://webtech-walker.com/archive/2013/08/jekyll_to_middleman.html"/>
+    <id>http://webtech-walker.com/archive/2013/08/jekyll_to_middleman.html</id>
+    <published>2013-08-25T15:00:00Z</published>
+    <updated>2013-08-25T15:00:00Z</updated>
+    <content type="html">&lt;p&gt;ちょうど一年くらい前にWordPressからJekyllに移行したんだけど、今回&lt;a href="http://middlemanapp.com/"&gt;middleman&lt;/a&gt;で作りなおしてみた。特にJekyllに不満があったわけでもなく単に技術的興味によるもの。&lt;/p&gt;
+
+&lt;h2&gt;middleman&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href="http://middlemanapp.com/"&gt;Middleman: Hand-crafted frontend development&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;middlemanはほぼJekyllのようなものなんだけど、&lt;a href="http://middlemanapp.com/asset-pipeline/"&gt;Asset Pipeline&lt;/a&gt;が使えたり、&lt;a href="http://middlemanapp.com/templates/"&gt;テンプレート&lt;/a&gt;がerbとかhaml、Slimなどで書けたり、&lt;a href="http://middlemanapp.com/helpers/"&gt;helper&lt;/a&gt;が充実してたりする。&lt;/p&gt;
+
+&lt;p&gt;RailsのViewまわりの機能をそのまま持ってきたような感じなので、普段Rails使ってる人にとってはJekyllよりも使いやすいかもしれない。個人的にもJekyllよりはmiddlemanのほうが好みだった。&lt;/p&gt;
+
+&lt;p&gt;調べた時にでてくる情報量などはJekyllのほうが多いかなという印象だったけど、このへんはもう少し時間が経てば解決するかなと思う。&lt;/p&gt;
+
+&lt;p&gt;せっかくAsset PipelineがあるんでAltJSとか使ってかっこいいJavaScriptにしちゃおうかなーと思ってたんだけどよく考えたらこのブログ一行もJSなくてAsset Pipelineがほぼ不発（Sassでちょっと使ってるくらい）に終わったのが残念だった。&lt;/p&gt;
+
+&lt;h2&gt;Travis CI でデプロイ&lt;/h2&gt;
+
+&lt;p&gt;あと今回、gitでソースをmasterにpushしたらTravis CIがビルドしてビルド結果をgithub pagesにデプロイしてくれるという仕組みにしてみた。masterにpushするとこんな感じでビルドが走る。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://travis-ci.org/hokaccha/webtech-walker/builds/10608485"&gt;hokaccha/webtech-walker - Travis CI&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Jekyllのときはビルドしてデプロイするrakeのタスクを書いて手元でやってたんだけど（プラグイン使ってたのでgithub pages側でビルドできなかったので）、こういうのをCIサーバーにやってもらうのはやはり楽。&lt;/p&gt;
+
+&lt;p&gt;ちなみにこれはtricknotes先生の手法の丸パクリで、&lt;code&gt;Rakefile&lt;/code&gt;とか&lt;code&gt;.travis.yml&lt;/code&gt;もほぼそのまま使わせていただきました。詳しくは以下を参考のこと。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://tricknotes.hateblo.jp/entry/2013/06/17/020229"&gt;Middleman で作った web サイトを Travis + GitHub pages でお手軽に運用する - tricknotesのぼうけんのしょ&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;トークンの設定とかがちょっとだけ面倒ではあるけどかなり簡単に設定でた。tricknotes++であります。&lt;/p&gt;
+
+&lt;p&gt;手元でビルドしたのとTravis CIでビルドしたのの結果が違うところがけっこうあって、デプロイするときに無駄なdiffがでてたので、それを解決するのにちょっと手間取った。&lt;/p&gt;
+
+&lt;p&gt;例えばtag一覧を出すときに、tagのデータをHashで持ってるので順番が保証されずにビルドの環境によって順番が変わるとかそういう感じ。他にもいくつかそういうのがあった。middleman-blogのバグっぽいのが原因のもいくつかあったのでそれについてはパッチ投げようかなと思ってる。&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>jQueryプラグインのテストを複数のjQueryのバージョンで実行する</title>
     <link rel="alternate" href="http://webtech-walker.com/archive/2013/08/mocha_travis_multi_jquery_version.html"/>
@@ -1398,34 +1437,6 @@ $ git export-diff &amp;lt;sha1&amp;gt; &amp;lt;sha1&amp;gt; path/to/dir
 $ git export-diff &amp;lt;sha1&amp;gt;..&amp;lt;sha1&amp;gt; path/to/dir
 &lt;/pre&gt;
 &lt;p&gt;みたいな感じでもOK。&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>jQueryでアニメーション終了時のcallback</title>
-    <link rel="alternate" href="http://webtech-walker.com/archive/2012/09/jquery_animate_callback.html"/>
-    <id>http://webtech-walker.com/archive/2012/09/jquery_animate_callback.html</id>
-    <published>2012-09-22T15:00:00Z</published>
-    <updated>2012-09-22T15:00:00Z</updated>
-    <content type="html">&lt;p&gt;jQueryでfadeOutとかのアニメーションして終わったらなんかするといったときにcallback関数を引数に指定するのとDeferred使う方法があるんだけどこの二つは挙動が違う。&lt;/p&gt;
-
-&lt;p&gt;こういうHTMLがあったとして&lt;/p&gt;
-&lt;pre class="highlight html"&gt;&lt;span class="nt"&gt;&amp;lt;div&amp;gt;&lt;/span&gt;foo&lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-&lt;span class="nt"&gt;&amp;lt;div&amp;gt;&lt;/span&gt;bar&lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-&lt;span class="nt"&gt;&amp;lt;div&amp;gt;&lt;/span&gt;baz&lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;まず以下のようなcallback関数の場合はそれぞれのfadeOutが終わるごとに呼ばれる。&lt;/p&gt;
-&lt;pre class="highlight javascript"&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;div&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;fadeOut&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-  &lt;span class="nx"&gt;console&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;fin&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;span class="p"&gt;});&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;つまり&lt;code&gt;&amp;#39;fin&amp;#39;&lt;/code&gt;が3回出力される。&lt;/p&gt;
-
-&lt;p&gt;一方Deferredを使った場合はこんな感じ。&lt;/p&gt;
-&lt;pre class="highlight javascript"&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;div&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;fadeOut&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;promise&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="nx"&gt;done&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-  &lt;span class="nx"&gt;console&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;fin&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;span class="p"&gt;});&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;&lt;code&gt;.promise()&lt;/code&gt;がDeferredオブジェクトを返すので&lt;code&gt;.done&lt;/code&gt;に設定した関数がアニメーション終了時に呼ばれる。こっちは全てのアニメーションが終わった時点で呼ばれるので&lt;code&gt;&amp;#39;fin&amp;#39;&lt;/code&gt;は一回しか呼ばれない。という違いがあるみたい。&lt;/p&gt;
 </content>
   </entry>
 </feed>
