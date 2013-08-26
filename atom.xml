@@ -46,7 +46,7 @@
 
 &lt;p&gt;&lt;a href="http://tricknotes.hateblo.jp/entry/2013/06/17/020229"&gt;Middleman で作った web サイトを Travis + GitHub pages でお手軽に運用する - tricknotesのぼうけんのしょ&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;トークンの設定とかがちょっとだけ面倒ではあるけどかなり簡単に設定でた。tricknotes++であります。&lt;/p&gt;
+&lt;p&gt;トークンの設定とかがちょっとだけ面倒ではあるけどかなり簡単に設定でた。tricknotes++であります。&lt;ins&gt;（追記: TokenがTravisのログに残る問題があったので直した。もしこの方法でやる場合は気をつけましょう）&lt;/ins&gt;&lt;/p&gt;
 
 &lt;p&gt;手元でビルドしたのとTravis CIでビルドしたのの結果が違うところがけっこうあって、デプロイするときに無駄なdiffがでてたので、それを解決するのにちょっと手間取った。&lt;/p&gt;
 
