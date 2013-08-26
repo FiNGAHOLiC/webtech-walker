@@ -14,7 +14,11 @@
     <id>http://webtech-walker.com/archive/2013/08/jekyll_to_middleman.html</id>
     <published>2013-08-25T15:00:00Z</published>
     <updated>2013-08-25T15:00:00Z</updated>
-    <content type="html">&lt;p&gt;ちょうど一年くらい前にWordPressからJekyllに移行したんだけど、今回&lt;a href="http://middlemanapp.com/"&gt;middleman&lt;/a&gt;で作りなおしてみた。特にJekyllに不満があったわけでもなく単に技術的興味によるもの。&lt;/p&gt;
+    <content type="html">&lt;p&gt;ちょうど一年くらい前にWordPressからJekyllに移行したんだけど、今回middlemanで作りなおしてみた。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://github.com/hokaccha/webtech-walker"&gt;hokaccha/webtech-walker - GitHub&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;特にJekyllに不満があったわけでもなく単に技術的興味によるもの。&lt;/p&gt;
 
 &lt;h2&gt;middleman&lt;/h2&gt;
 
@@ -32,7 +36,7 @@
 
 &lt;p&gt;あと今回、gitでソースをmasterにpushしたらTravis CIがビルドしてビルド結果をgithub pagesにデプロイしてくれるという仕組みにしてみた。masterにpushするとこんな感じでビルドが走る。&lt;/p&gt;
 
-&lt;p&gt;&lt;a href="https://travis-ci.org/hokaccha/webtech-walker/builds/10608485"&gt;hokaccha/webtech-walker - Travis CI&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://travis-ci.org/hokaccha/webtech-walker/builds/10609434"&gt;hokaccha/webtech-walker - Travis CI&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Jekyllのときはビルドしてデプロイするrakeのタスクを書いて手元でやってたんだけど（プラグイン使ってたのでgithub pages側でビルドできなかったので）、こういうのをCIサーバーにやってもらうのはやはり楽。&lt;/p&gt;
 
