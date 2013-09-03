@@ -4,10 +4,230 @@
   <id>http://webtech-walker.com/</id>
   <link href="http://webtech-walker.com/"/>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
-  <updated>2013-08-25T15:00:00Z</updated>
+  <updated>2013-09-03T03:09:00Z</updated>
   <author>
     <name>Kazuhito Hokamura</name>
   </author>
+  <entry>
+    <title>静的サイト開発ツールとしてのMiddlemanとGrunt</title>
+    <link rel="alternate" href="http://webtech-walker.com/archive/2013/09/middleman_vs_grunt.html"/>
+    <id>http://webtech-walker.com/archive/2013/09/middleman_vs_grunt.html</id>
+    <published>2013-09-03T03:09:00Z</published>
+    <updated>2013-09-03T03:09:00Z</updated>
+    <content type="html">&lt;p&gt;最近自分の周りを見ると、フロントエンドの開発ツールといえばGruntをみんな使ってるんだけど、Middlemanを使うのもけっこういいんじゃないかと思ったので比較してみる。&lt;/p&gt;
+
+&lt;h2&gt;実現したいこと&lt;/h2&gt;
+
+&lt;p&gt;例えば次のようなものをつくりたいとする。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;HTMLは数ページ〜十数ページくらい（ヘッダ・フッタくらいは共通化したい）&lt;/li&gt;
+&lt;li&gt;JSはconcatしてminifyしたい&lt;/li&gt;
+&lt;li&gt;CSSはSassを使いたい&lt;/li&gt;
+&lt;li&gt;開発時はwatchしたり動的サーバーなりでJSやCSSは動的にビルドしたい&lt;/li&gt;
+&lt;li&gt;最終的には成果物として静的ファイルを出力したい&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;まあ、フロントエンドの開発ではいたって普通な要件だと思う。普段サーバーサイドの開発してたり、サーバーサイドと一緒にフロントエンドも開発してる人にとっては、静的ファイルだけ成果物としてあればいいとかあるの？と思うかもしれないけど自分の周りではけっこうよくある。&lt;/p&gt;
+
+&lt;h2&gt;Gruntとの比較について&lt;/h2&gt;
+
+&lt;p&gt;このようなものを作りたいときにGruntとMiddlemanだったらどっちがいいかな？というのが今回の趣旨だけど、GruntとMiddlemanはアーキテクチャも思想もまったく違っていて、そもそも比較対象にならないのではというのは当然ある。&lt;/p&gt;
+
+&lt;p&gt;ただ今回のようなケースにおいてはどちらのツールを使っても実現できるため、どっちがいいかを比較てみようという感じ。&lt;/p&gt;
+
+&lt;p&gt;最終的にはMiddlemanがいいんじゃないかというのが自分の意見なんだけど、「それは今回のようなケースでは」という前提であって、Gruntのほうが柔軟で、できることは多いのでもっと複雑なことをしたい場合や、静的サイト開発以外の目的であればMiddlemanでは対応が難しいケースも多いと思う。&lt;/p&gt;
+
+&lt;p&gt;例えばjQueryで使わているみたいに、JavaScriptのライブラリをビルドするための使うのであればGruntが最適だろうと思う。&lt;/p&gt;
+
+&lt;p&gt;あとJekyllあたりも比較対象にはなるんだけど今回は割愛。&lt;/p&gt;
+
+&lt;h2&gt;Gruntの場合&lt;/h2&gt;
+
+&lt;p&gt;それぞれでほぼ同じような挙動になるようにして設定したのをGitHubに上げた。まずGruntはこんな感じ。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://github.com/hokaccha/frontend-dev-env/tree/master/grunt"&gt;hokaccha/frontend-dev-env/grunt - GitHub&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Gruntfile.jsは次のようになっている。&lt;/p&gt;
+&lt;pre class="highlight javascript"&gt;&lt;span class="nx"&gt;module&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;exports&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;grunt&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+
+  &lt;span class="nx"&gt;BUILD_DIR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;build&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="nx"&gt;SRC_DIR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;source&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+  &lt;span class="nx"&gt;grunt&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;task&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;loadNpmTasks&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;assemble&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="nx"&gt;grunt&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;task&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;loadNpmTasks&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;grunt-contrib-sass&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="nx"&gt;grunt&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;task&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;loadNpmTasks&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;grunt-contrib-concat&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="nx"&gt;grunt&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;task&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;loadNpmTasks&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;grunt-contrib-uglify&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="nx"&gt;grunt&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;task&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;loadNpmTasks&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;grunt-contrib-copy&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="nx"&gt;grunt&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;task&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;loadNpmTasks&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;grunt-contrib-clean&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="nx"&gt;grunt&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;task&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;loadNpmTasks&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;grunt-contrib-connect&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="nx"&gt;grunt&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;task&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;loadNpmTasks&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;grunt-contrib-watch&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+  &lt;span class="nx"&gt;grunt&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;initConfig&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+    &lt;span class="na"&gt;assemble&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="na"&gt;options&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="na"&gt;layout&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;SRC_DIR&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/layouts/layout.hbs&amp;#39;&lt;/span&gt;
+      &lt;span class="p"&gt;},&lt;/span&gt;
+      &lt;span class="na"&gt;dist&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="na"&gt;expand&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="na"&gt;cwd&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;SRC_DIR&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;*.hbs&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="na"&gt;dest&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;BUILD_DIR&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="na"&gt;sass&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="na"&gt;options&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="na"&gt;bundleExec&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;
+      &lt;span class="p"&gt;},&lt;/span&gt;
+      &lt;span class="na"&gt;dist&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="na"&gt;files&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+          &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;SRC_DIR&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/css/app.scss&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="na"&gt;dest&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;BUILD_DIR&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/css/app.css&amp;#39;&lt;/span&gt;
+          &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="p"&gt;]&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="na"&gt;concat&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="na"&gt;dist&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+          &lt;span class="nx"&gt;SRC_DIR&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/js/lib/jquery.js&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nx"&gt;SRC_DIR&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/js/lib/underscore.js&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nx"&gt;SRC_DIR&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/js/lib/backbone.js&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nx"&gt;SRC_DIR&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/js/app/main.js&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="p"&gt;],&lt;/span&gt;
+        &lt;span class="na"&gt;dest&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;BUILD_DIR&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/js/app.js&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="na"&gt;uglify&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="na"&gt;dist&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="na"&gt;files&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+          &lt;span class="s1"&gt;&amp;#39;build/js/app.js&amp;#39;&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;BUILD_DIR&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/js/app.js&amp;#39;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="na"&gt;copy&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="na"&gt;dist&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="na"&gt;expand&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="na"&gt;cwd&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;SRC_DIR&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/img&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;**/*&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="na"&gt;dest&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;BUILD_DIR&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/img&amp;#39;&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="na"&gt;clean&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;BUILD_DIR&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="na"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="na"&gt;server&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="na"&gt;options&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+          &lt;span class="na"&gt;port&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;process&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;env&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;PORT&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="mi"&gt;3000&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="na"&gt;base&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;BUILD_DIR&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="na"&gt;watch&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="na"&gt;assemble&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="na"&gt;files&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;SRC_DIR&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/*.hsb&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;SRC_DIR&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/layouts/*&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+        &lt;span class="na"&gt;tasks&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;assemble&amp;#39;&lt;/span&gt;
+      &lt;span class="p"&gt;},&lt;/span&gt;
+      &lt;span class="na"&gt;sass&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="na"&gt;files&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;SRC_DIR&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/css/*&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="na"&gt;tasks&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;sass&amp;#39;&lt;/span&gt;
+      &lt;span class="p"&gt;},&lt;/span&gt;
+      &lt;span class="na"&gt;js&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="na"&gt;files&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;SRC_DIR&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/js/**/*&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="na"&gt;tasks&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;concat&amp;#39;&lt;/span&gt;
+      &lt;span class="p"&gt;},&lt;/span&gt;
+      &lt;span class="na"&gt;copy&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="na"&gt;files&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;SRC_DIR&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/img/**/*&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="na"&gt;tasks&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;copy&amp;#39;&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="p"&gt;});&lt;/span&gt;
+
+  &lt;span class="nx"&gt;grunt&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;registerTask&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;build&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;clean&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;concat&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;uglify&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;sass&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;assemble&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;copy&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+  &lt;span class="nx"&gt;grunt&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;registerTask&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;server&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;clean&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;concat&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;sass&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;assemble&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;copy&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;connect&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;watch&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+  &lt;span class="nx"&gt;grunt&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;registerTask&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;default&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;build&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;お、おう、これはすごい。力作。正直このエントリ書くのにこのGruntfile書くのが一番時間かかった。やはりGruntは色々なものを組みわせて柔軟に書ける反面、自分でプラグインを選んで手動で設定行わなければいけないというのが難点だと思う。長くなるし複雑になる。&lt;/p&gt;
+
+&lt;p&gt;Grunt力は正直あんまり高くないほうだと思うのでもっとうまく書けるのかもしれないけど。あとGrunefileをCoffeeで書けば多少は短くなるだろうけど本質は変わらないね。&lt;/p&gt;
+
+&lt;p&gt;ちなみに少しだけ中の解説をすると、テンプレートエンジンからHTMLにレンダリングしたりlayout的な機能を提供する&lt;a href="http://assemble.io/"&gt;Assemble&lt;/a&gt;というのを使ってる。これはこれで便利。他はほとんど&lt;code&gt;grunt-contrib-*&lt;/code&gt;なのでほぼGruntのベーシックな機能しか使ってない。&lt;/p&gt;
+
+&lt;h2&gt;Middleman&lt;/h2&gt;
+
+&lt;p&gt;一方Middleman。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://github.com/hokaccha/frontend-dev-env/tree/master/middleman"&gt;hokaccha/frontend-dev-env/middleman - GitHub&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;設定ファイルであるconfig.rbはこんな感じ。&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="ss"&gt;:css_dir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;css&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="ss"&gt;:js_dir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;js&amp;#39;&lt;/span&gt;
+
+&lt;span class="n"&gt;configure&lt;/span&gt; &lt;span class="ss"&gt;:development&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+  &lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="ss"&gt;:debug_assets&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kp"&gt;true&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="n"&gt;configure&lt;/span&gt; &lt;span class="ss"&gt;:build&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+  &lt;span class="n"&gt;activate&lt;/span&gt; &lt;span class="ss"&gt;:minify_javascript&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Gruntに比べると超シンプル。プラグインも一個も入れてない。&lt;/p&gt;
+
+&lt;p&gt;Middlemanがいいと思うところをいくつか紹介してみる。&lt;/p&gt;
+
+&lt;h3&gt;Asset Pipeline&lt;/h3&gt;
+
+&lt;p&gt;なんといってもこれが一番大きい。Asset Pipeline。&lt;/p&gt;
+
+&lt;p&gt;例えば以下のようにJavaScript内で&lt;code&gt;require&lt;/code&gt;と書くことができ、&lt;/p&gt;
+&lt;pre class="highlight javascript"&gt;&lt;span class="c1"&gt;//= require _lib/jquery
+//= require _lib/underscore
+//= require _lib/backbone
+//= require _app/main.js
+&lt;/span&gt;&lt;/pre&gt;
+&lt;p&gt;これが開発時にはHTMLで次のように展開される。（?body=1というのはrequireを無視するというクエリ）&lt;/p&gt;
+&lt;pre class="highlight html"&gt;&lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/js/_lib/jquery.js?body=1&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/js/_lib/underscore.js?body=1&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/js/_lib/backbone.js?body=1&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/js/_app/main.js?body=1&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/js/app.js?body=1&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt; 
+&lt;/pre&gt;
+&lt;p&gt;本番環境（というか静的ファイル出力時）には次のようになって、concatされてminifyされた状態のapp.jsが出力される。&lt;/p&gt;
+&lt;pre class="highlight html"&gt;&lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/js/app.js&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt; 
+&lt;/pre&gt;
+&lt;p&gt;これは開発時にはすごく便利で、開発時だけminifyされてないしconcatもされてないので、かなり開発しやすい。Source Mapで将来的には解決する問題だとは思うけど現時点ではかなり現実的でよい方法だと思う。&lt;/p&gt;
+
+&lt;p&gt;SassもこのAsset Pipelineという機能がコンパイルしてる。あとCoffeeScriptなんかもプラグイン入れたり設定変えたりしなくても、拡張子を&lt;code&gt;.coffee&lt;/code&gt;にするだけでコンパイルできる。&lt;/p&gt;
+
+&lt;h3&gt;relative links&lt;/h3&gt;
+
+&lt;p&gt;他にも静的ファイルをつくる上で嬉しい機能がいくつかある。例えば&lt;code&gt;link_to&lt;/code&gt;。layoutに&lt;/p&gt;
+&lt;pre class="highlight erb"&gt;&lt;span class="nt"&gt;&amp;lt;li&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&amp;lt;%=&lt;/span&gt; &lt;span class="n"&gt;link_to&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;About&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/about.html&amp;#39;&lt;/span&gt; &lt;span class="cp"&gt;%&amp;gt;&lt;/span&gt;&lt;span class="nt"&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;と書いてる場合、リンクは通常絶対パスになるが、要件によってはファイルを設置するパスが決まっておらず相対パスのほうが都合がいいような場合もあるけど、HTMLが階層をまたぐときにめんどくさい。&lt;/p&gt;
+
+&lt;p&gt;そんなとき、&lt;code&gt;link_to&lt;/code&gt;ヘルパーを使っていると、設定で&lt;code&gt;set :relative_links, true&lt;/code&gt;とすれば、自動的にHTMLの階層を見て相対パスに書き換えてくれたりする。&lt;/p&gt;
+
+&lt;p&gt;例えば、&lt;code&gt;/index.html&lt;/code&gt;ではリンク先が&lt;code&gt;about.html&lt;/code&gt;になるけど、&lt;code&gt;/dir/page.html&lt;/code&gt;からは&lt;code&gt;../about.html&lt;/code&gt;になるような感じ。&lt;/p&gt;
+
+&lt;p&gt;リンクだけじゃなくてscript要素やlink要素の参照先も設定すれば相対パスになる。これは地味にうれしい機能。&lt;/p&gt;
+
+&lt;h3&gt;動的サーバー&lt;/h3&gt;
+
+&lt;p&gt;Gruntはどうしてもその性質からwatchしてコンパイルという手順を踏まないといけないので、ラグがでて、編集してリロードするとまだファイルができてないとかあってイライラすることがある。&lt;/p&gt;
+
+&lt;p&gt;一方、Middlemanは開発時は動的サーバーなのでそれがない。しかもRackのMiddlewareを差し込めるため既存の資産が使えて嬉しかったりする。&lt;/p&gt;
+
+&lt;p&gt;まあこの辺はLiveReloadとかGlowlの通知とか使えばどうにかなるのかもしれないけどちょっとそこまでは試してない。（ちなみにLiveReloadのプラグインはMiddlemanの公式にある）&lt;/p&gt;
+
+&lt;h2&gt;まとめ&lt;/h2&gt;
+
+&lt;p&gt;Middleman推しまくりになってしまったけど、別にGruntをdisってるわけじゃないというのは最後に付け加えておく。むしろGruntは素晴らしいツールだと思うし今後もっと使われるようになると思う。&lt;/p&gt;
+
+&lt;p&gt;だけど、今回のような特定のケースではそれに特化したツールがあればそっちを使う方が色々と便利なことが多いんじゃないだろうか、という一つの提案でした。&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>ブログをJekyllからmiddlemanに移行してTravis CIでGitHub Pagesにデプロイするようにした</title>
     <link rel="alternate" href="http://webtech-walker.com/archive/2013/08/jekyll_to_middleman.html"/>
@@ -1421,28 +1641,6 @@ $ ./node_modules/.bin/lessc test.less
 &lt;p&gt;出版記念イベントとしてジュンク堂さんで&lt;a href="http://twitter.com/takazudo"&gt;@takazudo&lt;/a&gt;さんと「ノンプログラマがJavaScriptを 学んでいくにはどうすればいいのか」というテーマでトークセッションします。興味があるかたはぜひご参加ください。&lt;/p&gt;
 
 &lt;p&gt;&lt;a href="http://www.junkudo.co.jp/tenpo/evtalk.html#20121122_talk"&gt;http://www.junkudo.co.jp/tenpo/evtalk.html#20121122_talk&lt;/a&gt;&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>gitで差分ファイルを抽出する</title>
-    <link rel="alternate" href="http://webtech-walker.com/archive/2012/09/git_export_diff.html"/>
-    <id>http://webtech-walker.com/archive/2012/09/git_export_diff.html</id>
-    <published>2012-09-23T15:00:00Z</published>
-    <updated>2012-09-23T15:00:00Z</updated>
-    <content type="html">&lt;p&gt;変更したファイルだけまとめて取り出したいというケースがけっこうあるみたいなんで書いてみた。&lt;/p&gt;
-
-&lt;p&gt;&lt;a href="https://gist.github.com/3764870"&gt;gitの差分のファイルをつくる — Gist&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;こいつをパスが通ってるところに置いて実行権限つけたら&lt;/p&gt;
-&lt;pre class="highlight text"&gt;$ git export-diff &amp;lt;commit&amp;gt; &amp;lt;output_dir&amp;gt;
-&lt;/pre&gt;
-&lt;p&gt;こんな感じで実行すると&lt;code&gt;&amp;lt;commit&amp;gt;&lt;/code&gt;からHEADまでの差分ファイルを&lt;code&gt;&amp;lt;output_dir&amp;gt;&lt;/code&gt;にコピーする。&lt;code&gt;&amp;lt;commit&amp;gt;&lt;/code&gt;の部分は&lt;code&gt;git diff&lt;/code&gt;と同じ物が使えるので&lt;/p&gt;
-&lt;pre class="highlight text"&gt;$ git export-diff HEAD^^^ path/to/dir
-$ git export-diff HEAD^^^..HEAD^ path/to/dir
-$ git export-diff &amp;lt;sha1&amp;gt; &amp;lt;sha1&amp;gt; path/to/dir
-$ git export-diff &amp;lt;sha1&amp;gt;..&amp;lt;sha1&amp;gt; path/to/dir
-&lt;/pre&gt;
-&lt;p&gt;みたいな感じでもOK。&lt;/p&gt;
 </content>
   </entry>
 </feed>
