@@ -4,10 +4,67 @@
   <id>http://webtech-walker.com/</id>
   <link href="http://webtech-walker.com/"/>
   <link href="http://webtech-walker.com/atom.xml" rel="self"/>
-  <updated>2013-09-03T03:09:00Z</updated>
+  <updated>2013-10-06T12:10:00Z</updated>
   <author>
     <name>Kazuhito Hokamura</name>
   </author>
+  <entry>
+    <title>ISUCON3 予選の記録</title>
+    <link rel="alternate" href="http://webtech-walker.com/archive/2013/10/isucon3_qualifier.html"/>
+    <id>http://webtech-walker.com/archive/2013/10/isucon3_qualifier.html</id>
+    <published>2013-10-06T12:10:00Z</published>
+    <updated>2013-10-06T12:10:00Z</updated>
+    <content type="html">&lt;p&gt;チームNoderとして&lt;a href="https://twitter.com/yosuke_furukawa"&gt;@yosuke_furukawa&lt;/a&gt;さんと&lt;a href="https://twitter.com/hakobera"&gt;@hakobera&lt;/a&gt;さんと一緒にISUCON3に参戦してきた。ISUCON初参戦。なんとか1日目の9位に食い込んで本選にもでれるっぽい（まだ暫定だけど）。&lt;/p&gt;
+
+&lt;p&gt;以下大体の記録。&lt;/p&gt;
+
+&lt;h2&gt;序盤&lt;/h2&gt;
+
+&lt;p&gt;前日までにLingerでチャットルーム、GitHubでプライベートリポジトリつくって当日に臨む。当日はyosuke_furukawaさんが勤務するDeNAをお借りして3人で集まって作業した。&lt;/p&gt;
+
+&lt;p&gt;まず最初にAWSの設定をhakoberaさんにお願いして、sshでログインできるようにしてもらう。僕とyosuke_furukawaさんはAWSに不慣れだったので二人だったらここでだいぶ時間かかった気がする。&lt;/p&gt;
+
+&lt;p&gt;とりあえずアプリをgitで管理してローカルで作業できるようにしたりアプリの構成とかベンチマークツールの使い方を把握するなどの雑務をやって、Node.jsのアプリを起動する。&lt;/p&gt;
+
+&lt;p&gt;しかし、ベンチマーク取ってみると、何も触ってないのにMemcachedまわりでエラー吐いたりtmpファイル作ろうとするところでエラー吐いたりしてまともにベンチとれずｗ&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Node.js実装についてはsupervisordではなくstandaloneで動かすとtmpfile()が $HOME/tmp にテンポラリファイル作ろうとするため、コンソールから直接npm start等で起動した場合はそのようなフォルダがなくエラーとなる問題が1日目のAMIにありました。この点でハマってしまった方、申し訳ありません。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://isucon.net/archives/32853582.html"&gt;#isucon 2013年予選問題の解説など : ISUCON公式Blog&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;まさに罠だったｗ（Memcachedのエラーがなんだったのかは今となっては定かではない）&lt;/p&gt;
+
+&lt;p&gt;僕とyosuke_furukawaさんでなんとかまともにベンチとれるようにアプリを直す間にhakoberaさんがNginxとかRedisをたててもらったりしてなんとか戦えそうなところまで持っていく。&lt;/p&gt;
+
+&lt;h2&gt;中盤&lt;/h2&gt;
+
+&lt;p&gt;パッと見て問題ありそうな、Markdownを外部プロセスで変換してるところを直したり、インデックスが必要そうなカラムにインデックス張ったり、Nginxで静的ファイルを返すようにしたりでお昼すぎくらいにスコアは2000くらい。&lt;/p&gt;
+
+&lt;p&gt;そんでとりあえずログ取ってどこをチューニングするか決めてやろうってことで、hakoberaさんにログとってもらって、&lt;code&gt;/&lt;/code&gt;と&lt;code&gt;/recent/:page&lt;/code&gt;が遅いってことがわかったんでここをメインにチューニングする方針に。&lt;/p&gt;
+
+&lt;p&gt;その部分のアプリの実装みたらmemosのレコードを100件引いてきてそのユーザーを引くのに100件クエリを発行してた（いわゆるN+1問題）のでここはすぐ速くできそうだなと思って手をつける。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;IN&lt;/code&gt;で一気に引いてくればいいかなと思ったけど、そもそもユーザー増えることなさそうなのでメモリに全ユーザーのデータ持ってればよさそうだなと思ってそれで実装したらそれで3500くらいまでスコア上がる。&lt;/p&gt;
+
+&lt;h2&gt;終盤&lt;/h2&gt;
+
+&lt;p&gt;そこから色々試すも大きくスコア上がらず。&lt;/p&gt;
+
+&lt;p&gt;最後にmemosのデータをキャッシュしようと思ったけど、memosは更新があるので複数workerでアプリ起動してたらプロセス間で共有できないなーと思いつつ、Redisで実装してる時間なかったので、worker数を1にしてメモリにmemosのデータを突っ込めばいいかと思って実装し始めたのが終了一時間前くらい。&lt;/p&gt;
+
+&lt;p&gt;なんとか30分前くらいに実装できてベンチとったら8400くらいでて3人歓喜。そんで後はhakoberaさんがNginxをチューニングして9268.6まで上がってフィニッシュ。&lt;/p&gt;
+
+&lt;h2&gt;終了後&lt;/h2&gt;
+
+&lt;p&gt;終わった後、workloadオプションってなんだったのかって話ししてて、実はこれあげると負荷増えるけどさばいた分スコア上がるんじゃね？っていうのに終わった後に気づいて悔しかった。&lt;/p&gt;
+
+&lt;p&gt;オプション自体には気づいてたけど、単に負荷あげるだけのオプションっぽいから意味ないよね、っていうのでなぜかみんな納得して無視しちゃってた。冷静に考えればそんな無駄なオプションあるわけないのに・・。この日の教訓は「意味のないオプションなどない」でした。&lt;/p&gt;
+
+&lt;p&gt;何はともあれ運営の皆さんありがとうございました！とても楽しいイベントでした。本選も楽しみです！&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>静的サイト開発ツールとしてのMiddlemanとGrunt</title>
     <link rel="alternate" href="http://webtech-walker.com/archive/2013/09/middleman_vs_grunt.html"/>
@@ -1597,50 +1654,6 @@ $ ./node_modules/.bin/lessc test.less
 &lt;p&gt;このようにtravis-ciを使うと簡単に自動テストできますが、phantomJSでテストできるところまでいけばあとはJenkinsでも同じようにできるはずです。&lt;/p&gt;
 
 &lt;p&gt;便利な世の中になったものだと思いました。&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>「ノンプログラマのための JavaScriptはじめの一歩」という本を書きました</title>
-    <link rel="alternate" href="http://webtech-walker.com/archive/2012/10/jsippo.html"/>
-    <id>http://webtech-walker.com/archive/2012/10/jsippo.html</id>
-    <published>2012-10-22T15:00:00Z</published>
-    <updated>2012-10-22T15:00:00Z</updated>
-    <content type="html">&lt;figure&gt;
-  &lt;a href="http://amazon.jp/dp/4774153761"&gt;
-  &lt;img src="/img/posts/2012-10-23-jsippo/cover.png" alt="ノンプログラマのための JavaScriptはじめの一歩" width="400" height="568"&gt;
-  &lt;figcaption&gt;Amazon.co.jp： ノンプログラマのための JavaScriptはじめの一歩&lt;/figcaption&gt;
-  &lt;/a&gt;
-&lt;/figure&gt;
-
-&lt;p&gt;2012/11/7に発売予定です。ハッシュタグは&lt;a href="https://twitter.com/search/realtime?q=%23jsippo"&gt;#jsippo&lt;/a&gt;なのでみなさんどうぞふるってツイートしてください。&lt;/p&gt;
-
-&lt;h2&gt;想定している対象&lt;/h2&gt;
-
-&lt;p&gt;タイトルからもわかるように、デザイナやマークアップエンジニアなどをやっていてプログラムはほとんどわからないというくらいの読者を想定しています。&lt;/p&gt;
-
-&lt;p&gt;なので普段JavaScriptを書いている人や、他の言語をやっていて、JavaScriptを学んでみようと思っているような方にはもの足りない内容だと思います。そういう人は&lt;a href="http://www.amazon.co.jp/gp/product/4873115736?ie=UTF8&amp;amp;camp=1207&amp;amp;creative=8411&amp;amp;creativeASIN=4873115736&amp;amp;linkCode=shr&amp;amp;tag=webtech00-22"&gt;サイ本&lt;/a&gt;とか&lt;a href="http://www.amazon.co.jp/gp/product/477414813X?ie=UTF8&amp;amp;camp=1207&amp;amp;creative=8411&amp;amp;creativeASIN=477414813X&amp;amp;linkCode=shr&amp;amp;tag=webtech00-22&amp;amp;=books&amp;amp;qid=1350202385&amp;amp;sr=1-1"&gt;パーフェクトJavaScript&lt;/a&gt;を読みましょう。&lt;/p&gt;
-
-&lt;p&gt;何を書いて何を書かないかというところの線引に苦労しました。たとえば変数のスコープやprototypeなどはJavaScriptを学ぶ上では避けて通れませんが、そこは敢えて説明を省いています。初めてプログラムを学ぶときにスコープがどうとか言われてもわからないので、そこを学ぶのは二歩目、三歩目からで十分だと思ったからです。でもこれを説明しないとアレが説明できないし・・みたいな葛藤もけっこうありました。&lt;/p&gt;
-
-&lt;h2&gt;特徴&lt;/h2&gt;
-
-&lt;p&gt;この書籍でおそらく一番特徴的なのは一つのサンプルプログラムを、一冊を通して解説するということです。そのプログラムは簡単なものでボタンを押すと予め用意しといた数枚の画像が切り替わる、簡易的なスライドショーのプログラムです。&lt;/p&gt;
-
-&lt;p&gt;なぜこのような構成にしたかというと、ある機能を解説したとき、実際のプログラムでどのようにそれが使われるかがわかると、より深く理解ができると思ったからです。&lt;/p&gt;
-
-&lt;p&gt;例えば「配列」というものを学んだ時に、配列がどういうものかなんとなくわかっても、それを使うと何がいいのか、実際のプログラムではどのように利用すればいいのかというところまで理解してほしいと思いました。なので、「配列」というものの解説をした後、実際にスライドショーのどこでどのように使われているかを解説しています。&lt;/p&gt;
-
-&lt;p&gt;初学者向けなので、配列をつくるときに「どう書くか」はもちろん解説しますが、「どう使うか」というのをできるだけ感じてもらう配慮をしたつもりです。&lt;/p&gt;
-
-&lt;p&gt;これまでこのような構成の本は見たことがないので（知らないだけかもしれないけど）、もしかしたら逆にわかりにくくなっているのではないかという不安もありますが、他にあまりない構成にできたし、うまくまとめられたと思うのでよかったと思っています。&lt;/p&gt;
-
-&lt;p&gt;スライドショーのプログラムはjQueryを使わず書いていますが、実務で使うときにjQueryは避けて通れないので最後にjQueryについて解説し、スライドショーのプログラムをjQueryで書きなおしてブラッシュアップするという構成になっています。&lt;/p&gt;
-
-&lt;h2&gt;イベント告知&lt;/h2&gt;
-
-&lt;p&gt;出版記念イベントとしてジュンク堂さんで&lt;a href="http://twitter.com/takazudo"&gt;@takazudo&lt;/a&gt;さんと「ノンプログラマがJavaScriptを 学んでいくにはどうすればいいのか」というテーマでトークセッションします。興味があるかたはぜひご参加ください。&lt;/p&gt;
-
-&lt;p&gt;&lt;a href="http://www.junkudo.co.jp/tenpo/evtalk.html#20121122_talk"&gt;http://www.junkudo.co.jp/tenpo/evtalk.html#20121122_talk&lt;/a&gt;&lt;/p&gt;
 </content>
   </entry>
 </feed>
